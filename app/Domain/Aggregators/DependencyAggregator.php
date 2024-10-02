@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Aggregator;
+namespace App\Domain\Aggregators;
 
 use App\Domain\Entities\ClassDependencies;
 

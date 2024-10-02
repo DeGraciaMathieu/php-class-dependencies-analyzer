@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84994e1c91e70f8198df4ea49711b288",
+    "content-hash": "60597f489d2f6e38232ebd70d90380b1",
     "packages": [
         {
             "name": "brick/math",
@@ -134,6 +134,51 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
+        },
+        {
+            "name": "degraciamathieu/php-file-explorer",
+            "version": "v0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DeGraciaMathieu/php-file-explorer.git",
+                "reference": "a88685243b6d181ee12cdc25713c70ba8d281656"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DeGraciaMathieu/php-file-explorer/zipball/a88685243b6d181ee12cdc25713c70ba8d281656",
+                "reference": "a88685243b6d181ee12cdc25713c70ba8d281656",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1",
+                "symfony/filesystem": "^6.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5",
+                "symfony/var-dumper": "^5.1|^6.1"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "DeGraciaMathieu\\FileExplorer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "De Gracia Mathieu",
+                    "email": "dev@degracia-mathieu.fr"
+                }
+            ],
+            "homepage": "https://github.com/DeGraciaMathieu/php-file-explorer",
+            "support": {
+                "issues": "https://github.com/DeGraciaMathieu/php-file-explorer/issues",
+                "source": "https://github.com/DeGraciaMathieu/php-file-explorer/tree/v0.4.1"
+            },
+            "time": "2023-02-22T19:42:27+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -1631,6 +1676,62 @@
             "time": "2024-09-16T14:20:17+00:00"
         },
         {
+            "name": "jerowork/class-dependencies-parser",
+            "version": "0.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jerowork/class-dependencies-parser.git",
+                "reference": "9d1d88039b4c8ae15beee388e2cbbb1fdfdc2fdb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jerowork/class-dependencies-parser/zipball/9d1d88039b4c8ae15beee388e2cbbb1fdfdc2fdb",
+                "reference": "9d1d88039b4c8ae15beee388e2cbbb1fdfdc2fdb",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^4.15",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.13",
+                "maglnet/composer-require-checker": "^4.5",
+                "phpro/grumphp-shim": "^1.14",
+                "phpstan/phpstan": "^1.9",
+                "phpunit/phpunit": "^9.5 || ^10.0",
+                "scrutinizer/ocular": "^1.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jerowork\\ClassDependenciesParser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeroen de Graaf",
+                    "email": "hello@jero.work"
+                }
+            ],
+            "description": "Parse all dependencies (FQN) used in an object (e.g. class, trait, interface)",
+            "keywords": [
+                "dependencies",
+                "fqcn",
+                "fqn",
+                "parser",
+                "reflection"
+            ],
+            "support": {
+                "issues": "https://github.com/jerowork/class-dependencies-parser/issues",
+                "source": "https://github.com/jerowork/class-dependencies-parser/tree/0.5.1"
+            },
+            "time": "2023-02-23T18:14:26+00:00"
+        },
+        {
             "name": "jolicode/jolinotif",
             "version": "v2.7.3",
             "source": {
@@ -2269,6 +2370,62 @@
                 }
             ],
             "time": "2024-08-19T06:22:39+00:00"
+        },
+        {
+            "name": "nikic/php-parser",
+            "version": "v4.19.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/PHP-Parser.git",
+                "reference": "715f4d25e225bc47b293a8b997fe6ce99bf987d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/715f4d25e225bc47b293a8b997fe6ce99bf987d2",
+                "reference": "715f4d25e225bc47b293a8b997fe6ce99bf987d2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "ircmaxell/php-yacc": "^0.0.7",
+                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
+            },
+            "bin": [
+                "bin/php-parse"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpParser\\": "lib/PhpParser"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Popov"
+                }
+            ],
+            "description": "A PHP parser written in PHP",
+            "keywords": [
+                "parser",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/nikic/PHP-Parser/issues",
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.19.4"
+            },
+            "time": "2024-09-29T15:01:53+00:00"
         },
         {
             "name": "nunomaduro/collision",
@@ -3825,6 +3982,72 @@
                 }
             ],
             "time": "2024-04-18T09:32:20+00:00"
+        },
+        {
+            "name": "symfony/filesystem",
+            "version": "v6.4.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/filesystem.git",
+                "reference": "f810e3cbdf7fdc35983968523d09f349fa9ada12"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/f810e3cbdf7fdc35983968523d09f349fa9ada12",
+                "reference": "f810e3cbdf7fdc35983968523d09f349fa9ada12",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "symfony/polyfill-ctype": "~1.8",
+                "symfony/polyfill-mbstring": "~1.8"
+            },
+            "require-dev": {
+                "symfony/process": "^5.4|^6.4|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Filesystem\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides basic utilities for the filesystem",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/filesystem/tree/v6.4.12"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-09-16T16:01:33+00:00"
         },
         {
             "name": "symfony/finder",
@@ -5588,64 +5811,6 @@
                 }
             ],
             "time": "2024-06-12T14:39:25+00:00"
-        },
-        {
-            "name": "nikic/php-parser",
-            "version": "v5.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "3abf7425cd284141dc5d8d14a9ee444de3345d1a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/3abf7425cd284141dc5d8d14a9ee444de3345d1a",
-                "reference": "3abf7425cd284141dc5d8d14a9ee444de3345d1a",
-                "shasum": ""
-            },
-            "require": {
-                "ext-ctype": "*",
-                "ext-json": "*",
-                "ext-tokenizer": "*",
-                "php": ">=7.4"
-            },
-            "require-dev": {
-                "ircmaxell/php-yacc": "^0.0.7",
-                "phpunit/phpunit": "^9.0"
-            },
-            "bin": [
-                "bin/php-parse"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "PhpParser\\": "lib/PhpParser"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Nikita Popov"
-                }
-            ],
-            "description": "A PHP parser written in PHP",
-            "keywords": [
-                "parser",
-                "php"
-            ],
-            "support": {
-                "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.3.0"
-            },
-            "time": "2024-09-29T13:56:26+00:00"
         },
         {
             "name": "pestphp/pest",

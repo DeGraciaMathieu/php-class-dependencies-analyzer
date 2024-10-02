@@ -17,7 +17,12 @@
     ],
     "require": {
         "php": "^8.2.0",
-        "laravel-zero/framework": "^11.0.0"
+        "degraciamathieu/php-file-explorer": "^0.4.1",
+        "illuminate/view": "^11.5",
+        "jerowork/class-dependencies-parser": "^0.5.1",
+        "laravel-zero/framework": "^11.0.0",
+        "laravel/prompts": "^0.1.25",
+        "nikic/php-parser": "4.19.*"
     },
     "require-dev": {
         "laravel/pint": "^1.15.2",

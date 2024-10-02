@@ -9,20 +9,20 @@ use App\Infrastructure\Aggregators\FileAggregatorAdapter;
 
 class FileRepositoryAdapter implements FileRepository
 {
-    // public function __construct(
-    //     private FileAggregatorAdapter $fileAggregator,
-    // ) {}
+    public function __construct(
+        private FileAggregatorAdapter $fileAggregator,
+    ) {}
 
     public function find(string $path): FileAggregator
     {
-        // $fileFinder = new FileFinder(
-        //     basePath: base_path(),
-        // );
+        $fileFinder = new FileFinder(
+            basePath: base_path(),
+        );
 
-        // $files = $fileFinder->getFiles($path);
+        $files = $fileFinder->getFiles($path);
 
-        // $this->fileAggregator->aggregate($files);
+        $this->fileAggregator->aggregate($files);
 
-        // return $this->fileAggregator;
+        return $this->fileAggregator;
     }
 }

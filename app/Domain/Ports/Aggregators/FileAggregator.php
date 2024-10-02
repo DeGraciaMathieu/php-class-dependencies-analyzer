@@ -3,7 +3,7 @@
 namespace App\Domain\Ports\Aggregators;
 
 use Generator;
-use App\Domain\Aggregator\DependencyAggregator;
+use App\Domain\Aggregators\DependencyAggregator;
 
 interface FileAggregator
 {
