@@ -23,7 +23,7 @@ class DependencyAggregator
         return $this->classes;
     }
 
-    public function calculateCoupling(): void
+    public function calculateClassesInstability(): void
     {
         foreach ($this->classes as $givenClass) {
 
@@ -42,7 +42,7 @@ class DependencyAggregator
         }
     }
 
-    public function remove(array $filters): void
+    public function removeIgnoredClasses(array $filters): void
     {
         $this->classes = array_filter($this->classes, function ($givenClass) use ($filters) {
             return $givenClass->looksLike($filters);

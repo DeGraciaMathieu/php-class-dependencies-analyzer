@@ -75,4 +75,15 @@ class ClassDependencies
     {
         return $this->dependencies->getValues();
     }
+
+    public function toArray(): array
+    {
+        return [
+            'name' => $this->getName(),
+            'afferent' => $this->getAfferent(),
+            'efferent' => $this->getEfferent(),
+            'instability' => $this->getRoundedInstability(),
+            'dependencies' => $this->getDependencies(),
+        ];
+    }
 }
