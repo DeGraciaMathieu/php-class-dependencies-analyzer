@@ -16,6 +16,7 @@ class AnalyzeAction
     public function execute(AnalyzeRequest $request, AnalyzePresenter $presenter): void
     {
         try {
+
             $presenter->hello();
 
             $fileAggregator = $this->fileRepository->find($request->path);
@@ -29,7 +30,7 @@ class AnalyzeAction
             $presenter->present(
                 ResponseMapper::from($dependencyAggregator),
             );
-            
+
         } catch (Throwable $e) {
             $presenter->error($e->getMessage());
         }
