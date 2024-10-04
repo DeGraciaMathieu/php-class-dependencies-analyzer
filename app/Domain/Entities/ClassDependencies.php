@@ -61,7 +61,7 @@ class ClassDependencies
         $this->efferent->increment();
     }
 
-    public function knows(ClassDependencies $otherClass): bool
+    public function hasDependency(ClassDependencies $otherClass): bool
     {
         return $this->dependencies->knows($otherClass->fqcn);
     }

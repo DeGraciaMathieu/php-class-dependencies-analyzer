@@ -2,16 +2,16 @@
 
 namespace App\Infrastructure\Services;
 
-use App\Domain\Entities\ClassDependencies;
 use App\Domain\ValueObjects\Fqcn;
-use App\Domain\ValueObjects\Dependencies;
 use DeGraciaMathieu\FileExplorer\File;
-use Jerowork\ClassDependenciesParser\PhpParser\PhpParserClassDependenciesParser;
+use App\Domain\ValueObjects\Dependencies;
+use App\Domain\Entities\ClassDependencies;
+use App\Infrastructure\Services\CustomClassDependenciesParser;
 
 class AnalyzerService
 {
     public function __construct(
-        private PhpParserClassDependenciesParser $classDependenciesParser,
+        private CustomClassDependenciesParser $classDependenciesParser,
     ) {}
 
     public function getDependencies(File $file): ClassDependencies

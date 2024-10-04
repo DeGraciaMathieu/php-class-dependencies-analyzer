@@ -5,9 +5,9 @@ namespace App\Providers;
 use PhpParser\ParserFactory;
 use Illuminate\Support\ServiceProvider;
 use App\Domain\Ports\Repositories\FileRepository;
+use App\Infrastructure\Services\NodeTraverserFactory;
 use App\Infrastructure\Repositories\FileRepositoryAdapter;
-use Jerowork\ClassDependenciesParser\PhpParser\NodeTraverserFactory;
-use Jerowork\ClassDependenciesParser\PhpParser\PhpParserClassDependenciesParser;
+use App\Infrastructure\Services\CustomClassDependenciesParser;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,8 +26,8 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(FileRepository::class, FileRepositoryAdapter::class);
 
-        $this->app->bind(PhpParserClassDependenciesParser::class, function () {
-            return new PhpParserClassDependenciesParser(
+        $this->app->bind(CustomClassDependenciesParser::class, function () {
+            return new CustomClassDependenciesParser(
                 (new ParserFactory())->create(ParserFactory::PREFER_PHP7),
                 new NodeTraverserFactory(),
             );
