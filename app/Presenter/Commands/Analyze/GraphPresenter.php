@@ -26,17 +26,32 @@ class GraphPresenter implements AnalyzePresenter
         $nodeNames = [];
 
         foreach ($response->metrics as $item) {
-            $nodes[] = ['data' => ['id' => self::slug($item['name']), 'instability' => $item['instability']]];
+            $nodes[] = [
+                'data' => [
+                    'id' => self::slug($item['name']), 
+                    'instability' => $item['instability'],
+                ],
+            ];
             $nodeNames[] = self::slug($item['name']);
         }
 
         foreach ($response->metrics as $item) {
             foreach ($item['dependencies'] as $dependency) {
                 if (!in_array($dependency, $nodeNames)) {
-                    $nodes[] = ['data' => ['id' => self::slug($dependency), 'instability' => 0]];
-                    $nodeNames[] = $dependency;
+                    $nodes[] = [
+                        'data' => [
+                            'id' => self::slug($dependency), 
+                            'instability' => 0
+                        ],
+                    ];
+                    $nodeNames[] = self::slug($dependency);
                 }
-                $edges[] = ['data' => ['source' => self::slug($item['name']), 'target' => self::slug($dependency)]];
+                $edges[] = [
+                    'data' => [
+                        'source' => self::slug($item['name']), 
+                        'target' => self::slug($dependency),
+                    ],
+                ];
             }
         }
 
@@ -45,6 +60,9 @@ class GraphPresenter implements AnalyzePresenter
         $html = $view->render();
 
         file_put_contents('graph.html', $html);
+
+        $this->output->writeln('In progress...');
+        $this->output->writeln('Graph generated');
     }
 
     private static function slug(string $name): string
@@ -52,7 +70,6 @@ class GraphPresenter implements AnalyzePresenter
         if ($name === '') {
             return 'unknown';
         }
-
         return Str::afterLast($name, '\\');
     }
 
