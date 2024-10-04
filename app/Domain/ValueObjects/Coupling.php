@@ -8,6 +8,11 @@ class Coupling
         public int $value = 0,
     ) {}
 
+    public static function from(int $value): self
+    {
+        return new self($value);
+    }
+
     public function increment(): void
     {
         $this->value++;
