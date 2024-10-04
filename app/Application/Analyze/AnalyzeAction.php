@@ -6,11 +6,13 @@ use Throwable;
 use App\Application\Analyze\AnalyzeRequest;
 use App\Application\Analyze\AnalyzePresenter;
 use App\Domain\Ports\Repositories\FileRepository;
+use App\Application\Analyze\AnalyzeResponseMapper;
 
 class AnalyzeAction
 {
     public function __construct(
         private FileRepository $fileRepository,
+        private AnalyzeResponseMapper $mapper,
     ) {}
 
     public function execute(AnalyzeRequest $request, AnalyzePresenter $presenter): void
@@ -28,7 +30,7 @@ class AnalyzeAction
             $dependencyAggregator->removeIgnoredClasses($request->filters);
 
             $presenter->present(
-                ResponseMapper::from($dependencyAggregator),
+                $this->mapper->from($dependencyAggregator),
             );
 
         } catch (Throwable $e) {

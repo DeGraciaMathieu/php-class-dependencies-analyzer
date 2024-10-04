@@ -33,7 +33,7 @@ class DependencyAggregator
                     continue;
                 }
 
-                if ($otherClass->knows($givenClass)) {
+                if ($otherClass->hasDependency($givenClass)) {
                     $givenClass->incrementAfferent();
                 }
             }
@@ -47,5 +47,12 @@ class DependencyAggregator
         $this->classes = array_filter($this->classes, function ($givenClass) use ($filters) {
             return $givenClass->looksLike($filters);
         });
+    }
+
+    public function toArray(): array
+    {
+        return array_map(function (ClassDependencies $class) {
+            return $class->toArray();
+        }, $this->classes);
     }
 }
