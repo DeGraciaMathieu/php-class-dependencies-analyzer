@@ -11,7 +11,7 @@ use App\Presenter\Commands\Analyze\SummaryPresenter;
 
 class AnalyzeCommand extends Command
 {
-    protected $signature = 'analyze {path} {--graph} {--filters=*}';
+    protected $signature = 'analyze {path} {--graph} {--filters=}';
 
     protected $description = 'Analyze the given path';
 
@@ -27,7 +27,7 @@ class AnalyzeCommand extends Command
     {
         return new AnalyzeRequest(
             path: $this->argument('path'), 
-            filters: $this->option('filters'),
+            filters: explode(',', $this->option('filters')),
         );
     }
 
