@@ -15,12 +15,12 @@ test('it calculates the instability correctly', function () {
 
     $metrics = $dependencyAggregator->toArray();
 
-    expect($metrics[0])->toMatchArray([
+    expect($metrics['A'])->toMatchArray([
         'name' => 'A',
         'instability' => 1.0,
     ]);
 
-    expect($metrics[1])->toMatchArray([
+    expect($metrics['C'])->toMatchArray([
         'name' => 'C',
         'instability' => 0.5,
     ]);

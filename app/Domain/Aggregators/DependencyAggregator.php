@@ -10,7 +10,7 @@ class DependencyAggregator
 
     public function aggregate(ClassDependencies $classDependencies): void
     {
-        $this->classes[] = $classDependencies;
+        $this->classes[$classDependencies->getName()] = $classDependencies;
     }
 
     public function count(): int
