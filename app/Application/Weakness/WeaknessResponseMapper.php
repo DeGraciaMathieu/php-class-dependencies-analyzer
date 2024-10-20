@@ -10,6 +10,16 @@ class WeaknessResponseMapper
     {
         $classes = $dependencyAggregator->toArray();
 
+        return new WeaknessResponse(
+            count: $dependencyAggregator->count(),
+            metrics: $this->formatClassesMetrics($classes),
+        );
+    }
+
+    private function formatClassesMetrics(array $classes): array
+    {
+        $metrics = [];
+
         foreach ($classes as $class) {
 
             $instability = $class['instability'];
@@ -31,9 +41,6 @@ class WeaknessResponseMapper
             }
         }
 
-        return new WeaknessResponse(
-            count: $dependencyAggregator->count(),
-            metrics: $metrics,
-        );
+        return $metrics;
     }
 }

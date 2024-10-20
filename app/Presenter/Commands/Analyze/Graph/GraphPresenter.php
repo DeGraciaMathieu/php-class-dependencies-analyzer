@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Presenter\Commands\Analyze;
+namespace App\Presenter\Commands\Analyze\Graph;
 
 use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Facades\View;
@@ -63,6 +63,8 @@ class GraphPresenter implements AnalyzePresenter
 
         $this->output->writeln('In progress...');
         $this->output->writeln('Graph generated');
+
+        exec('open graph.html');
     }
 
     private static function slug(string $name): string

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Presenter\Commands\Analyze;
+namespace App\Presenter\Commands\Analyze\Summary;
 
 use function Laravel\Prompts\table;
+use Illuminate\Console\OutputStyle;
 use App\Application\Analyze\AnalyzeResponse;
 use App\Application\Analyze\AnalyzePresenter;
-use Illuminate\Console\OutputStyle;
+use App\Presenter\Commands\Shared\ArrayFormatter;
 
 class SummaryPresenter implements AnalyzePresenter
 {
@@ -20,16 +21,8 @@ class SummaryPresenter implements AnalyzePresenter
 
     public function present(AnalyzeResponse $response): void
     {
-        $metrics = $response->metrics;
-
-        $metrics = $this->sortMetrics($metrics);
-
-        table(
-            headers: ['Name', 'Afferent', 'Efferent', 'Instability'],
-            rows: $this->formatMetrics($metrics),
-        );
-
-        $this->output->writeln('Found ' . $response->count . ' classes');
+        $this->showTable($response);
+        $this->showHowManyClassesFound($response);
     }
 
     public function error(string $message): void
@@ -37,13 +30,14 @@ class SummaryPresenter implements AnalyzePresenter
         $this->output->error($message);
     }
 
-    private function sortMetrics(array $metrics): array
+    private function showTable(AnalyzeResponse $response): void
     {
-        usort($metrics, function ($a, $b) {
-            return $b['name'] <=> $a['name'];
-        });
+        $metrics = ArrayFormatter::sort('name', $response->metrics);
 
-        return $metrics;
+        table(
+            headers: ['Name', 'Afferent', 'Efferent', 'Instability'],
+            rows: $this->formatMetrics($metrics),
+        );
     }
 
     private function formatMetrics(array $metrics): array
@@ -56,5 +50,12 @@ class SummaryPresenter implements AnalyzePresenter
                 'instability' => $metric['instability'],
             ];
         }, $metrics);
+    }
+
+    private function showHowManyClassesFound(AnalyzeResponse $response): void
+    {
+        $this->output->writeln(
+            sprintf('Found %d classes', $response->count),
+        );
     }
 }

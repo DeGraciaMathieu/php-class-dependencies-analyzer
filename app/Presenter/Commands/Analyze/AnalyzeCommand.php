@@ -6,8 +6,8 @@ use App\Application\Analyze\AnalyzeAction;
 use App\Application\Analyze\AnalyzeRequest;
 use LaravelZero\Framework\Commands\Command;
 use App\Application\Analyze\AnalyzePresenter;
-use App\Presenter\Commands\Analyze\GraphPresenter;
-use App\Presenter\Commands\Analyze\SummaryPresenter;
+use App\Presenter\Commands\Analyze\Graph\GraphPresenter;
+use App\Presenter\Commands\Analyze\Summary\SummaryPresenter;
 
 class AnalyzeCommand extends Command
 {
@@ -27,7 +27,7 @@ class AnalyzeCommand extends Command
     {
         return new AnalyzeRequest(
             path: $this->argument('path'), 
-            filters: explode(',', $this->option('filters')),
+            filters: $this->prepareFilters(),
         );
     }
 
@@ -36,5 +36,10 @@ class AnalyzeCommand extends Command
         return $this->option('graph') 
             ? new GraphPresenter($this->output) 
             : new SummaryPresenter($this->output);
+    }
+
+    private function prepareFilters(): array
+    {
+        return explode(',', $this->option('filters'));
     }
 }
