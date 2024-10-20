@@ -4,10 +4,14 @@ namespace App\Providers;
 
 use PhpParser\ParserFactory;
 use Illuminate\Support\ServiceProvider;
+use App\Domain\Ports\Aggregators\FileAggregator;
 use App\Domain\Ports\Repositories\FileRepository;
-use App\Infrastructure\Services\NodeTraverserFactory;
-use App\Infrastructure\Repositories\FileRepositoryAdapter;
-use App\Infrastructure\Services\CustomClassDependenciesParser;
+use App\Infrastructure\Analyze\Ports\AnalyzerService;
+use App\Infrastructure\Analyze\Adapters\Jerowork\NodeTraverserFactory;
+use App\Infrastructure\File\Adapters\Aggregators\FileAggregatorAdapter;
+use App\Infrastructure\Analyze\Adapters\Jerowork\AnalyzerServiceAdapter;
+use App\Infrastructure\File\Adapters\Repositories\FileRepositoryAdapter;
+use App\Infrastructure\Analyze\Adapters\Jerowork\CustomClassDependenciesParser;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +29,10 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(FileRepository::class, FileRepositoryAdapter::class);
+
+        $this->app->bind(FileAggregator::class, FileAggregatorAdapter::class);
+
+        $this->app->bind(AnalyzerService::class, AnalyzerServiceAdapter::class);
 
         $this->app->bind(CustomClassDependenciesParser::class, function () {
             return new CustomClassDependenciesParser(

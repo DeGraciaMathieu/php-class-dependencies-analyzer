@@ -11,7 +11,7 @@ use PhpParser\NodeTraverser;
 use PhpParser\NodeTraverserInterface;
 use PhpParser\NodeVisitor\ParentConnectingVisitor;
 
-final class NodeTraverserFactory
+final class CustomNodeTraverserFactory
 {
     public function createTraverser(ClassDependencies $classDependencies): NodeTraverserInterface
     {

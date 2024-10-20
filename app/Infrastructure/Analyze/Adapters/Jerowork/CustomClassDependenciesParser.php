@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Services;
+namespace App\Infrastructure\Analyze\Adapters\Jerowork;
 
 use PhpParser\Parser;
-use App\Infrastructure\Services\NodeTraverserFactory;
 use Jerowork\ClassDependenciesParser\ClassDependencies;
 use Jerowork\ClassDependenciesParser\ClassDependenciesParser;
+use App\Infrastructure\Analyze\Adapters\Jerowork\NodeTraverserFactory;
 
 class CustomClassDependenciesParser implements ClassDependenciesParser
 {

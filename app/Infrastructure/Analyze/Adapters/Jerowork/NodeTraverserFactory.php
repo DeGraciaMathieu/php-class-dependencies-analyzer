@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Services;
+namespace App\Infrastructure\Analyze\Adapters\Jerowork;
 
 use Jerowork\ClassDependenciesParser\ClassDependencies;
 use Jerowork\ClassDependenciesParser\PhpParser\NodeVisitor\ParseImportedFqnNodeVisitor;
