@@ -20,7 +20,6 @@ class SummaryPresenter implements WeaknessPresenter
     public function hello(): void
     {
         $this->output->writeln('❀ PHP Instability Analyzer ❀');
-        $this->output->writeln('Find weaknesses dependencies in the code');
     }
 
     public function present(WeaknessResponse $response): void
@@ -50,6 +49,10 @@ class SummaryPresenter implements WeaknessPresenter
 
     private function showTable(array $metrics): void
     {
+        if (count($metrics) === 0) {
+            return;
+        }
+
         table(
             headers: ['Class', 'Instability', 'Dependency', 'Dependency Instability', 'Score'],
             rows: $metrics,
