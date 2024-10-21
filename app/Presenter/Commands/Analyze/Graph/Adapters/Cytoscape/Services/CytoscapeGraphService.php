@@ -13,8 +13,8 @@ class CytoscapeGraphService implements GraphService
 
     public function generate(array $metrics): string
     {
-        $graphAggregate = $this->graphFactory->make($metrics);
+        $graph = $this->graphFactory->make($metrics);
 
-        return $this->viewService->render($graphAggregate);
+        return $this->viewService->render($graph);
     }
 }

@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Entities;
-
-use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\NameHelper;
+namespace App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Aggregates;
 
 class Nodes
 {
@@ -25,7 +23,7 @@ class Nodes
 
     public function miss(string $name): bool
     {
-        return ! in_array($name, $this->nodeNames);
+        return ! in_array($name, $this->nodeNames, true);
     }
 
     public function toArray(): array

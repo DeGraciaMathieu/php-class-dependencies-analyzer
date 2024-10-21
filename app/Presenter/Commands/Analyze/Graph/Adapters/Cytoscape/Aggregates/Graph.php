@@ -2,10 +2,10 @@
 
 namespace App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Aggregates;
 
-use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Entities\Edges;
-use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Entities\Nodes;
+use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Aggregates\Edges;
+use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Aggregates\Nodes;
 
-class GraphAggregate
+class Graph
 {
     public function __construct(
         private Nodes $nodes,
@@ -17,7 +17,7 @@ class GraphAggregate
         $this->nodes->add($name, $instability);
     }
 
-    public function miss(string $name): bool
+    public function missingNode(string $name): bool
     {
         return $this->nodes->miss($name);
     }

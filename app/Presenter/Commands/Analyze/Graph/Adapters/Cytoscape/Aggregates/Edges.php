@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Entities;
-
-use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\NameHelper;
+namespace App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Aggregates;
 
 class Edges
 {

@@ -2,26 +2,26 @@
 
 namespace App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape;
 
-use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Aggregates\GraphAggregate;
+use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Aggregates\Graph;
 
 class GraphFactory
 {
     public function __construct(
-        private GraphAggregate $graphAggregate,
+        private Graph $graph,
     ) {}
 
-    public function make(array $metrics): GraphAggregate
+    public function make(array $metrics): Graph
     {
         $this->mapNodes($metrics);
         $this->mapEdges($metrics);
 
-        return $this->graphAggregate;
+        return $this->graph;
     }
 
     private function mapNodes(array $metrics): void
     {
         foreach ($metrics as $item) {
-            $this->graphAggregate->addNode($item['name'], $item['instability']);
+            $this->graph->addNode($item['name'], $item['instability']);
         }
     }
 
@@ -31,11 +31,11 @@ class GraphFactory
 
             foreach ($item['dependencies'] as $dependency) {
 
-                if ($this->graphAggregate->miss($dependency)) {
-                    $this->graphAggregate->addNode($dependency);
+                if ($this->graph->missingNode($dependency)) {
+                    $this->graph->addNode($dependency);
                 }
 
-                $this->graphAggregate->addEdge(source: $item['name'], target: $dependency);
+                $this->graph->addEdge(source: $item['name'], target: $dependency);
             }
         }
     }
