@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape;
+namespace App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Services;
 
 use App\Presenter\Commands\Analyze\Graph\Ports\GraphService;
+use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Services\ViewService;
+use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Services\GraphFactory;
 
 class CytoscapeGraphService implements GraphService
 {

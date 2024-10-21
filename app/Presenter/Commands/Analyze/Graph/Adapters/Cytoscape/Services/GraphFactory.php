@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape;
+namespace App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Services;
 
 use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Aggregates\Graph;
 
