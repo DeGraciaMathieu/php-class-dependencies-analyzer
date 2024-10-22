@@ -13,7 +13,7 @@ use App\Infrastructure\File\Adapters\Aggregators\FileAggregatorAdapter;
 use App\Infrastructure\Analyze\Adapters\Jerowork\AnalyzerServiceAdapter;
 use App\Infrastructure\File\Adapters\Repositories\FileRepositoryAdapter;
 use App\Infrastructure\Analyze\Adapters\Jerowork\CustomClassDependenciesParser;
-use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\CytoscapeGraphService;
+use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Services\CytoscapeGraphService;
 
 class AppServiceProvider extends ServiceProvider
 {

@@ -2,11 +2,16 @@
 
 namespace App\Domain\Aggregators;
 
+use App\Domain\Services\CyclicDependency;
 use App\Domain\Entities\ClassDependencies;
 
 class DependencyAggregator
 {
     private array $classes = [];
+
+    public function __construct(
+        private CyclicDependency $cyclicDependency,
+    ) {}
 
     public function aggregate(ClassDependencies $classDependencies): void
     {
@@ -40,6 +45,11 @@ class DependencyAggregator
 
             $givenClass->calculateInstability();
         }
+    }
+
+    public function detectCycles(): array
+    {
+        return $this->cyclicDependency->detect($this->classes);
     }
 
     public function removeIgnoredClasses(array $filters): void
