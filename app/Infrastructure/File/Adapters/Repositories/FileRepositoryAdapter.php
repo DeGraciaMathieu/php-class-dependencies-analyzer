@@ -15,7 +15,7 @@ class FileRepositoryAdapter implements FileRepository
     public function find(string $path): FileAggregator
     {
         $fileFinder = new FileFinder(
-            basePath: base_path(),
+            basePath: getcwd(),
         );
 
         $files = $fileFinder->getFiles($path);
