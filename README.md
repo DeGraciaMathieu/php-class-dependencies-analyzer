@@ -81,6 +81,8 @@ A fragile dependency is a component that depends on another component that is mo
 
 The first component will be sensitive to any changes made to the second component and will experience side effects.
 
+<img src='https://cdn.laravel-france.com/images/pictures/c80b59f3-ffad-4609-9364-f8efa4e62c9a.png'>
+
 These dependencies can generate bugs and difficulties in evolution.
 
 ```
