@@ -29,7 +29,7 @@ Instability = Efferent / (Afferent + Efferent)
 
 Afferent coupling represents the number of components that depend on a given component, while efferent coupling counts the number of dependencies a given component has.
 
-<img src='https://cdn.laravel-france.com/images/pictures/dc05744c-27ad-45cd-b1a2-97af33e8c4ae.png'>
+<img src='https://cdn.laravel-france.com/images/pictures/d76e1a9e-1706-42d3-a215-8dabeaaeba3c.png'>
 
 Instability ranges between 0 and 1, where 0 represents a fully stable class and 1 represents a fully unstable class.
 
