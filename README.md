@@ -45,7 +45,9 @@ This tool allows you to:
 - Detect cyclic dependencies among a set of classes
 - Detect fragile dependencies between classes
 
-## Detecting Instability
+## Visualizing Instability
+
+To visualize the instability and coupling of your classes:
 
 ```
 php coupling-instability-analyzer analyze ./path/to/project
