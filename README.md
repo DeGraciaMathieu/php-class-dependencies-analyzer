@@ -65,9 +65,9 @@ php coupling-instability-analyzer analyze app --filters=Domain,Infrastructure
 
 A dependency cycle is a set of classes that depend on each other in a cyclical manner.
 
-This violates the [acyclic dependencies principle](https://en.wikipedia.org/wiki/Acyclic_dependencies_principle).
+<img src='https://cdn.laravel-france.com/images/pictures/34ddeac2-d9ac-4ebb-a54c-48f7940945ca.png'>
 
-Cyclic dependencies often lead to bugs and maintenance difficulties.
+This violates the [acyclic dependencies principle](https://en.wikipedia.org/wiki/Acyclic_dependencies_principle), cyclic dependencies often lead to bugs and maintenance difficulties.
 
 ```
 php coupling-instability-analyzer cyclic ./path/to/project
