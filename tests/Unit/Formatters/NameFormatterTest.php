@@ -9,3 +9,7 @@ test('it formats class names', function () {
 test('it formats human readable names', function () {
     expect(NameFormatter::humanReadable('App\Domain\Services\CyclicDependency'))->toBe('...\\Services\\CyclicDependency');
 });
+
+test('it keeps short names', function () {
+    expect(NameFormatter::humanReadable('App\Foo'))->toBe('App\Foo');
+});
