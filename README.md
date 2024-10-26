@@ -10,7 +10,7 @@
 This tool is distributed as a [PHP Archive (PHAR)](https://www.php.net/phar):
 
 ```
-wget https://github.com/DeGraciaMathieu/php-coupling-instability-analyzer/raw/master/builds/php-coupling-instability-analyzer
+wget https://github.com/DeGraciaMathieu/php-stable-dependencies-principle-analyzer/raw/master/builds/stable-dependencies-principle-analyzer
 ```
 
 ```
