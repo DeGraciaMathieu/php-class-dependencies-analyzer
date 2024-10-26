@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => 'Application',
+    'name' => 'Stable-dependencies-principle-analyzer',
 
     /*
     |--------------------------------------------------------------------------
