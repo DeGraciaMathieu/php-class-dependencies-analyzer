@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Presenter\Commands\Weakness;
+namespace App\Presenter\Commands\Weakness\Summary;
+
+use App\Presenter\Commands\Shared\NameFormatter;
 
 class WeaknessPresenterMapper
 {
@@ -8,9 +10,9 @@ class WeaknessPresenterMapper
     {
         return array_map(function ($metric) {
             return [
-                'class' => $metric['class'],
+                'class' => NameFormatter::humanReadable($metric['class']),
                 'instability' => $metric['class_instability'],
-                'dependency' => $metric['dependency'],
+                'dependency' => NameFormatter::humanReadable($metric['dependency']),
                 'dependency_instability' => $metric['dependency_instability'],
                 'score' => $metric['score'],
             ];

@@ -5,14 +5,16 @@ namespace App\Presenter\Commands\Weakness;
 use LaravelZero\Framework\Commands\Command;
 use App\Application\Weakness\WeaknessAction;
 use App\Application\Weakness\WeaknessRequest;
-use App\Presenter\Commands\Weakness\SummaryPresenter;
+use App\Application\Weakness\WeaknessPresenter;
+use App\Presenter\Commands\Weakness\Summary\SettingsFactory;
+use App\Presenter\Commands\Weakness\Summary\SummaryPresenter;
 
 class WeaknessCommand extends Command
 {
     protected $signature = 'weakness {path} 
         {--filters=} 
         {--limit=} 
-        {--min-score=0.0}
+        {--min-delta=}
     ';
 
     protected $description = 'Find weaknesses dependencies in the code';
@@ -33,12 +35,10 @@ class WeaknessCommand extends Command
         );
     }
 
-    private function makePresenter(): SummaryPresenter
+    private function makePresenter(): WeaknessPresenter
     {
         return new SummaryPresenter(
-            output: $this->output,
-            limit: $this->option('limit'),
-            minScore: $this->option('min-score'),
+            settings: SettingsFactory::make($this),
         );
     }
 
