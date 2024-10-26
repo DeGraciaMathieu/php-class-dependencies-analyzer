@@ -35,7 +35,7 @@ Afferent coupling represents the number of components that depend on a given com
 
 Instability ranges between 0 and 1, where 0 represents a fully stable class and 1 represents a fully unstable class.
 
-A stable class has few dependencies but is depended on by many components. Therefore, a stable class is critical to the project and must be reliable and well-tested.
+Stable class has few dependencies but is depended on by many components. Therefore, a stable class is critical to the project and must be reliable and well-tested.
 
 An unstable class has many dependencies but few components depend on it. Therefore, it’s easier to modify, but it’s more likely to be affected by changes in its dependencies.
 
