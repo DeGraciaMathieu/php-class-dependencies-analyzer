@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Services;
+namespace App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape;
 
-use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Aggregates\Graph;
+use App\Presenter\Commands\Analyze\Graph\Ports\Graph;
+use App\Presenter\Commands\Analyze\Graph\Ports\GraphMapper;
+use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\CytoscapeGraph;
 
-class GraphFactory
+class CytoscapeGraphMapper implements GraphMapper
 {
     public function __construct(
-        private Graph $graph,
+        private readonly CytoscapeGraph $graph,
     ) {}
 
     public function make(array $metrics): Graph

@@ -7,6 +7,11 @@ use Illuminate\Support\Str;
 
 class NameFormatter
 {
+    public static function className(string $className): string
+    {
+        return Str::of($className)->explode('\\')->last();
+    }
+
     public static function humanReadable(string $className): string
     {
         $exploded = Str::of($className)->explode('\\');

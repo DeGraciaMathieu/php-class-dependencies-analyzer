@@ -32,7 +32,7 @@ class CyclicAction
             );
 
         } catch (Throwable $e) {
-            $presenter->error($e->getMessage());
+            $presenter->error($e);
         }
     }
 }

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Aggregates;
+namespace App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape;
 
-use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Aggregates\Edges;
-use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Aggregates\Nodes;
+use App\Presenter\Commands\Analyze\Graph\Ports\Graph;
+use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Edges;
+use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\Nodes;
 
-class Graph
+class CytoscapeGraph implements Graph
 {
     public function __construct(
         private Nodes $nodes,

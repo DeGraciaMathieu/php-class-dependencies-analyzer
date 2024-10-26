@@ -2,7 +2,7 @@
 
 namespace App\Presenter\Commands\Weakness\Summary;
 
-class Settings
+class SummarySettings
 {
     public function __construct(
         private readonly ?int $limit = null,

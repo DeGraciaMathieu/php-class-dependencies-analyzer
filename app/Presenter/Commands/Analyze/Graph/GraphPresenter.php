@@ -2,37 +2,43 @@
 
 namespace App\Presenter\Commands\Analyze\Graph;
 
-use Illuminate\Console\OutputStyle;
+use Throwable;
+use function Laravel\Prompts\info;
+use function Laravel\Prompts\alert;
 use App\Application\Analyze\AnalyzeResponse;
 use App\Application\Analyze\AnalyzePresenter;
-use App\Presenter\Commands\Analyze\Graph\Ports\GraphService;
+use App\Presenter\Commands\Analyze\Graph\GraphViewModel;
+use App\Presenter\Commands\Analyze\Graph\Ports\GraphMapper;
 
 class GraphPresenter implements AnalyzePresenter
 {
     public function __construct(
-        private OutputStyle $output,
+        private readonly GraphView $view,
+        private readonly GraphSettings $settings,
     ) {}
 
     public function hello(): void
     {
-        $this->output->writeln('❀ PHP Instability Analyzer ❀');
+        info('❀ PHP Stable Dependencies Analyzer ❀');
+    }
+
+    public function error(Throwable $e): void
+    {
+        alert('sorry, something went wrong');
+
+        if ($this->settings->debug) {
+            alert($e);
+        }
+
+        alert($e->getMessage());
     }
 
     public function present(AnalyzeResponse $response): void
     {
-        $this->output->writeln('In progress...');
+        $graph = app(GraphMapper::class)->make($response->metrics);
 
-        $html = app(GraphService::class)->generate($response->metrics);
+        $viewModel = new GraphViewModel($graph);
 
-        app(GraphStorage::class)->save($html);
-
-        $this->output->writeln('Graph generated');
-
-        exec('open graph.html');
-    }
-
-    public function error(string $message): void
-    {
-        $this->output->error($message);
+        $this->view->show($viewModel);
     }
 }

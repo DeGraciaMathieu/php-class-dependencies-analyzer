@@ -8,12 +8,14 @@ use App\Application\Weakness\WeaknessResponse;
 use App\Application\Weakness\WeaknessPresenter;
 use App\Presenter\Commands\Shared\ArrayFormatter;
 use App\Presenter\Commands\Weakness\Summary\SummaryView;
+use App\Presenter\Commands\Weakness\Summary\SummarySettings;
 use App\Presenter\Commands\Weakness\Summary\WeaknessPresenterMapper;
 
 class SummaryPresenter implements WeaknessPresenter
 {
     public function __construct(
-        private Settings $settings,
+        private readonly SummarySettings $settings,
+        private readonly SummaryView $view
     ) {}
 
     public function hello(): void
@@ -36,7 +38,7 @@ class SummaryPresenter implements WeaknessPresenter
 
         $viewModel = new SummaryViewModel($metrics, $response->count, $this->settings->minDelta());
 
-        app(SummaryView::class)->show($viewModel);
+        $this->view->show($viewModel);
     }
 
     private function applyFiltersOnMetrics(WeaknessResponse $response): array

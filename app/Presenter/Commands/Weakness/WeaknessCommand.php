@@ -6,8 +6,9 @@ use LaravelZero\Framework\Commands\Command;
 use App\Application\Weakness\WeaknessAction;
 use App\Application\Weakness\WeaknessRequest;
 use App\Application\Weakness\WeaknessPresenter;
-use App\Presenter\Commands\Weakness\Summary\SettingsFactory;
+use App\Presenter\Commands\Weakness\Summary\SummaryView;
 use App\Presenter\Commands\Weakness\Summary\SummaryPresenter;
+use App\Presenter\Commands\Weakness\Summary\SummarySettingsFactory;
 
 class WeaknessCommand extends Command
 {
@@ -15,6 +16,7 @@ class WeaknessCommand extends Command
         {--filters=} 
         {--limit=} 
         {--min-delta=}
+        {--debug}
     ';
 
     protected $description = 'Find weaknesses dependencies in the code';
@@ -35,15 +37,16 @@ class WeaknessCommand extends Command
         );
     }
 
-    private function makePresenter(): WeaknessPresenter
-    {
-        return new SummaryPresenter(
-            settings: SettingsFactory::make($this),
-        );
-    }
-
     private function prepareFilters(): array
     {
         return explode(',', $this->option('filters'));
+    }
+
+    private function makePresenter(): WeaknessPresenter
+    {
+        return new SummaryPresenter(
+            view: app(SummaryView::class),
+            settings: SummarySettingsFactory::make($this),
+        );
     }
 }

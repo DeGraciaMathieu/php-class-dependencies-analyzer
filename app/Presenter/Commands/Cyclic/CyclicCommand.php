@@ -2,15 +2,20 @@
 
 namespace App\Presenter\Commands\Cyclic;
 
+use App\Application\Cyclic\CyclicAction;
 use App\Application\Cyclic\CyclicRequest;
 use App\Application\Cyclic\CyclicPresenter;
-use App\Application\Cyclic\CyclicAction;
 use LaravelZero\Framework\Commands\Command;
-use App\Presenter\Commands\Cyclic\SummaryPresenter;
+use App\Presenter\Commands\Cyclic\Summary\SummaryView;
+use App\Presenter\Commands\Cyclic\Summary\SummaryPresenter;
+use App\Presenter\Commands\Cyclic\Summary\SummarySettingsFactory;
 
 class CyclicCommand extends Command
 {
-    protected $signature = 'cyclic {path} {--filters=}';
+    protected $signature = 'cyclic {path} 
+        {--filters=} 
+        {--debug}
+    ';
 
     protected $description = 'Detect cyclic dependencies in the given path';
 
@@ -32,7 +37,10 @@ class CyclicCommand extends Command
 
     private function makePresenter(): CyclicPresenter
     {
-        return new SummaryPresenter($this->output);
+        return new SummaryPresenter(
+            view: app(SummaryView::class),
+            settings: SummarySettingsFactory::make($this),
+        );
     }
 
     private function prepareFilters(): array
