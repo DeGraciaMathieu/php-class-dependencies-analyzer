@@ -4,6 +4,8 @@
 
 # php-git-insights-analyzer
 
+[![testing](https://github.com/DeGraciaMathieu/php-coupling-instability-analyzer/actions/workflows/testing.yml/badge.svg)](https://github.com/DeGraciaMathieu/php-coupling-instability-analyzer/actions/workflows/testing.yml)
+
 ## Phar
 This tool is distributed as a [PHP Archive (PHAR)](https://www.php.net/phar):
 
