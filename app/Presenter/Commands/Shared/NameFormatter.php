@@ -32,6 +32,6 @@ class NameFormatter
 
     private static function keepLastTwoNamespaces(Collection $exploded): Collection
     {
-        return $exploded->reverse()->take(2);
+        return $exploded->reverse()->take(2)->reverse();
     }
 }
