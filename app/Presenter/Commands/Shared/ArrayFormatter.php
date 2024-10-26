@@ -28,8 +28,10 @@ class ArrayFormatter
             return $items;
         }
 
-        return array_filter($items, function ($item) use ($key, $minValue) {
+        $items = array_filter($items, function ($item) use ($key, $minValue) {
             return $item[$key] >= $minValue;
         });
+
+        return array_values($items);
     }
 }
