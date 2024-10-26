@@ -91,9 +91,10 @@ These dependencies can generate bugs and difficulties in evolution.
 php coupling-instability-analyzer weakness ./path/to/project
 ```
 
-To filter results based on an instability threshold, you can use the `--min-score` option.
+To filter results based on an instability delta, you can use the `--min-delta` option.
+
 ```
-php coupling-instability-analyzer weakness ./path/to/project --min-score=0.1
+php coupling-instability-analyzer weakness ./path/to/project --min-delta=0.1
 ```
 
 The threshold corresponds to the difference in stability between a class and one of its dependencies. The greater this difference, the more likely the first component is to suffer from side effects caused by its unstable dependency.
