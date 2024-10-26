@@ -55,7 +55,7 @@ class DependencyAggregator
     public function keepOnlyClasses(array $filters): void
     {
         $this->classes = array_filter($this->classes, function ($givenClass) use ($filters) {
-            return ! $givenClass->looksLike($filters);
+            return $givenClass->looksLike($filters);
         });
     }
 
