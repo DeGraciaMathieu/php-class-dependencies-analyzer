@@ -3,12 +3,10 @@
 test('it calculates the instability correctly', function () {
 
     $dependencyAggregator = $this->oneDependencyAggregator()
-        ->addClassDependencies(
-            $this->oneClassDependencies()->withFqcn('A')->withDependencies(['B', 'C'])->build()
-        )
-        ->addClassDependencies(
-            $this->oneClassDependencies()->withFqcn('C')->withDependencies(['D'])->build()
-        )
+        ->withManyClassDependencies([   
+            $this->oneClassDependencies()->withFqcn('A')->withDependencies(['B', 'C'])->build(),
+            $this->oneClassDependencies()->withFqcn('C')->withDependencies(['D'])->build(),
+        ])
         ->build();
 
     $dependencyAggregator->calculateClassesInstability();
@@ -29,7 +27,7 @@ test('it calculates the instability correctly', function () {
 test('it filters classes by given filters', function () {
 
     $dependencyAggregator = $this->oneDependencyAggregator()
-        ->addManyClassDependencies([
+        ->withManyClassDependencies([
             $this->oneClassDependencies()->withFqcn('App\Application\Analyze\AnalyzeAction')->build(),
             $this->oneClassDependencies()->withFqcn('App\Domain\Aggregators\DependencyAggregator')->build(),
             $this->oneClassDependencies()->withFqcn('App\Infrastructure\Presenters\Commands\Analyze\Graph\GraphPresenter')->build(),

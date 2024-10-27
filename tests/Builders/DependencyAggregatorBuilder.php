@@ -28,7 +28,7 @@ class DependencyAggregatorBuilder
         return $this;
     }
 
-    public function addManyClassDependencies(array $classDependencies): self
+    public function withManyClassDependencies(array $classDependencies): self
     {
         foreach ($classDependencies as $classDependency) {
             $this->addClassDependencies($classDependency);

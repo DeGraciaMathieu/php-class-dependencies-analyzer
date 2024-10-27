@@ -5,15 +5,11 @@ use App\Domain\Services\CyclicDependency;
 test('it detects cyclic dependencies', function () {
 
     $dependencyAggregator = $this->oneDependencyAggregator()
-        ->addClassDependencies(
-            $this->oneClassDependencies()->withFqcn('A')->withDependencies(['B'])->build()
-        )
-        ->addClassDependencies(
-            $this->oneClassDependencies()->withFqcn('B')->withDependencies(['C'])->build()
-        )
-        ->addClassDependencies(
-            $this->oneClassDependencies()->withFqcn('C')->withDependencies(['A'])->build()
-        )
+        ->withManyClassDependencies([
+            $this->oneClassDependencies()->withFqcn('A')->withDependencies(['B'])->build(),
+            $this->oneClassDependencies()->withFqcn('B')->withDependencies(['C'])->build(),
+            $this->oneClassDependencies()->withFqcn('C')->withDependencies(['A'])->build(),
+        ])
         ->build();
 
     $cycles = app(CyclicDependency::class)->detect($dependencyAggregator->classes());
@@ -26,15 +22,11 @@ test('it detects cyclic dependencies', function () {
 test('it detects classes with multiple cycles', function () {
 
     $dependencyAggregator = $this->oneDependencyAggregator()
-        ->addClassDependencies(
-            $this->oneClassDependencies()->withFqcn('A')->withDependencies(['B', 'C'])->build()
-        )
-        ->addClassDependencies(
-            $this->oneClassDependencies()->withFqcn('B')->withDependencies(['A'])->build()
-        )
-        ->addClassDependencies(
-            $this->oneClassDependencies()->withFqcn('C')->withDependencies(['A'])->build()
-        )
+        ->withManyClassDependencies([
+            $this->oneClassDependencies()->withFqcn('A')->withDependencies(['B', 'C'])->build(),
+            $this->oneClassDependencies()->withFqcn('B')->withDependencies(['A'])->build(),
+            $this->oneClassDependencies()->withFqcn('C')->withDependencies(['A'])->build(),
+        ])
         ->build();
 
     $cycles = app(CyclicDependency::class)->detect($dependencyAggregator->classes());
