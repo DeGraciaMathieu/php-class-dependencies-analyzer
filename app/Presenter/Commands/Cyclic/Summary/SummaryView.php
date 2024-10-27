@@ -22,6 +22,9 @@ class SummaryView
             $viewModel->metrics,
         );
 
+        outro('A cycle is a class that depends on itself through its dependencies.');
+        outro('It can be a sign of a bad design and reveal an ensemble of components difficult to maintain and evolve.');
+
         outro('Cycles found: ' . $viewModel->totalClasses);
     }
 }
