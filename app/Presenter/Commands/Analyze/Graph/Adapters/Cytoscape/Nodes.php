@@ -26,6 +26,11 @@ class Nodes
         return ! in_array($name, $this->nodeNames, true);
     }
 
+    public function count(): int
+    {
+        return count($this->nodes);
+    }
+
     public function toArray(): array
     {
         return $this->nodes;

@@ -18,6 +18,11 @@ class CytoscapeGraph implements Graph
         $this->nodes->add($name, $instability);
     }
 
+    public function countNodes(): int
+    {
+        return $this->nodes->count();
+    }
+
     public function missingNode(string $name): bool
     {
         return $this->nodes->miss($name);
