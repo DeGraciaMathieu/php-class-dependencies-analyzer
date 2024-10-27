@@ -27,22 +27,30 @@ class CyclicDependency
 
     function deepDive($class, $classes, &$cycles): void
     {
+        /**
+         * Duplicate class can exist in the array.
+         * If the class is already visited, we can switch to another class.
+         */
         if ($this->visited->isMarked($class)) {
             return;
         }
 
         /**
+         * This stack is used to detect cycles.
+         * Progressively, we push dependencies in the stack.
          * If the class is already in the stack, we have a cycle.
          */
         if ($this->stack->contains($class)) {
 
-            $cycle = array_slice($this->stack->stack, array_search($class, $this->stack->stack));
+            $cycle = $this->stack->extractCycle($class);
 
             $cycles[] = $cycle;
 
+            /**
+             * Stop the recursion, we can switch to another class.
+             */
             return;
-        }
-
+        } 
 
         $this->stack->push($class);
 
@@ -60,7 +68,7 @@ class CyclicDependency
         $this->stack->pop();
 
         /**
-         * Mark the class as fully explored.
+         * Mark the class as fully explored to avoid infinite loops.
          */
         $this->visited->mark($class, true);
     }
