@@ -31,14 +31,14 @@ Instability = Efferent / (Afferent + Efferent)
 
 Afferent coupling represents the number of components that depend on a given component, while efferent coupling counts the number of dependencies a given component has.
 
-<img src='https://cdn.laravel-france.com/images/pictures/d76e1a9e-1706-42d3-a215-8dabeaaeba3c.png'>
+<img src='https://cdn.laravel-france.com/images/pictures/6aa50c00-414c-4817-928d-c67d1bf996e0.png'>
 
 Instability ranges between 0 and 1, where 0 represents a fully stable class and 1 represents a fully unstable class.
 
 Stable class has few dependencies but is depended on by many components. Therefore, a stable class is critical to the project and must be reliable and well-tested.
 
 An unstable class has many dependencies but few components depend on it. Therefore, it’s easier to modify, but it’s more likely to be affected by changes in its dependencies.
-It is advisable to monitor the dependencies of an unstable component and to replace those dependencies that are even more unstable than the component with an abstraction.
+It is recommended to monitor the dependencies of an unstable component and replace those that are even more unstable with an abstraction.
 
 It’s important to manage these dependencies between classes to maintain maintainable, modular, and easily testable code.
 
@@ -56,9 +56,7 @@ To visualize the instability and coupling of your classes:
 php coupling-instability-analyzer analyze ./path/to/project
 ```
 
-⚠️ To obtain accurate results, it is important to analyze your entire codebase.
-
-Use the `--filter=*` option to filter the results.
+⚠️ To obtain accurate results, it is important to analyze your entire codebase, use the `--filter=*` option to filter the results.
 
 ```
 php coupling-instability-analyzer analyze app --filters=Domain,Infrastructure
@@ -66,11 +64,11 @@ php coupling-instability-analyzer analyze app --filters=Domain,Infrastructure
 
 ## Detecting Cyclic Dependencies
 
-A dependency cycle is a set of classes that depend on each other in a cyclical manner.
+A dependency cycle is a class that depends on itself through its dependencies.
 
 <img src='https://cdn.laravel-france.com/images/pictures/34ddeac2-d9ac-4ebb-a54c-48f7940945ca.png'>
 
-This violates the [acyclic dependencies principle](https://en.wikipedia.org/wiki/Acyclic_dependencies_principle), cyclic dependencies often lead to bugs and maintenance difficulties.
+This violates the [acyclic dependencies principle](https://en.wikipedia.org/wiki/Acyclic_dependencies_principle), it can be a sign of a bad design and reveal an ensemble of components difficult to maintain and evolve.
 
 ```
 php coupling-instability-analyzer cyclic ./path/to/project
@@ -80,7 +78,9 @@ php coupling-instability-analyzer cyclic ./path/to/project
 
 ## Detecting Fragile Dependencies
 
-A fragile dependency is a component that depends on another component that is more unstable than itself.
+A weakness dependancy is a class that depends on a class that is more unstable than it.
+
+It can be a sign of a bad design and an indicator of a class that can suffer from side effects of its dependencies.
 
 The first component will be sensitive to any changes made to the second component and will experience side effects.
 
