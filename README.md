@@ -10,7 +10,7 @@
 This tool is distributed as a [PHP Archive (PHAR)](https://www.php.net/phar):
 
 ```
-wget https://github.com/DeGraciaMathieu/php-stable-dependencies-principle-analyzer/raw/master/builds/stable-dependencies-principle-analyzer
+wget https://github.com/DeGraciaMathieu/php-stable-dependencies-analyzer/raw/master/builds/php-stable-dependencies-analyzer
 ```
 
 ```
