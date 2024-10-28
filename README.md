@@ -2,7 +2,7 @@
 <img src="https://github.com/DeGraciaMathieu/php-smelly-code-detector/blob/master/arts/robot.png" width="250">
 </p>
 
-# php-stable-dependencies-analyzer
+# php-class-dependencies-analyzer
 
 [![testing](https://github.com/DeGraciaMathieu/php-coupling-instability-analyzer/actions/workflows/testing.yml/badge.svg)](https://github.com/DeGraciaMathieu/php-coupling-instability-analyzer/actions/workflows/testing.yml)
 
@@ -10,11 +10,11 @@
 This tool is distributed as a [PHP Archive (PHAR)](https://www.php.net/phar):
 
 ```
-wget https://github.com/DeGraciaMathieu/php-stable-dependencies-analyzer/raw/master/builds/php-stable-dependencies-analyzer
+wget https://github.com/DeGraciaMathieu/php-class-dependencies-analyzer/raw/master/builds/php-class-dependencies-analyzer
 ```
 
 ```
-php coupling-instability-analyzer --version
+php class-dependencies-analyzer --version
 ```
 
 ## Why
@@ -51,13 +51,13 @@ This tool allows you to:
 To visualize the instability and coupling of your classes:
 
 ```
-php coupling-instability-analyzer analyze ./path/to/project
+php class-dependencies-analyzer analyze ./path/to/project
 ```
 
 ⚠️ To obtain accurate results, it is important to analyze your entire codebase, use the `--filter=*` option to filter the results.
 
 ```
-php coupling-instability-analyzer analyze app --filters=Domain,Infrastructure
+php class-dependencies-analyzer analyze app --filters=Domain,Infrastructure
 ```
 
 ## Detecting Cyclic Dependencies
@@ -69,7 +69,7 @@ A dependency cycle is a class that depends on itself through its dependencies.
 This violates the [acyclic dependencies principle](https://en.wikipedia.org/wiki/Acyclic_dependencies_principle), it can be a sign of a bad design and reveal an ensemble of components difficult to maintain and evolve.
 
 ```
-php coupling-instability-analyzer cyclic ./path/to/project
+php class-dependencies-analyzer cyclic ./path/to/project
 ```
 
 > You can filter the results using the `--filters` option.
@@ -87,13 +87,13 @@ The first class will be sensitive to any changes made to the second class and wi
 These dependencies can generate bugs and difficulties in evolution.
 
 ```
-php coupling-instability-analyzer weakness ./path/to/project
+php class-dependencies-analyzer weakness ./path/to/project
 ```
 
 To filter results based on an instability delta, you can use the `--min-delta` option.
 
 ```
-php coupling-instability-analyzer weakness ./path/to/project --min-delta=0.1
+php class-dependencies-analyzer weakness ./path/to/project --min-delta=0.1
 ```
 
 The threshold corresponds to the difference in stability between a class and one of its dependencies. The greater this difference, the more likely the first component is to suffer from side effects caused by its unstable dependency.
