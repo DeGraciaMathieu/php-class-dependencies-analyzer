@@ -19,7 +19,7 @@ class SummaryPresenter implements CyclicPresenter
 
     public function hello(): void
     {
-        info('❀ PHP Stable Dependencies Analyzer ❀');
+        info('❀ PHP Class Dependencies Analyzer ❀');
     }
 
     public function error(Throwable $e): void
