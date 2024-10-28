@@ -54,10 +54,11 @@ To visualize the instability and coupling of your classes:
 php class-dependencies-analyzer analyze ./path/to/project
 ```
 
-⚠️ To obtain accurate results, it is important to analyze your entire codebase, use the `--filter=*` option to filter the results.
+⚠️ To obtain accurate results, it is important to analyze your entire codebase, use the `--only=*` or `--exclude=*` options to filter the results.
 
 ```
-php class-dependencies-analyzer analyze app --filters=Domain,Infrastructure
+php class-dependencies-analyzer analyze app --only=App\\Domain,Infrastructure
+php class-dependencies-analyzer analyze app --exclude=Models
 ```
 
 ## Detecting Cyclic Dependencies
@@ -72,7 +73,7 @@ This violates the [acyclic dependencies principle](https://en.wikipedia.org/wiki
 php class-dependencies-analyzer cyclic ./path/to/project
 ```
 
-> You can filter the results using the `--filters` option.
+> You can filter the results using the `--only=*` or `--exclude=*` options.
 
 ## Detecting Fragile Dependencies
 
@@ -98,4 +99,4 @@ php class-dependencies-analyzer weakness ./path/to/project --min-delta=0.1
 
 The threshold corresponds to the difference in stability between a class and one of its dependencies. The greater this difference, the more likely the first component is to suffer from side effects caused by its unstable dependency.
 
-> You can filter the results using the `--filters` option.
+> You can filter the results using the `--only=*` or `--exclude=*` options.

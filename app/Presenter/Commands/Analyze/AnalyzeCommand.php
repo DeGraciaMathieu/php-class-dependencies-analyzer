@@ -4,8 +4,8 @@ namespace App\Presenter\Commands\Analyze;
 
 use App\Application\Analyze\AnalyzeAction;
 use App\Application\Analyze\AnalyzeRequest;
-use LaravelZero\Framework\Commands\Command;
 use App\Application\Analyze\AnalyzePresenter;
+use App\Presenter\Commands\Shared\AbstractCommand;
 use App\Presenter\Commands\Analyze\Graph\GraphView;
 use App\Presenter\Commands\Analyze\Summary\SummaryView;
 use App\Presenter\Commands\Analyze\Graph\GraphPresenter;
@@ -13,11 +13,12 @@ use App\Presenter\Commands\Analyze\Summary\SummaryPresenter;
 use App\Presenter\Commands\Analyze\Graph\GraphSettingsFactory;
 use App\Presenter\Commands\Analyze\Summary\SummarySettingsFactory;
 
-class AnalyzeCommand extends Command
+class AnalyzeCommand extends AbstractCommand
 {
     protected $signature = 'analyze {path} 
         {--graph} 
-        {--filters=} 
+        {--only=} 
+        {--exclude=} 
         {--debug}
     ';
 
@@ -35,13 +36,9 @@ class AnalyzeCommand extends Command
     {
         return new AnalyzeRequest(
             path: $this->argument('path'), 
-            filters: $this->prepareFilters(),
+            only: $this->stringToList('only'),
+            exclude: $this->stringToList('exclude'),
         );
-    }
-
-    private function prepareFilters(): array
-    {
-        return explode(',', $this->option('filters'));
     }
 
     private function makePresenter(): AnalyzePresenter

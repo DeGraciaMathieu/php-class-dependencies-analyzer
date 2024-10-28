@@ -52,10 +52,19 @@ class DependencyAggregator
         return $this->cyclicDependency->detect($this->classes);
     }
 
-    public function keepOnlyClasses(array $filters): void
+    public function filterClasses(array $only = [], array $exclude = []): void
     {
-        $this->classes = array_filter($this->classes, function ($givenClass) use ($filters) {
-            return $givenClass->looksLike($filters);
+        $this->classes = array_filter($this->classes, function ($givenClass) use ($only, $exclude) {
+
+            if ($only) {
+                return $givenClass->looksLike($only);
+            }
+
+            if ($exclude) {
+                return ! $givenClass->looksLike($exclude);
+            }
+
+            return true;
         });
     }
 

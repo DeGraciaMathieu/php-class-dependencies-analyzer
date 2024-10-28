@@ -24,20 +24,33 @@ test('it calculates the instability correctly', function () {
     ]);
 });
 
-test('it filters classes by given filters', function () {
+test('it keeps only classes by given filters', function () {
 
     $dependencyAggregator = $this->oneDependencyAggregator()
         ->withManyClassDependencies([
-            $this->oneClassDependencies()->withFqcn('App\Application\Analyze\AnalyzeAction')->build(),
             $this->oneClassDependencies()->withFqcn('App\Domain\Aggregators\DependencyAggregator')->build(),
-            $this->oneClassDependencies()->withFqcn('App\Infrastructure\Presenters\Commands\Analyze\Graph\GraphPresenter')->build(),
         ])
         ->build();
 
-    $dependencyAggregator->keepOnlyClasses(['Domain']);
+    $dependencyAggregator->filterClasses(only: ['Domain']);
 
     $dependencies = $dependencyAggregator->toArray();
 
     expect($dependencies)->toHaveLength(1);
     expect($dependencies)->toHaveKey('App\Domain\Aggregators\DependencyAggregator');
+});
+
+test('it filters classes by given exclude filters', function () {
+
+    $dependencyAggregator = $this->oneDependencyAggregator()
+        ->withManyClassDependencies([
+            $this->oneClassDependencies()->withFqcn('App\Application\Analyze\AnalyzeAction')->build(),
+        ])
+        ->build();
+
+    $dependencyAggregator->filterClasses(exclude: ['Application']);
+
+    $dependencies = $dependencyAggregator->toArray();
+
+    expect($dependencies)->toHaveLength(0);
 });

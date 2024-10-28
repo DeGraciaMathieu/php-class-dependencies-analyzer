@@ -2,19 +2,20 @@
 
 namespace App\Presenter\Commands\Weakness;
 
-use LaravelZero\Framework\Commands\Command;
 use App\Application\Weakness\WeaknessAction;
 use App\Application\Weakness\WeaknessRequest;
 use App\Application\Weakness\WeaknessPresenter;
+use App\Presenter\Commands\Shared\AbstractCommand;
 use App\Presenter\Commands\Weakness\Summary\SummaryView;
 use App\Presenter\Commands\Weakness\Summary\SummaryPresenter;
 use App\Presenter\Commands\Weakness\Summary\SummarySettingsFactory;
 
-class WeaknessCommand extends Command
+class WeaknessCommand extends AbstractCommand
 {
     protected $signature = 'weakness {path} 
-        {--filters=} 
-        {--limit=} 
+        {--only=} 
+        {--exclude=} 
+        {--limit=}
         {--min-delta=}
         {--debug}
     ';
@@ -33,13 +34,9 @@ class WeaknessCommand extends Command
     {
         return new WeaknessRequest(
             path: $this->argument('path'),
-            filters: $this->prepareFilters(),
+            only: $this->stringToList('only'),
+            exclude: $this->stringToList('exclude'),
         );
-    }
-
-    private function prepareFilters(): array
-    {
-        return explode(',', $this->option('filters'));
     }
 
     private function makePresenter(): WeaknessPresenter

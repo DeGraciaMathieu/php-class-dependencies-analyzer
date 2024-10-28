@@ -6,6 +6,7 @@ class WeaknessRequest
 {
     public function __construct(
         public readonly string $path,
-        public readonly array $filters,
+        public readonly array $only = [],
+        public readonly array $exclude = [],
     ) {}
 }

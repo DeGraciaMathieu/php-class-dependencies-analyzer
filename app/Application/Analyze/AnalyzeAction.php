@@ -27,7 +27,7 @@ class AnalyzeAction
 
             $dependencyAggregator->calculateClassesInstability();
 
-            $dependencyAggregator->keepOnlyClasses($request->filters);
+            $dependencyAggregator->filterClasses($request->only, $request->exclude);
 
             $presenter->present(
                 $this->mapper->from($dependencyAggregator),

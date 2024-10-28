@@ -25,6 +25,8 @@ class CyclicAction
 
             $dependencyAggregator = $fileAggregator->getAllDependencies();
 
+            $dependencyAggregator->filterClasses($request->only, $request->exclude);
+
             $cycles = $dependencyAggregator->detectCycles();
 
             $presenter->present(

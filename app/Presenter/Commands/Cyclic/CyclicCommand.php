@@ -5,15 +5,16 @@ namespace App\Presenter\Commands\Cyclic;
 use App\Application\Cyclic\CyclicAction;
 use App\Application\Cyclic\CyclicRequest;
 use App\Application\Cyclic\CyclicPresenter;
-use LaravelZero\Framework\Commands\Command;
+use App\Presenter\Commands\Shared\AbstractCommand;
 use App\Presenter\Commands\Cyclic\Summary\SummaryView;
 use App\Presenter\Commands\Cyclic\Summary\SummaryPresenter;
 use App\Presenter\Commands\Cyclic\Summary\SummarySettingsFactory;
 
-class CyclicCommand extends Command
+class CyclicCommand extends AbstractCommand
 {
     protected $signature = 'cyclic {path} 
-        {--filters=} 
+        {--only=} 
+        {--exclude=} 
         {--debug}
     ';
 
@@ -31,7 +32,8 @@ class CyclicCommand extends Command
     {
         return new CyclicRequest(
             path: $this->argument('path'),
-            filters: $this->prepareFilters(),
+            only: $this->stringToList('only'),
+            exclude: $this->stringToList('exclude'),
         );
     }
 
@@ -41,10 +43,5 @@ class CyclicCommand extends Command
             view: app(SummaryView::class),
             settings: SummarySettingsFactory::make($this),
         );
-    }
-
-    private function prepareFilters(): array
-    {
-        return explode(',', $this->option('filters'));
     }
 }

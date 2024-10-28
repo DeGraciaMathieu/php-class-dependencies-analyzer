@@ -32,7 +32,7 @@ class SummaryView
             outro(sprintf('Showing weaknesses with delta greater than %s', $viewModel->delta));
         }
 
-        outro('A weakness is a class that depends on a class that is more unstable than it.');
+        outro('A weakness is a class that depends on a class that is more unstable than itself. More the delta is high, more the dependency is unstable.');
         outro('It can be a sign of a bad design and an indicator of a class that can suffer from side effects of its dependencies.');
 
         outro(sprintf('Found %d weaknesses in %d classes', count($viewModel->metrics), $viewModel->totalClasses));
