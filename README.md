@@ -19,8 +19,6 @@ php coupling-instability-analyzer --version
 
 ## Why
 
-> 🇫🇷 For French developers, an article on Laravel France explores this concept of coupling and instability: [Couplage et stabilité des classes](https://laravel-france.com/posts/couplage-et-stabilite-des-classes)
-
 Inevitably, in an object-oriented project, classes will depend on each other.
 
 These dependencies generate instability that can be measured with the following formula:
