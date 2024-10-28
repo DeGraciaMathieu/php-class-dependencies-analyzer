@@ -2,6 +2,7 @@
 
 namespace App\Presenter\Commands\Weakness\Summary;
 
+use Throwable;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\alert;
 use App\Application\Weakness\WeaknessResponse;
@@ -23,11 +24,15 @@ class SummaryPresenter implements WeaknessPresenter
         info('❀ PHP Class Dependencies Analyzer ❀');
     }
 
-    public function error(string $message): void
+    public function error(Throwable $exception): void
     {
         alert('sorry, something went wrong');
 
-        alert($message);
+        if ($this->settings->debug()) {
+            alert($exception);
+        }
+
+        alert($exception->getMessage());
     }
 
     public function present(WeaknessResponse $response): void

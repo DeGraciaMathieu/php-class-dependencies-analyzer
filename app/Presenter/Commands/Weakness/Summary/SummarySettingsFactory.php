@@ -12,6 +12,7 @@ class SummarySettingsFactory
         return new SummarySettings(
             limit: $command->option('limit') ?? null,
             minDelta: $command->option('min-delta') ?? null,
+            debug: $command->option('debug') ?? false,
         );
     }
 }

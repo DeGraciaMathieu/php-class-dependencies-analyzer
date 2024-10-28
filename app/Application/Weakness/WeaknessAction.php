@@ -33,7 +33,7 @@ class WeaknessAction
             );
 
         } catch (Throwable $e) {
-            $presenter->error($e->getMessage());
+            $presenter->error($e);
         }
     }
 }
