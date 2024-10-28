@@ -10,7 +10,7 @@
 This tool is distributed as a [PHP Archive (PHAR)](https://www.php.net/phar):
 
 ```
-wget https://github.com/DeGraciaMathieu/php-class-dependencies-analyzer/raw/master/builds/php-class-dependencies-analyzer
+wget https://github.com/DeGraciaMathieu/php-class-dependencies-analyzer/raw/master/builds/class-dependencies-analyzer
 ```
 
 ```
