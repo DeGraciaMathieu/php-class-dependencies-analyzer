@@ -20,15 +20,24 @@ class CustomClassDependenciesParser implements ClassDependenciesParser
     {
         $classDependencies = new ClassDependencies($filePath);
 
-        $fileAst = $this->parser->parse((string) file_get_contents($filePath));
+        $fileAst = $this->getFileAst($filePath);
 
-        if ($fileAst === null) {
-            return $classDependencies;
+        if ($fileAst) {
+            $this->traverse($fileAst, $classDependencies);
         }
 
-        $traverser = $this->traverserFactory->createTraverser($classDependencies);
-        $traverser->traverse($fileAst);
-
         return $classDependencies;
+    }
+
+    private function getFileAst(string $filePath): ?array
+    {
+        return $this->parser->parse((string) file_get_contents($filePath));
+    }
+
+    private function traverse(array $fileAst, ClassDependencies $classDependencies): void
+    {
+        $traverser = $this->traverserFactory->createTraverser($classDependencies);
+
+        $traverser->traverse($fileAst);
     }
 }

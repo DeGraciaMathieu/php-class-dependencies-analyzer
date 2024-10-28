@@ -1,18 +1,18 @@
 {
-    "name": "laravel-zero/laravel-zero",
-    "description": "The Laravel Zero Framework.",
-    "keywords": ["framework", "laravel", "laravel zero", "console", "cli"],
-    "homepage": "https://laravel-zero.com",
+    "name": "degraciamathieu/php-class-dependencies-analyzer",
+    "description": "This tool allows you to monitor the dependencies and instability of your classes.",
+    "keywords": ["php", "quality", "analysis", "static-analysis", "coupling", "instability"],
+    "homepage": "https://github.com/DeGraciaMathieu/php-class-dependencies-analyzer",
     "type": "project",
     "license": "MIT",
     "support": {
-        "issues": "https://github.com/laravel-zero/laravel-zero/issues",
-        "source": "https://github.com/laravel-zero/laravel-zero"
+        "issues": "https://github.com/DeGraciaMathieu/php-class-dependencies-analyzer/issues",
+        "source": "https://github.com/DeGraciaMathieu/php-class-dependencies-analyzer"
     },
     "authors": [
         {
-            "name": "Nuno Maduro",
-            "email": "enunomaduro@gmail.com"
+            "name": "Mathieu De Gracia",
+            "email": "work@degracia-mathieu.fr"
         }
     ],
     "require": {
