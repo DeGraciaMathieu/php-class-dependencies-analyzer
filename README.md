@@ -76,11 +76,11 @@ php coupling-instability-analyzer cyclic ./path/to/project
 
 ## Detecting Fragile Dependencies
 
-A weakness dependancy is a class that depends on a class that is more unstable than it.
+A fragile dependancy is a class that depends on a class that is more unstable than it.
 
 It can be a sign of a bad design and an indicator of a class that can suffer from side effects of its dependencies.
 
-The first component will be sensitive to any changes made to the second component and will experience side effects.
+The first class will be sensitive to any changes made to the second class and will experience side effects.
 
 <img src='https://cdn.laravel-france.com/images/pictures/c80b59f3-ffad-4609-9364-f8efa4e62c9a.png'>
 
