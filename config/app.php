@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => 'Php-stable-dependencies-analyzer',
+    'name' => 'Class-dependencies-analyzer',
 
     /*
     |--------------------------------------------------------------------------

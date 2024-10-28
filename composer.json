@@ -55,5 +55,5 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "bin": ["php-stable-dependencies-analyzer"]
+    "bin": ["class-dependencies-analyzer"]
 }
