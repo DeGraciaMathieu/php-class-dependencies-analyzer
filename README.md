@@ -97,6 +97,6 @@ To filter results based on an instability delta, you can use the `--min-delta` o
 php class-dependencies-analyzer weakness ./path/to/project --min-delta=0.1
 ```
 
-The threshold corresponds to the difference in stability between a class and one of its dependencies. The greater this difference, the more likely the first component is to suffer from side effects caused by its unstable dependency.
+The delta corresponds to the difference in stability between a class and one of its dependencies. The greater this difference, the more likely the first component is to suffer from side effects caused by its unstable dependency.
 
 > You can filter the results using the `--only=*` or `--exclude=*` options.
