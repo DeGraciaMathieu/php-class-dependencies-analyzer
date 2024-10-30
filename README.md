@@ -66,7 +66,7 @@ php class-dependencies-analyzer analyze app --exclude=Models
 For visualizing the results in a graph, you can use the `--graph` option:
 
 ```
-php builds/class-dependencies-analyzer analyze app --only=App\\Domain --graph
+php class-dependencies-analyzer analyze app --only=App\\Domain --graph
 ```
 
 <img style="width: 50%;" src='/arts/graph.png'>
