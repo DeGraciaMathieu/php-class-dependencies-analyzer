@@ -63,6 +63,14 @@ php class-dependencies-analyzer analyze app --only=App\\Domain,Infrastructure
 php class-dependencies-analyzer analyze app --exclude=Models
 ```
 
+For visualizing the results in a graph, you can use the `--graph` option:
+
+```
+php builds/class-dependencies-analyzer analyze app --only=App\\Domain --graph
+```
+
+<img src='/arts/graph.png'>
+
 ## Detecting Cyclic Dependencies
 
 A dependency cycle is a class that depends on itself through its dependencies.
