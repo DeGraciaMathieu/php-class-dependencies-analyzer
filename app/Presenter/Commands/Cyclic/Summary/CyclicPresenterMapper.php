@@ -10,12 +10,15 @@ class CyclicPresenterMapper
     {
         return array_map(function (array $cycle) {
             return [
-                'start' => NameFormatter::humanReadable($cycle[0]),
-                'end' => NameFormatter::humanReadable(end($cycle)),
-                'through' => implode(' -> ', array_map(function($item) {
-                    return NameFormatter::className($item);
-                }, $cycle)) . ' -> ' . NameFormatter::className($cycle[0]),
+                'start' => self::humanReadable($cycle[0]),
+                'end' => self::humanReadable(end($cycle)),
+                'through' => CycleHelper::through($cycle),
             ];
         }, $cycles);
+    }
+
+    private static function humanReadable(string $name): string
+    {
+        return NameFormatter::humanReadable($name);
     }
 }

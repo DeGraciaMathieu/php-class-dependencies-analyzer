@@ -22,7 +22,7 @@ class NameFormatter
 
         $exploded = self::keepLastTwoNamespaces($exploded);
 
-        return '...\\' . $exploded->implode('\\');
+        return '\\' . $exploded->implode('\\');
     }
 
     private static function isShortName(Collection $exploded): bool
