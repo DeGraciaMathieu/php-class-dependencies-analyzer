@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Dependency Graph</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.1/cytoscape.min.js"></script>
     <style>
         #cy {
-            width: 800px;
-            height: 600px;
+            width: 100%;
+            height: 80vh;
             border: 1px solid #ccc;
+            margin: auto;
         }
     </style>
 </head>
@@ -31,52 +33,41 @@
                     selector: 'node',
                     style: {
                         'background-color': function(ele) {
-                            var instability = ele.data('instability');
-                            if (instability > 0.80) {
-                                return 'red';
-                            } else if (instability > 0.60) {
-                                return 'orange';
-                            } else {
-                                return 'green';
-                            }
+                            let instability = ele.data('instability');
+                            return instability > 0.8 ? '#d9534f' :
+                                instability > 0.6 ? '#f0ad4e' :
+                                instability > 0.4 ? '#5bc0de' : '#5cb85c';
                         },
-                        'label': 'data(id)',
-                        'color': 'black',
-                        'text-valign': 'center'
+                        'label': function(ele) {
+                            const fullId = ele.data('id');
+                            return fullId.split('\\').pop();
+                        },
+                        'color': '#333',
+                        'font-size': '10px',
+                        'text-outline-width': 2,
+                        'text-outline-color': '#ffffff',
+                        'text-valign': 'center',
+                        'text-wrap': 'wrap',
+                        'text-max-width': '80px'
                     }
                 },
                 {
                     selector: 'edge',
                     style: {
-                        'width': 7,
-                        'line-color': '#ccc',
-                        'target-arrow-color': '#ccc',
+                        'width': 4,
+                        'line-color': '#cccccc',
+                        'target-arrow-color': '#cccccc',
                         'target-arrow-shape': 'triangle',
-                        'curve-style': 'bezier'
+                        'curve-style': 'bezier',
+                        'opacity': 0.8
                     }
                 }
             ],
             layout: {
-                name: 'breadthfirst',
-                directed: true
+                name: 'cose',
+                animate: true,
+                animationDuration: 500
             }
-        });
-
-        cy.nodes().forEach(function(ele) {
-            ele.qtip({
-                content: ele.data('id'),
-                position: {
-                    my: 'top center',
-                    at: 'bottom center'
-                },
-                style: {
-                    classes: 'qtip-bootstrap',
-                    tip: {
-                        width: 16,
-                        height: 8
-                    }
-                }
-            });
         });
     </script>
 </body>
