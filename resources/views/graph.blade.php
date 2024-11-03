@@ -69,6 +69,18 @@
                 animationDuration: 500
             }
         });
+
+        cy.edges().forEach(function(edge) {
+            var sourceInstability = edge.source().data('instability');
+            var targetInstability = edge.target().data('instability');
+
+            if (sourceInstability < targetInstability) {
+                edge.style({
+                    'line-color': 'red',
+                    'target-arrow-color': 'red'
+                });
+            }
+        });
     </script>
 </body>
 
