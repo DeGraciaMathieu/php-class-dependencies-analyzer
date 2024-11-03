@@ -1,0 +1,35 @@
+name: Build
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Install dependencies
+        run: composer install --no-scripts --no-interaction --prefer-dist
+
+      - name: Run Class Dependencies Analyzer
+        run: php class-dependencies-analyzer app:build
+
+      - name: Commit and Push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add -A
+          git commit -m "Build dependencies for tag $GITHUB_REF"
+          git push origin HEAD:master || echo "No changes to commit"
