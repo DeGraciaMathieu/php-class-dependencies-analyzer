@@ -6,7 +6,7 @@ on:
       - '*'
 
 jobs:
-  build-and-commit:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: composer install --no-scripts --no-interaction --prefer-dist
 
-      - name: Run Class Dependencies Analyzer
+      - name: Build application
         run: php class-dependencies-analyzer app:build
 
       - name: Commit and Push changes
@@ -31,5 +31,5 @@ jobs:
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
           git add -A
-          git commit -m "Build dependencies for tag $GITHUB_REF"
+          git commit -m "Build $GITHUB_REF"
           git push origin HEAD:master || echo "No changes to commit"
