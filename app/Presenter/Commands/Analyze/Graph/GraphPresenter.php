@@ -7,6 +7,7 @@ use function Laravel\Prompts\info;
 use function Laravel\Prompts\alert;
 use App\Application\Analyze\AnalyzeResponse;
 use App\Application\Analyze\AnalyzePresenter;
+use App\Presenter\Commands\Analyze\Filters\Filter;
 use App\Presenter\Commands\Analyze\Graph\GraphViewModel;
 use App\Presenter\Commands\Analyze\Graph\Ports\GraphMapper;
 
@@ -14,7 +15,9 @@ class GraphPresenter implements AnalyzePresenter
 {
     public function __construct(
         private readonly GraphView $view,
+        private readonly Filter $filter,
         private readonly GraphSettings $settings,
+        private readonly GraphMapper $mapper,
     ) {}
 
     public function hello(): void
@@ -35,10 +38,12 @@ class GraphPresenter implements AnalyzePresenter
 
     public function present(AnalyzeResponse $response): void
     {
-        $graph = app(GraphMapper::class)->make($response->metrics);
+        $metrics = $response->metrics;
 
-        $viewModel = new GraphViewModel($graph);
+        $metrics = $this->filter->apply($metrics);
 
-        $this->view->show($viewModel);
+        $graph = $this->mapper->make($metrics);
+
+        $this->view->show(new GraphViewModel($graph));
     }
 }

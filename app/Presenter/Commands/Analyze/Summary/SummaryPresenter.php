@@ -8,6 +8,7 @@ use function Laravel\Prompts\alert;
 use App\Application\Analyze\AnalyzeResponse;
 use App\Application\Analyze\AnalyzePresenter;
 use App\Presenter\Commands\Analyze\Summary\SummaryView;
+use App\Presenter\Commands\Analyze\Filters\Filter;
 use App\Presenter\Commands\Analyze\Summary\SummarySettings;
 use App\Presenter\Commands\Analyze\Summary\SummaryViewModel;
 
@@ -15,6 +16,8 @@ class SummaryPresenter implements AnalyzePresenter
 {
     public function __construct(
         private readonly SummaryView $view,
+        private readonly SummaryMapper $mapper,
+        private readonly Filter $filter,
         private readonly SummarySettings $settings,
     ) {}
 
@@ -34,7 +37,11 @@ class SummaryPresenter implements AnalyzePresenter
 
     public function present(AnalyzeResponse $response): void
     {
-        $metrics = SummaryMapper::from($response->metrics);
+        $metrics = $response->metrics;
+
+        $metrics = $this->filter->apply($metrics);
+
+        $metrics = $this->mapper->from($metrics);
 
         $viewModel = new SummaryViewModel($metrics, $response->count);
 

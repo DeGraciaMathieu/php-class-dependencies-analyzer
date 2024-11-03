@@ -9,6 +9,9 @@ use App\Presenter\Commands\Shared\AbstractCommand;
 use App\Presenter\Commands\Analyze\Graph\GraphView;
 use App\Presenter\Commands\Analyze\Summary\SummaryView;
 use App\Presenter\Commands\Analyze\Graph\GraphPresenter;
+use App\Presenter\Commands\Analyze\Filters\FilterFactory;
+use App\Presenter\Commands\Analyze\Summary\SummaryMapper;
+use App\Presenter\Commands\Analyze\Graph\Ports\GraphMapper;
 use App\Presenter\Commands\Analyze\Summary\SummaryPresenter;
 use App\Presenter\Commands\Analyze\Graph\GraphSettingsFactory;
 use App\Presenter\Commands\Analyze\Summary\SummarySettingsFactory;
@@ -19,6 +22,7 @@ class AnalyzeCommand extends AbstractCommand
         {--graph} 
         {--only=} 
         {--exclude=} 
+        {--target=}
         {--debug}
     ';
 
@@ -52,6 +56,8 @@ class AnalyzeCommand extends AbstractCommand
     {
         return new GraphPresenter(
             view: app(GraphView::class),
+            mapper: app(GraphMapper::class),
+            filter: FilterFactory::make($this),
             settings: GraphSettingsFactory::make($this),
         );
     }
@@ -60,6 +66,8 @@ class AnalyzeCommand extends AbstractCommand
     {
         return new SummaryPresenter(
             view: app(SummaryView::class),
+            mapper: app(SummaryMapper::class),
+            filter: FilterFactory::make($this),
             settings: SummarySettingsFactory::make($this),
         );
     }
