@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Dependency Graph</title>
@@ -61,6 +60,13 @@
                         'curve-style': 'bezier',
                         'opacity': 0.8
                     }
+                },
+                {
+                    selector: '.faded',
+                    style: {
+                        'opacity': 0.1,
+                        'text-opacity': 0.1
+                    }
                 }
             ],
             layout: {
@@ -71,6 +77,7 @@
         });
 
         cy.edges().forEach(function(edge) {
+
             var sourceInstability = edge.source().data('instability');
             var targetInstability = edge.target().data('instability');
 
@@ -80,6 +87,20 @@
                     'target-arrow-color': 'red'
                 });
             }
+        });
+
+        cy.on('select', 'node', function(evt) {
+
+            var node = evt.target;
+
+            cy.elements().addClass('faded');
+            node.removeClass('faded');
+            node.connectedEdges().removeClass('faded');
+            node.connectedEdges().connectedNodes().removeClass('faded');
+        });
+
+        cy.on('unselect', 'node', function() {
+            cy.elements().removeClass('faded');
         });
     </script>
 </body>
