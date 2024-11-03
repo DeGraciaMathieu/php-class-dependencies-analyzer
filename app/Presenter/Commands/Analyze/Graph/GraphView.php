@@ -46,7 +46,8 @@ class GraphView
         info('Graph successfully generated in graph.html');
 
         if ($viewModel->hasManyNodes()) {
-            outro('Graph is quickly bloated with many dependencies, do not hesitate to use the --filters option for better readability');
+            outro('Graph is quickly bloated with many dependencies, do not hesitate to use the --only= and --exclude= options for better readability');
+            outro('See the documentation for more information');
         }
     }
 }
