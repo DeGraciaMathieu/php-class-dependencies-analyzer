@@ -7,18 +7,18 @@ use App\Presenter\Cyclic\Summary\CycleHelper;
 
 class CyclicPresenterMapper
 {
-    public static function from(array $cycles): array
+    public function from(array $cycles): array
     {
         return array_map(function (array $cycle) {
             return [
-                'start' => self::humanReadable($cycle[0]),
-                'end' => self::humanReadable(end($cycle)),
+                'start' => $this->humanReadable($cycle[0]),
+                'end' => $this->humanReadable(end($cycle)),
                 'through' => CycleHelper::through($cycle),
             ];
         }, $cycles);
     }
 
-    private static function humanReadable(string $name): string
+    private function humanReadable(string $name): string
     {
         return NameFormatter::humanReadable($name);
     }

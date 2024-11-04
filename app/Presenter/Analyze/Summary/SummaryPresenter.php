@@ -11,6 +11,7 @@ use App\Application\Analyze\AnalyzePresenter;
 use App\Presenter\Analyze\Summary\SummaryView;
 use App\Presenter\Analyze\Summary\SummaryMapper;
 use App\Presenter\Analyze\Summary\SummarySettings;
+use App\Presenter\Analyze\Summary\SummaryViewModel;
 
 class SummaryPresenter implements AnalyzePresenter
 {

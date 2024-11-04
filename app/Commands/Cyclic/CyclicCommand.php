@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Commands\Cyclic;
+
 use App\Commands\AbstractCommand;
 use App\Application\Cyclic\CyclicAction;
 use App\Application\Cyclic\CyclicRequest;
