@@ -1,6 +1,6 @@
 <?php
 
-use App\Presenter\Commands\Shared\NameFormatter;
+use App\Presenter\NameFormatter;
 
 test('it formats class names', function () {
     expect(NameFormatter::className('App\Domain\Services\CyclicDependency'))->toBe('CyclicDependency');

@@ -1,6 +1,6 @@
 <?php
 
-use App\Presenter\Commands\Shared\ArrayFormatter;
+use App\Presenter\ArrayFormatter;
 
 test('it sorts items by a given key', function () {
 

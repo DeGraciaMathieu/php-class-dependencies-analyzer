@@ -1,6 +1,6 @@
 <?php
 
-use App\Presenter\Commands\Cyclic\Summary\CycleHelper;
+use App\Presenter\Cyclic\Summary\CycleHelper;
 
 test('it formats a cycle', function () {
 
