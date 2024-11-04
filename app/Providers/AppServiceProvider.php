@@ -6,16 +6,14 @@ use PhpParser\ParserFactory;
 use Illuminate\Support\ServiceProvider;
 use App\Domain\Ports\Aggregators\FileAggregator;
 use App\Domain\Ports\Repositories\FileRepository;
+use App\Presenter\Analyze\Graph\Ports\GraphMapper;
 use App\Infrastructure\Analyze\Ports\AnalyzerService;
-use App\Presenter\Commands\Analyze\Graph\Ports\GraphMapper;
-use App\Presenter\Commands\Analyze\Graph\Ports\TargetMapper;
 use App\Infrastructure\Analyze\Adapters\Jerowork\NodeTraverserFactory;
-use App\Presenter\Commands\Analyze\Graph\Adapters\AdapterTargetMapper;
 use App\Infrastructure\File\Adapters\Aggregators\FileAggregatorAdapter;
 use App\Infrastructure\Analyze\Adapters\Jerowork\AnalyzerServiceAdapter;
 use App\Infrastructure\File\Adapters\Repositories\FileRepositoryAdapter;
+use App\Presenter\Analyze\Graph\Adapters\Cytoscape\CytoscapeGraphMapper;
 use App\Infrastructure\Analyze\Adapters\Jerowork\CustomClassDependenciesParser;
-use App\Presenter\Commands\Analyze\Graph\Adapters\Cytoscape\CytoscapeGraphMapper;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(GraphMapper::class, CytoscapeGraphMapper::class);
 
-        $this->app->bind(TargetMapper::class, AdapterTargetMapper::class);
+        //$this->app->bind(TargetMapper::class, AdapterTargetMapper::class);
 
         $this->app->bind(CustomClassDependenciesParser::class, function () {
             return new CustomClassDependenciesParser(

@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'paths' => [app_path('Presenter/Commands')],
+    'paths' => [app_path('Commands')],
 
     /*
     |--------------------------------------------------------------------------
