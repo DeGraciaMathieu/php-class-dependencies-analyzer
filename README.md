@@ -71,6 +71,12 @@ php class-dependencies-analyzer analyze app --only=App\\Domain --graph
 
 <img style="width: 50%;" src='/arts/graph.png'>
 
+You can also use the `--target=` argument to visualize the dependencies cascading from a specific class:
+
+```
+php class-dependencies-analyzer analyze app --target='App\Application\Analyze\AnalyzeAction' --graph
+```
+
 ## Detecting Cyclic Dependencies
 
 A dependency cycle is a class that depends on itself through its dependencies.

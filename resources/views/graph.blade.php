@@ -64,7 +64,7 @@
                 {
                     selector: '.faded',
                     style: {
-                        'opacity': 0.1,
+                        'opacity': 0.3,
                         'text-opacity': 0.1
                     }
                 }
