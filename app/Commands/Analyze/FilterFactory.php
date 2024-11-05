@@ -21,6 +21,7 @@ class FilterFactory
     {
         return app(TargetFilter::class, [
             'target' => $command->option('target'),
+            'depthLimit' => $command->option('depth-limit'),
         ]);
     }
 }

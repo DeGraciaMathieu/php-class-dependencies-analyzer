@@ -18,6 +18,7 @@ class AnalyzeCommand extends AbstractCommand
         {--only=} 
         {--exclude=} 
         {--target=}
+        {--depth-limit=}
         {--debug}
     ';
 
