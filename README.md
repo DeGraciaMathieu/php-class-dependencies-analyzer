@@ -77,6 +77,14 @@ You can also use the `--target=` argument to visualize the dependencies cascadin
 php class-dependencies-analyzer analyze app --target='App\Application\Analyze\AnalyzeAction' --graph
 ```
 
+In addition to the target, you can limit the depth of the analysis with the `--depth-limit=` option.
+
+```
+php class-dependencies-analyzer analyze app --target='App\Application\Analyze\AnalyzeAction' --depth-limit=1 --graph
+```
+
+This allows you to limit the depth of the analysis and not analyze too deep classes.
+
 ## Detecting Cyclic Dependencies
 
 A dependency cycle is a class that depends on itself through its dependencies.
