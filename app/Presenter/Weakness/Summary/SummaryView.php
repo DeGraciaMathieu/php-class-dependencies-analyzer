@@ -35,6 +35,8 @@ class SummaryView
         outro('A weakness is a class that depends on a class that is more unstable than itself. More the delta is high, more the dependency is unstable.');
         outro('It can be a sign of a bad design and an indicator of a class that can suffer from side effects of its dependencies.');
 
+        outro('See the documentation for more information : https://php-quality-tools.com/class-dependencies-analyzer');
+
         outro(sprintf('Found %d weaknesses in %d classes', count($viewModel->metrics), $viewModel->totalClasses));
     }
 }

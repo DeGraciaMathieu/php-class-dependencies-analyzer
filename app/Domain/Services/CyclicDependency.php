@@ -25,7 +25,7 @@ class CyclicDependency
         return $cycles;
     }
 
-    function deepDive($class, $classes, &$cycles): void
+    private function deepDive(string $class, array $classes, array &$cycles): void
     {
         /**
          * Duplicate class can exist in the array.

@@ -49,7 +49,7 @@ class GraphView
 
         if ($viewModel->hasManyNodes()) {
             outro('Graph is quickly bloated with many dependencies, do not hesitate to use the --only= and --exclude= options for better readability');
-            outro('See the documentation for more information');
+            outro('See the documentation for more information : https://php-quality-tools.com/class-dependencies-analyzer');
         }
     }
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Dependency Graph</title>
@@ -11,12 +12,65 @@
             border: 1px solid #ccc;
             margin: auto;
         }
+
+        #legend {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 0 15px;
+        }
+
+        .color-box {
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+            border-radius: 10px;
+        }
+
+        .color-high {
+            background-color: #d9534f;
+        }
+
+        .color-medium {
+            background-color: #f0ad4e;
+        }
+
+        .color-low {
+            background-color: #5cb85c;
+        }
+
+        .color-edge {
+            background-color: red;
+            width: 30px;
+            height: 3px;
+        }
     </style>
 </head>
+
 <body>
     <div id="cy"></div>
+    <div id="legend">
+        <div class="legend-item">
+            <div class="color-box color-high"></div> High Instability (> 0.8)
+        </div>
+        <div class="legend-item">
+            <div class="color-box color-medium"></div> Medium Instability (> 0.4)
+        </div>
+        <div class="legend-item">
+            <div class="color-box color-low"></div> Low Instability (≤ 0.4)
+        </div>
+        <div class="legend-item">
+            <div class="color-edge"></div> Unstable Dependency (red arrow)
+        </div>
+    </div>
     <script>
-
         var data = {
             nodes: @json($nodes),
             edges: @json($edges)
@@ -34,8 +88,7 @@
                         'background-color': function(ele) {
                             let instability = ele.data('instability');
                             return instability > 0.8 ? '#d9534f' :
-                                instability > 0.6 ? '#f0ad4e' :
-                                instability > 0.4 ? '#5bc0de' : '#5cb85c';
+                                instability > 0.4 ? '#f0ad4e' : '#5cb85c';
                         },
                         'label': function(ele) {
                             const fullId = ele.data('id');

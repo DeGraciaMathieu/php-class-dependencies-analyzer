@@ -20,5 +20,5 @@ test('it formats a cycle with readable names', function () {
 
     $formatted = CycleHelper::through($cycle);
 
-    expect($formatted)->toBe('\Services\BarService -> \Services\FooService -> \Services\BarService');
+    expect($formatted)->toBe('Services\BarService -> Services\FooService -> Services\BarService');
 });
