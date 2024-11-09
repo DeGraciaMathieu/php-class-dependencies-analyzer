@@ -83,3 +83,12 @@ test('it calculates the abstractness correctly', function (int $numberOfAbstract
     [1, 0.5],
     [2, 1.0],
 ]);
+
+test('it calculates the abstractness correctly when there are no dependencies', function () {
+
+    $classDependencies = $this->oneClassDependencies()->build();
+
+    $classDependencies->calculateAbstractness();
+
+    expect($classDependencies->getAbstractness())->toBe(0.0);
+});

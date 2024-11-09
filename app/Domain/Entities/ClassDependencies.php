@@ -123,6 +123,8 @@ class ClassDependencies
 
     public function calculateAbstractness(): void
     {
-        $this->abstractness = $this->numberOfAbstractDependencies / $this->getAfferent();
+        $this->abstractness = $this->hasNoDependencies()
+            ? 0
+            : $this->numberOfAbstractDependencies / $this->getAfferent();
     }
 }
