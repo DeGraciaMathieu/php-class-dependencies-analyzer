@@ -11,6 +11,7 @@ class SummarySettingsFactory
     {
         return new SummarySettings(
             debug: $command->option('debug'),
+            info: $command->option('info'),
         );
     }
 }

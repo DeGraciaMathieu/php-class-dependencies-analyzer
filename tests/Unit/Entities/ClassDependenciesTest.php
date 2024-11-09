@@ -63,3 +63,32 @@ test('it correctly checks if a class is a dependency', function () {
 
     expect($classDependencies->hasDependency($b))->toBeTrue();
 });
+
+test('it calculates the abstractness correctly', function (int $numberOfAbstractDependencies, float $expected) {
+
+    $classDependencies = $this->oneClassDependencies()
+        ->withFqcn('A')
+        ->build();
+
+    for ($i = 0; $i < $numberOfAbstractDependencies; $i++) {
+        $classDependencies->incrementNumberOfAbstractDependencies();
+    }
+
+    $classDependencies->calculateAbstractness();
+
+    expect($classDependencies->getAbstractness())->toBe($expected);
+
+})->with([
+    [0, 0.0],
+    [1, 0.5],
+    [2, 1.0],
+]);
+
+test('it calculates the abstractness correctly when there are no dependencies', function () {
+
+    $classDependencies = $this->oneClassDependencies()->build();
+
+    $classDependencies->calculateAbstractness();
+
+    expect($classDependencies->getAbstractness())->toBe(0.0);
+});

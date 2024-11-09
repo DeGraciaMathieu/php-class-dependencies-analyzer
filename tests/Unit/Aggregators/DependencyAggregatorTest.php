@@ -9,7 +9,7 @@ test('it calculates the instability correctly', function () {
         ])
         ->build();
 
-    $dependencyAggregator->calculateClassesInstability();
+    $dependencyAggregator->calculateInstability();
 
     $metrics = $dependencyAggregator->toArray();
 
@@ -53,4 +53,42 @@ test('it filters classes by given exclude filters', function () {
     $dependencies = $dependencyAggregator->toArray();
 
     expect($dependencies)->toHaveLength(0);
+});
+
+test('it calculates the abstractness correctly when class has no dependencies', function () {
+
+    $dependencyAggregator = $this->oneDependencyAggregator()
+        ->withManyClassDependencies([
+            $this->oneClassDependencies()->withFqcn('A')->build(),
+        ])
+        ->build();
+
+    $dependencyAggregator->calculateAbstractness();
+
+    $metrics = $dependencyAggregator->toArray();
+
+    expect($metrics['A'])->toMatchArray([
+        'name' => 'A',
+        'abstractness' => 0.0,
+    ]);
+});
+
+test('it calculates the abstractness correctly when class has abstract dependencies', function () {
+
+    $dependencyAggregator = $this->oneDependencyAggregator()
+        ->withManyClassDependencies([
+            $this->oneClassDependencies()->withFqcn('A')->withDependencies(['B', 'C'])->build(),
+            $this->oneClassDependencies()->withFqcn('B')->isAbstract()->build(),
+            $this->oneClassDependencies()->withFqcn('C')->build(),
+        ])
+        ->build();
+
+    $dependencyAggregator->calculateAbstractness();
+
+    $metrics = $dependencyAggregator->toArray();
+
+    expect($metrics['A'])->toMatchArray([
+        'name' => 'A',
+        'abstractness' => 0.5,
+    ]);
 });

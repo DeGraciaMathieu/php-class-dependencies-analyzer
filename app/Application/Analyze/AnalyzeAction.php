@@ -25,7 +25,9 @@ class AnalyzeAction
 
             $dependencyAggregator = $fileAggregator->getAllDependencies();
 
-            $dependencyAggregator->calculateClassesInstability();
+            $dependencyAggregator->calculateInstability();
+
+            $dependencyAggregator->calculateAbstractness();
 
             $dependencyAggregator->filterClasses($request->only, $request->exclude);
 
