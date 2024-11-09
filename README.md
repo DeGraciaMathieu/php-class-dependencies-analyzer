@@ -2,9 +2,12 @@
 <img src="https://github.com/DeGraciaMathieu/php-smelly-code-detector/blob/master/arts/robot.png" width="250">
 </p>
 
+
+
 # php-class-dependencies-analyzer
 
 [![testing](https://github.com/DeGraciaMathieu/php-coupling-instability-analyzer/actions/workflows/testing.yml/badge.svg)](https://github.com/DeGraciaMathieu/php-coupling-instability-analyzer/actions/workflows/testing.yml)
+![GitHub Tag](https://img.shields.io/github/v/tag/DeGraciaMathieu/php-class-dependencies-analyzer)
 
 ## Phar
 This tool is distributed as a [PHP Archive (PHAR)](https://www.php.net/phar):
