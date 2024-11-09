@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Analyze\Services;
+namespace App\Infrastructure\Analyze\Adapters\Services;
 
 use App\Domain\ValueObjects\Fqcn;
 use App\Domain\ValueObjects\IsAbstract;

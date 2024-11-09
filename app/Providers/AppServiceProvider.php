@@ -9,7 +9,7 @@ use App\Domain\Ports\Repositories\FileRepository;
 use App\Presenter\Analyze\Graph\Ports\GraphMapper;
 use App\Infrastructure\Analyze\Ports\AnalyzerService;
 use App\Infrastructure\Analyze\Ports\ClassDependenciesParser;
-use App\Infrastructure\Analyze\Services\AnalyzerServiceAdapter;
+use App\Infrastructure\Analyze\Adapters\Services\AnalyzerServiceAdapter;
 use App\Infrastructure\Analyze\Adapters\Jerowork\NodeTraverserFactory;
 use App\Infrastructure\File\Adapters\Aggregators\FileAggregatorAdapter;
 use App\Infrastructure\File\Adapters\Repositories\FileRepositoryAdapter;
