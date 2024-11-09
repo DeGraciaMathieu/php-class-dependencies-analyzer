@@ -33,8 +33,8 @@ class DetectClassTypeVisitor extends NodeVisitorAbstract
             $this->collector->namespace = (string) $node->name;
         }
 
-        if ($node instanceof Class_ || $node instanceof Trait_ || $node instanceof Interface_ || $node instanceof Enum_) {
-            
+        if ($this->nodeAreClassOrEquivalent($node)) {
+
             $this->collector->className = (string) $node->name;
 
             if ($node instanceof Class_) {
@@ -48,5 +48,12 @@ class DetectClassTypeVisitor extends NodeVisitorAbstract
     public function leaveNode(Node $node)
     {
         //
+    }
+
+    private function nodeAreClassOrEquivalent(Node $node): bool
+    {
+        $parts = [Class_::class, Trait_::class, Interface_::class, Enum_::class];
+
+        return in_array(get_class($node), $parts, true);
     }
 }
