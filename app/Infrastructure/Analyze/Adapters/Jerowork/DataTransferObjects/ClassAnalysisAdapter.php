@@ -32,4 +32,12 @@ class ClassAnalysisAdapter implements ClassAnalysis
     {
         return $this->classType->isAbstract();
     }
+
+    public static function fromArray(array $attributes): self
+    {
+        return new self(
+            $attributes['dependencies'],
+            $attributes['type'],
+        );
+    }
 }

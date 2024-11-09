@@ -52,33 +52,20 @@ class DependencyAggregator
         }
     }
 
-    public function calculateAbstraction(): void
+    public function calculateAbstractness(): void
     {
         foreach ($this->classes as $givenClass) {
-
-            $abstractDependencies = 0;
-
-            $afferentCount = $givenClass->getAfferent();
-
-            if ($afferentCount === 0) {
-                $givenClass->setAbstractionLevel(0);
-                $givenClass->setNumberOfAbstractDependencies(0);
-                continue;
-            }
 
             foreach ($givenClass->getDependencies() as $dependency) {
 
                 $dependencyClass = $this->get($dependency);
                 
                 if ($dependencyClass && $dependencyClass->isAbstract()) {
-                    $abstractDependencies++;
+                    $givenClass->incrementNumberOfAbstractDependencies();
                 }
             }
 
-            $abstraction = $abstractDependencies / $afferentCount;
-
-            $givenClass->setAbstractionLevel($abstraction);
-            $givenClass->setNumberOfAbstractDependencies($abstractDependencies);
+            $givenClass->calculateAbstractness();
         }
     }
 

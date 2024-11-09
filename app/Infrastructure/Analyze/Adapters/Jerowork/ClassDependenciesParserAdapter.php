@@ -27,7 +27,7 @@ class ClassDependenciesParserAdapter implements ClassDependenciesParser
 
         $this->traverse($ast, $collectors);
 
-        return new ClassAnalysisAdapter($collectors['dependencies'], $collectors['type']);
+        return ClassAnalysisAdapter::fromArray($collectors);
     }
 
     private function getFileContent(string $filePath): ?string

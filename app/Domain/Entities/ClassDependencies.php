@@ -14,7 +14,7 @@ class ClassDependencies
     public Coupling $afferent;
     public Coupling $efferent;
     public float $instability = 0;
-    public float $abstractionLevel = 0;
+    public float $abstractness = 0;
     public int $numberOfAbstractDependencies = 0;
 
     public function __construct(
@@ -92,6 +92,11 @@ class ClassDependencies
         return $this->dependencies->getValues();
     }
 
+    public function getAbstractness(): float
+    {
+        return $this->abstractness;
+    }
+
     public function toArray(): array
     {
         return [
@@ -100,19 +105,24 @@ class ClassDependencies
             'efferent' => $this->getEfferent(),
             'dependencies' => $this->getDependencies(),
             'instability' => $this->getRoundedInstability(),
-            'abstraction_level' => $this->abstractionLevel,
+            'abstractness' => $this->getAbstractness(),
             'abstract' => $this->isAbstract(),
             'number_of_abstract_dependencies' => $this->numberOfAbstractDependencies,
         ];
     }
 
-    public function setAbstractionLevel(float $abstractionLevel): void
+    public function hasNoDependencies(): bool
     {
-        $this->abstractionLevel = $abstractionLevel;
+        return $this->getAfferent() === 0;
     }
 
-    public function setNumberOfAbstractDependencies(int $numberOfAbstractDependencies): void
+    public function incrementNumberOfAbstractDependencies(): void
     {
-        $this->numberOfAbstractDependencies = $numberOfAbstractDependencies;
+        $this->numberOfAbstractDependencies++;
+    }
+
+    public function calculateAbstractness(): void
+    {
+        $this->abstractness = $this->numberOfAbstractDependencies / $this->getAfferent();
     }
 }

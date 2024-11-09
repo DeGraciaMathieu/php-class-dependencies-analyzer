@@ -27,7 +27,7 @@ class AnalyzeAction
 
             $dependencyAggregator->calculateInstability();
 
-            $dependencyAggregator->calculateAbstraction();
+            $dependencyAggregator->calculateAbstractness();
 
             $dependencyAggregator->filterClasses($request->only, $request->exclude);
 

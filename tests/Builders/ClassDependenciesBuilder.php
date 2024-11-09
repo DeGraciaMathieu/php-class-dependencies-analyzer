@@ -32,14 +32,14 @@ class ClassDependenciesBuilder
         return $this;
     }
 
-    public function marksAsInterface(): self
+    public function isInterface(): self
     {
         $this->isInterface = true;
 
         return $this;
     }
 
-    public function marksAsAbstract(): self
+    public function isAbstract(): self
     {
         $this->isAbstract = true;
 

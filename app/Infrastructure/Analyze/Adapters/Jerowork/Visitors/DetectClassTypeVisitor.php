@@ -22,12 +22,12 @@ class DetectClassTypeVisitor extends NodeVisitorAbstract
         private ClassTypeCollector $collector,
     ) {}
 
-    public function beforeTraverse(array $nodes)
+    public function beforeTraverse(array $nodes): void
     {
         //
     }
 
-    public function enterNode(Node $node)
+    public function enterNode(Node $node): void
     {
         if ($node instanceof Namespace_) {
             $this->collector->namespace = (string) $node->name;
@@ -45,7 +45,7 @@ class DetectClassTypeVisitor extends NodeVisitorAbstract
         }
     }
 
-    public function leaveNode(Node $node)
+    public function leaveNode(Node $node): void
     {
         //
     }
