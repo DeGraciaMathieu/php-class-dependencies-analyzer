@@ -24,7 +24,7 @@ class WeaknessAction
 
             $dependencyAggregator = $fileAggregator->getAllDependencies();
 
-            $dependencyAggregator->calculateClassesInstability();
+            $dependencyAggregator->calculateInstability();
 
             $dependencyAggregator->filterClasses($request->only, $request->exclude);
 

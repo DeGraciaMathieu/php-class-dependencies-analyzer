@@ -24,4 +24,9 @@ class Dependencies
     {
         return $this->values;
     }
+
+    public static function fromArray(array $values): self
+    {
+        return new self($values);
+    }
 }

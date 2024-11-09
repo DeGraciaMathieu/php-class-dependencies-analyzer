@@ -8,12 +8,13 @@ use App\Domain\Ports\Aggregators\FileAggregator;
 use App\Domain\Ports\Repositories\FileRepository;
 use App\Presenter\Analyze\Graph\Ports\GraphMapper;
 use App\Infrastructure\Analyze\Ports\AnalyzerService;
+use App\Infrastructure\Analyze\Ports\ClassDependenciesParser;
+use App\Infrastructure\Analyze\Services\AnalyzerServiceAdapter;
 use App\Infrastructure\Analyze\Adapters\Jerowork\NodeTraverserFactory;
 use App\Infrastructure\File\Adapters\Aggregators\FileAggregatorAdapter;
-use App\Infrastructure\Analyze\Adapters\Jerowork\AnalyzerServiceAdapter;
 use App\Infrastructure\File\Adapters\Repositories\FileRepositoryAdapter;
 use App\Presenter\Analyze\Graph\Adapters\Cytoscape\CytoscapeGraphMapper;
-use App\Infrastructure\Analyze\Adapters\Jerowork\CustomClassDependenciesParser;
+use App\Infrastructure\Analyze\Adapters\Jerowork\ClassDependenciesParserAdapter;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,10 +39,8 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(GraphMapper::class, CytoscapeGraphMapper::class);
 
-        //$this->app->bind(TargetMapper::class, AdapterTargetMapper::class);
-
-        $this->app->bind(CustomClassDependenciesParser::class, function () {
-            return new CustomClassDependenciesParser(
+        $this->app->bind(ClassDependenciesParser::class, function () {
+            return new ClassDependenciesParserAdapter(
                 (new ParserFactory())->create(ParserFactory::PREFER_PHP7),
                 new NodeTraverserFactory(),
             );

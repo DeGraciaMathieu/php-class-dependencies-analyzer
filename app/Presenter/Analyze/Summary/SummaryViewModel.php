@@ -7,6 +7,6 @@ class SummaryViewModel
     public function __construct(
         public readonly array $metrics,
         public readonly int $count,
-        public readonly bool $debug = false,
+        public readonly bool $info = false,
     ) {}
 }

@@ -24,4 +24,9 @@ class Fqcn
     {
         return $this->getValue() === $otherFqcn->getValue();
     }
+
+    public static function fromString(string $value): self
+    {
+        return new self($value);
+    }
 }

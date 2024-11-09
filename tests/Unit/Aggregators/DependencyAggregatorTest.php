@@ -9,7 +9,7 @@ test('it calculates the instability correctly', function () {
         ])
         ->build();
 
-    $dependencyAggregator->calculateClassesInstability();
+    $dependencyAggregator->calculateInstability();
 
     $metrics = $dependencyAggregator->toArray();
 

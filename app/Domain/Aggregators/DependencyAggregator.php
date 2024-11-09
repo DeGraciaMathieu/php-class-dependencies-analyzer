@@ -28,7 +28,12 @@ class DependencyAggregator
         return $this->classes;
     }
 
-    public function calculateClassesInstability(): void
+    public function get(string $fqcn): ?ClassDependencies
+    {
+        return $this->classes[$fqcn] ?? null;
+    }
+
+    public function calculateInstability(): void
     {
         foreach ($this->classes as $givenClass) {
 
@@ -44,6 +49,36 @@ class DependencyAggregator
             }
 
             $givenClass->calculateInstability();
+        }
+    }
+
+    public function calculateAbstraction(): void
+    {
+        foreach ($this->classes as $givenClass) {
+
+            $abstractDependencies = 0;
+
+            $afferentCount = $givenClass->getAfferent();
+
+            if ($afferentCount === 0) {
+                $givenClass->setAbstractionLevel(0);
+                $givenClass->setNumberOfAbstractDependencies(0);
+                continue;
+            }
+
+            foreach ($givenClass->getDependencies() as $dependency) {
+
+                $dependencyClass = $this->get($dependency);
+                
+                if ($dependencyClass && $dependencyClass->isAbstract()) {
+                    $abstractDependencies++;
+                }
+            }
+
+            $abstraction = $abstractDependencies / $afferentCount;
+
+            $givenClass->setAbstractionLevel($abstraction);
+            $givenClass->setNumberOfAbstractDependencies($abstractDependencies);
         }
     }
 

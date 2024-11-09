@@ -6,12 +6,12 @@ class SummaryMapper
 {
     public static function from(array $metrics): array
     {
-        return array_map(function ($metric) {
+        return array_map(function ($metric) use ($metrics) {
             return [
                 'name' => $metric['name'],
-                'afferent' => $metric['afferent'],
-                'efferent' => $metric['efferent'],
-                'instability' => $metric['instability'],
+                'ec' => $metric['afferent'],
+                'ac' => $metric['efferent'],
+                'i' => $metric['instability'],
             ];
         }, $metrics);
     }

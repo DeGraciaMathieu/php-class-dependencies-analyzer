@@ -5,6 +5,7 @@ namespace App\Presenter\Analyze\Graph;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\outro;
 use Illuminate\View\Factory as View;
+use App\Presenter\Analyze\Graph\GraphViewModel;
 
 class GraphView
 {
