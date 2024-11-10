@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Commands\Analyze;
+namespace App\Commands\Analyze\Graph;
 
-use App\Commands\Analyze\TransformerFactory;
 use App\Presenter\Analyze\Graph\GraphView;
 use LaravelZero\Framework\Commands\Command;
-use App\Commands\Analyze\GraphSettingsFactory;
+use App\Commands\Analyze\TransformerFactory;
 use App\Presenter\Analyze\Graph\GraphPresenter;
 use App\Presenter\Analyze\Graph\Ports\GraphMapper;
+use App\Commands\Analyze\Graph\GraphSettingsFactory;
 
 class GraphPresenterFactory
 {

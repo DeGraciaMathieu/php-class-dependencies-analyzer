@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Commands\Analyze;
+namespace App\Commands\Analyze\Summary;
 
-use App\Commands\Analyze\TransformerFactory;
 use LaravelZero\Framework\Commands\Command;
+use App\Commands\Analyze\TransformerFactory;
 use App\Presenter\Analyze\Summary\SummaryView;
-use App\Commands\Analyze\SummarySettingsFactory;
 use App\Presenter\Analyze\Summary\SummaryMapper;
 use App\Presenter\Analyze\Summary\SummaryPresenter;
+use App\Commands\Analyze\Summary\SummarySettingsFactory;
 
 class SummaryPresenterFactory
 {

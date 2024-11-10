@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Commands\Analyze;
+namespace App\Commands\Analyze\Summary;
 
 use LaravelZero\Framework\Commands\Command;
 use App\Presenter\Analyze\Summary\SummarySettings;

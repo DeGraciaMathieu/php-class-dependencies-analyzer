@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Commands\Analyze;
+namespace App\Commands\Analyze\Graph;
 
 use LaravelZero\Framework\Commands\Command;
 use App\Presenter\Analyze\Graph\GraphSettings;
