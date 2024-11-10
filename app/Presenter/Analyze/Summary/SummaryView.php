@@ -5,22 +5,22 @@ namespace App\Presenter\Analyze\Summary;
 use function Laravel\Prompts\outro;
 use function Laravel\Prompts\table;
 use function Laravel\Prompts\warning;
-use function Laravel\Prompts\note;
 use App\Presenter\Analyze\Summary\SummaryViewModel;
 
 class SummaryView
 {
     public function show(SummaryViewModel $viewModel): void
     {
+        $this->displayMetrics($viewModel);
+        $this->displayInfo($viewModel);
+        $this->displayCount($viewModel);
+    }
+
+    private function displayMetrics(SummaryViewModel $viewModel): void
+    {
         count($viewModel->metrics()) === 0
             ? warning('No classes found')
             : $this->showTable($viewModel);
-
-        $viewModel->needInfo()
-            ? $this->showInfo($viewModel)
-            : outro('Add --info to get more information on metrics.');
-
-        outro(sprintf('Found %d classes in the given path', $viewModel->count()));
     }
 
     private function showTable(SummaryViewModel $viewModel): void
@@ -29,6 +29,13 @@ class SummaryView
             headers: $viewModel->headers(),
             rows: $viewModel->metrics(),
         );
+    }
+
+    private function displayInfo(SummaryViewModel $viewModel): void
+    {
+        $viewModel->needInfo()
+            ? $this->showInfo($viewModel)
+            : outro('Add --info to get more information on metrics.');
     }
 
     private function showInfo(SummaryViewModel $viewModel): void
@@ -40,7 +47,8 @@ class SummaryView
 
     private function showHumanReadableInfo(): void
     {
-        outro('A stable and concrete class may be challenging to modify, as it likely does not follow the open/closed principle.');
+        outro('A stable and concrete class is heavily used by the application and has few abstractions.');
+        outro('It is probably not open to extension and it will be necessary to modify it to add behaviors.');
         outro('An unstable and concrete class will likely suffer from side effects caused by its dependencies, making it harder to test.');
         outro('For more information, see the documentation: https://php-quality-tools.com/class-dependencies-analyzer');
     }
@@ -62,5 +70,10 @@ class SummaryView
         outro('Class with a high instability (I close to 1) can suffer from side effects of its dependencies and must favor abstractions.');
         outro('Class with a high abstractness (A close to 1) is totally abstract and should not have any concrete code.');
         outro('See the documentation for more information : https://php-quality-tools.com/class-dependencies-analyzer');
+    }
+
+    private function displayCount(SummaryViewModel $viewModel): void
+    {
+        outro(sprintf('Found %d classes in the given path', $viewModel->count()));
     }
 }
