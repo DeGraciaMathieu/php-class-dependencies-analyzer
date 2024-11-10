@@ -1,23 +1,21 @@
 <?php
 
-test('it calculates the instability correctly', function () {
-
-    $classDependencies = $this->oneClassDependencies()->build();
-
-    $roundedInstability = $classDependencies->getRoundedInstability();
-
-    expect($roundedInstability)->toBe(0.0);
-});
-
 test('it encapsulates the dependencies', function () {
 
-    $classDependencies = $this->oneClassDependencies()->build();
+    $classDependencies = $this->oneClassDependencies()
+        ->withDependencies([
+            'A',
+            'B',
+            'C',
+        ])
+        ->build();
 
     $dependencies = $classDependencies->getDependencies();
 
     expect($dependencies)->toBe([
-        'App\Domain\ValueObjects\Name',
-        'App\Domain\ValueObjects\Email',
+        'A',
+        'B',
+        'C',
     ]);
 });
 
@@ -64,31 +62,26 @@ test('it correctly checks if a class is a dependency', function () {
     expect($classDependencies->hasDependency($b))->toBeTrue();
 });
 
-test('it calculates the abstractness correctly', function (int $numberOfAbstractDependencies, float $expected) {
+test('it calculates the abstractness correctly', function () {
 
     $classDependencies = $this->oneClassDependencies()
         ->withFqcn('A')
+        ->withDependencies([
+            'B',
+            'C',
+            'D',
+        ])
         ->build();
 
-    for ($i = 0; $i < $numberOfAbstractDependencies; $i++) {
-        $classDependencies->incrementNumberOfAbstractDependencies();
-    }
+    $classDependencies->incrementNumberOfAbstractDependencies();
+    $classDependencies->incrementNumberOfAbstractDependencies();
 
     $classDependencies->calculateAbstractness();
 
-    expect($classDependencies->getAbstractness())->toBe($expected);
+    $abstractness = $classDependencies->toArray()['abstractness'];
 
-})->with([
-    [0, 0.0],
-    [1, 0.5],
-    [2, 1.0],
-]);
-
-test('it calculates the abstractness correctly when there are no dependencies', function () {
-
-    $classDependencies = $this->oneClassDependencies()->build();
-
-    $classDependencies->calculateAbstractness();
-
-    expect($classDependencies->getAbstractness())->toBe(0.0);
+    expect($abstractness)->toBe([
+        'ratio' => 0.67,
+        'numberOfAbstractDependencies' => 2,
+    ]);
 });

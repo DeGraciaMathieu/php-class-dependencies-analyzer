@@ -11,10 +11,7 @@ use App\Domain\Entities\ClassDependencies;
 class ClassDependenciesBuilder
 {
     private string $fqcn = 'App\Domain\Entities\User';
-    private array $dependencies = [
-        'App\Domain\ValueObjects\Name',
-        'App\Domain\ValueObjects\Email',
-    ];
+    private array $dependencies = [];
     private bool $isInterface = false;
     private bool $isAbstract = false;
 

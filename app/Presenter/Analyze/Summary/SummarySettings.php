@@ -8,5 +8,6 @@ class SummarySettings
         public readonly bool $debug = false,
         public readonly ?string $target = null,
         public readonly bool $info = false,
+        public readonly bool $humanReadable = false,
     ) {}
 }

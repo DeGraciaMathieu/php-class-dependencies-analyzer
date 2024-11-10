@@ -9,7 +9,6 @@ use App\Application\Analyze\AnalyzePresenter;
 use App\Commands\Analyze\GraphPresenterFactory;
 use App\Presenter\Analyze\Graph\GraphPresenter;
 use App\Commands\Analyze\SummaryPresenterFactory;
-use App\Commands\Analyze\ComponentPresenterFactory;
 use App\Presenter\Analyze\Summary\SummaryPresenter;
 
 class AnalyzeCommand extends AbstractCommand
@@ -23,6 +22,7 @@ class AnalyzeCommand extends AbstractCommand
         {--depth-limit=}
         {--debug}
         {--info}
+        {--h : Display human readable metrics}
     ';
 
     protected $description = 'Analyze the given path';

@@ -5,21 +5,34 @@ namespace App\Domain\ValueObjects;
 class Coupling
 {
     public function __construct(
-        public int $value = 0,
+        public int $efferent = 0,
+        public int $afferent = 0,
+        public float $instability = 0,
     ) {}
 
-    public static function from(int $value): self
+    public function incrementAfferent(): void
     {
-        return new self($value);
+        $this->afferent++;
     }
 
-    public function increment(): void
+    public function nobodyUsesThis(): bool
     {
-        $this->value++;
+        return $this->afferent === 0;
     }
 
-    public function getValue(): int
+    public function calculateInstability(): void
     {
-        return $this->value;
+        $instability = $this->efferent / (($this->afferent + $this->efferent) ?: 1);
+
+        $this->instability = number_format($instability, 2);
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'afferent' => $this->afferent,
+            'efferent' => $this->efferent,
+            'instability' => $this->instability,
+        ];
     }
 }

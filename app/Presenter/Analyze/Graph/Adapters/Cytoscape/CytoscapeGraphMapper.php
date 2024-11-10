@@ -23,7 +23,7 @@ class CytoscapeGraphMapper implements GraphMapper
     private function mapNodes(array $metrics): void
     {
         foreach ($metrics as $item) {
-            $this->graph->addNode($item['name'], $item['instability']);
+            $this->graph->addNode($item['name'], $item['coupling']['instability']);
         }
     }
 

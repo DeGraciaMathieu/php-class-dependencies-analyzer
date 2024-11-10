@@ -49,7 +49,7 @@ it('should throw an exception if the target is not found', function () {
 
     $filter->apply([]);
 
-})->throws(Exception::class, 'Target not found on metrics, try verify the target name.');
+})->throws(Exception::class, 'Target D not found on metrics, try verify the target name.');
 
 it('should stop if the depth limit is reached', function () {
 
