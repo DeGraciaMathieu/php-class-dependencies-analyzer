@@ -51,11 +51,21 @@
     },
     "scripts": {
         "test": "vendor/bin/pest -p",
-        "all": [
-            "php class-dependencies-analyzer analyze app",
-            "php class-dependencies-analyzer analyze app --graph",
+        "healthcheck": [
             "php class-dependencies-analyzer weakness app",
-            "php class-dependencies-analyzer cyclic app"
+            "php class-dependencies-analyzer weakness app --min-delta=0.1",
+            "php class-dependencies-analyzer weakness app --limit=10",
+            "php class-dependencies-analyzer weakness app --only='App\\Application'",
+            "php class-dependencies-analyzer weakness app --exclude='App\\Infrastructure'",
+            "php class-dependencies-analyzer cyclic app",
+            "php class-dependencies-analyzer cyclic app --only='App\\Application'",
+            "php class-dependencies-analyzer cyclic app --exclude='App\\Infrastructure'",
+            "php class-dependencies-analyzer analyze app",
+            "php class-dependencies-analyzer analyze app --only='App\\Application'",
+            "php class-dependencies-analyzer analyze app --exclude='App\\Infrastructure'",
+            "php class-dependencies-analyzer analyze app --target='App\\Application\\Analyze\\AnalyzeAction'",
+            "php class-dependencies-analyzer analyze app --target='App\\Application\\Analyze\\AnalyzeAction' --depth-limit=2",
+            "php class-dependencies-analyzer analyze app --graph"
         ],
         "coverage": "php -d xdebug.mode=coverage vendor/bin/pest --coverage -p"
     },

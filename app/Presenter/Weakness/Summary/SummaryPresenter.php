@@ -51,11 +51,11 @@ class SummaryPresenter implements WeaknessPresenter
     {
         $metrics = $response->metrics;
 
-        $metrics = ArrayFormatter::sort('score', $metrics);
+        $metrics = ArrayFormatter::sort('delta', $metrics);
 
         $metrics = ArrayFormatter::cut($this->settings->limit(), $metrics);
 
-        $metrics = ArrayFormatter::filterByMinValue('score', $this->settings->minDelta(), $metrics);
+        $metrics = ArrayFormatter::filterByMinValue('delta', $this->settings->minDelta(), $metrics);
 
         return $metrics;
     }

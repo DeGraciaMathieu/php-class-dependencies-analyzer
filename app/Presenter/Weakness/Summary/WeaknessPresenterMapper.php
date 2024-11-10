@@ -14,7 +14,7 @@ class WeaknessPresenterMapper
                 'instability' => $metric['class_instability'],
                 'dependency' => NameFormatter::humanReadable($metric['dependency']),
                 'dependency_instability' => $metric['dependency_instability'],
-                'score' => $metric['score'],
+                'delta' => $metric['delta'],
             ];
         }, $metrics);
     }
