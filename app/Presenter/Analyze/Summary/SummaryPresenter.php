@@ -44,9 +44,9 @@ class SummaryPresenter implements AnalyzePresenter
 
         $metrics = $this->filter->apply($metrics);
 
-        $metrics = $this->mapper->from($metrics);
+        $metrics = $this->mapper->from($metrics, $this->settings->humanReadable);
 
-        $viewModel = new SummaryViewModel($metrics, $response->count, $this->settings->info);
+        $viewModel = new SummaryViewModel($metrics, $response->count, $this->settings);
 
         $this->view->show($viewModel);
     }

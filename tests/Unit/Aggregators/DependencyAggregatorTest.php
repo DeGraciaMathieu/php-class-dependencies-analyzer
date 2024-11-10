@@ -15,12 +15,20 @@ test('it calculates the instability correctly', function () {
 
     expect($metrics['A'])->toMatchArray([
         'name' => 'A',
-        'instability' => 1.0,
+        'coupling' => [
+            'afferent' => 0,
+            'efferent' => 2,
+            'instability' => 1.0,
+        ],
     ]);
 
     expect($metrics['C'])->toMatchArray([
         'name' => 'C',
-        'instability' => 0.5,
+        'coupling' => [
+            'afferent' => 1,
+            'efferent' => 1,
+            'instability' => 0.5,
+        ],
     ]);
 });
 
@@ -32,7 +40,7 @@ test('it keeps only classes by given filters', function () {
         ])
         ->build();
 
-    $dependencyAggregator->filterClasses(only: ['Domain']);
+    $dependencyAggregator->filter(only: ['Domain']);
 
     $dependencies = $dependencyAggregator->toArray();
 
@@ -48,7 +56,7 @@ test('it filters classes by given exclude filters', function () {
         ])
         ->build();
 
-    $dependencyAggregator->filterClasses(exclude: ['Application']);
+    $dependencyAggregator->filter(exclude: ['Application']);
 
     $dependencies = $dependencyAggregator->toArray();
 
@@ -69,7 +77,10 @@ test('it calculates the abstractness correctly when class has no dependencies', 
 
     expect($metrics['A'])->toMatchArray([
         'name' => 'A',
-        'abstractness' => 0.0,
+        'abstractness' => [
+            'ratio' => 0.0,
+            'numberOfAbstractDependencies' => 0,
+        ],
     ]);
 });
 
@@ -89,6 +100,9 @@ test('it calculates the abstractness correctly when class has abstract dependenc
 
     expect($metrics['A'])->toMatchArray([
         'name' => 'A',
-        'abstractness' => 0.5,
+        'abstractness' => [
+            'ratio' => 0.5,
+            'numberOfAbstractDependencies' => 1,
+        ],
     ]);
 });

@@ -22,20 +22,20 @@ class WeaknessResponseMapper
 
         foreach ($classes as $class) {
 
-            $instability = $class['instability'];
+            $instability = $class['coupling']['instability'];
 
             foreach ($class['dependencies'] as $dependency) {
 
                 $dependency = $classes[$dependency] ?? null;
 
-                if ($dependency && $dependency['instability'] > $instability) {
+                if ($dependency && $dependency['coupling']['instability'] > $instability) {
 
                     $metrics[] = [
                         'class' => $class['name'],
                         'class_instability' => $instability,
                         'dependency' => $dependency['name'],
-                        'dependency_instability' => $dependency['instability'],
-                        'score' => $dependency['instability'] - $instability,
+                        'dependency_instability' => $dependency['coupling']['instability'],
+                        'delta' => $dependency['coupling']['instability'] - $instability,
                     ];
                 }
             }

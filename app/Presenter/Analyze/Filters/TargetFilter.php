@@ -37,7 +37,7 @@ class TargetFilter implements Filter
     private function checkTargetPresence(): void
     {
         if ($this->metrics->unknown($this->target)) {
-            throw new Exception('Target not found on metrics, try verify the target name.');
+            throw new Exception('Target ' . $this->target . ' not found on metrics, try verify the target name.');
         }
     }
 
