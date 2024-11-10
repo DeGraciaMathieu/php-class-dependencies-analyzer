@@ -24,12 +24,11 @@ php class-dependencies-analyzer --version
 
 Full documentation [here](https://php-quality-tools.com/class-dependencies-analyzer/).
 
-> 🇫🇷 For French developers, an [article](https://laravel-france.com/posts/des-dependances-stables-pour-une-architecture-de-qualite) on Laravel France explores these stable dependency concepts.
-
-
 <p align="center">
 <img src="https://github.com/DeGraciaMathieu/php-class-dependencies-analyzer/blob/main/arts/home.png?raw=true" width="600">
 </p>
+
+> 🇫🇷 For French developers, an [article](https://laravel-france.com/posts/des-dependances-stables-pour-une-architecture-de-qualite) on Laravel France explores these stable dependency concepts.
 
 > [!TIP]  
 > Other analysis [tools](https://github.com/DeGraciaMathieu) are available.
