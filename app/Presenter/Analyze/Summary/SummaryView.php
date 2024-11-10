@@ -13,7 +13,6 @@ class SummaryView
     {
         $this->displayMetrics($viewModel);
         $this->displayInfo($viewModel);
-        $this->displayCount($viewModel);
     }
 
     private function displayMetrics(SummaryViewModel $viewModel): void
@@ -35,7 +34,7 @@ class SummaryView
     {
         $viewModel->needInfo()
             ? $this->showInfo($viewModel)
-            : outro('Add --info to get more information on metrics.');
+            : $this->showOutro($viewModel);
     }
 
     private function showInfo(SummaryViewModel $viewModel): void
@@ -49,7 +48,11 @@ class SummaryView
     {
         outro('A stable and concrete class is heavily used by the application and has few abstractions.');
         outro('It is probably not open to extension and it will be necessary to modify it to add behaviors.');
-        outro('An unstable and concrete class will likely suffer from side effects caused by its dependencies, making it harder to test.');
+        outro('This class has a risky maintainability because a modification will impact many classes.');
+
+        outro('An unstable and concrete class uses many concrete dependencies, without going through abstractions, making it harder to test.');
+        outro('This class has a suffering maintainability because it will suffer from side effects of its dependencies.');
+        
         outro('For more information, see the documentation: https://php-quality-tools.com/class-dependencies-analyzer');
     }
 
@@ -72,8 +75,9 @@ class SummaryView
         outro('See the documentation for more information : https://php-quality-tools.com/class-dependencies-analyzer');
     }
 
-    private function displayCount(SummaryViewModel $viewModel): void
+    private function showOutro(SummaryViewModel $viewModel): void
     {
+        outro('Add --info to get more information on metrics.');
         outro(sprintf('Found %d classes in the given path', $viewModel->count()));
     }
 }

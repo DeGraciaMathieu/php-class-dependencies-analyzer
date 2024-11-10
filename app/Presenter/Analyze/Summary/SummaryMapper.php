@@ -4,6 +4,7 @@ namespace App\Presenter\Analyze\Summary;
 
 use App\Presenter\Analyze\Summary\Calculators\StabilityCalculator;
 use App\Presenter\Analyze\Summary\Calculators\AbstractnessCalculator;
+use App\Presenter\Analyze\Summary\Calculators\MaintainabilityCalculator;
 
 class SummaryMapper
 {
@@ -35,6 +36,7 @@ class SummaryMapper
                 'name' => $metric['name'],
                 'stability' => StabilityCalculator::calculate($metric),
                 'abstractness' => AbstractnessCalculator::calculate($metric),
+                'maintainability' => MaintainabilityCalculator::calculate($metric),
             ];
         }, $metrics);
     }
