@@ -26,7 +26,7 @@ class WeaknessAction
 
             $dependencyAggregator->calculateInstability();
 
-            $dependencyAggregator->filterClasses($request->only, $request->exclude);
+            $dependencyAggregator->filter($request->only, $request->exclude);
 
             $presenter->present(
                 $this->mapper->from($dependencyAggregator),

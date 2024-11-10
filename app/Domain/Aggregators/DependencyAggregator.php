@@ -74,7 +74,7 @@ class DependencyAggregator
         return $this->cyclicDependency->detect($this->classes);
     }
 
-    public function filterClasses(array $only = [], array $exclude = []): void
+    public function filter(array $only = [], array $exclude = []): void
     {
         $this->classes = array_filter($this->classes, function ($givenClass) use ($only, $exclude) {
 
