@@ -65,7 +65,8 @@
             "php class-dependencies-analyzer analyze app --exclude='App\\Infrastructure'",
             "php class-dependencies-analyzer analyze app --target='App\\Application\\Analyze\\AnalyzeAction'",
             "php class-dependencies-analyzer analyze app --target='App\\Application\\Analyze\\AnalyzeAction' --depth-limit=2",
-            "php class-dependencies-analyzer analyze app --graph"
+            "php class-dependencies-analyzer analyze app --graph",
+            "vendor/bin/pest -p"
         ],
         "coverage": "php -d xdebug.mode=coverage vendor/bin/pest --coverage -p"
     },
