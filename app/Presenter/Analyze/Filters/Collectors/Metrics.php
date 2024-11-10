@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Presenter\Analyze\Filters;
+namespace App\Presenter\Analyze\Filters\Collectors;
 
 class Metrics
 {

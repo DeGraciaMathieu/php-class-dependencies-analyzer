@@ -5,7 +5,7 @@ namespace App\Presenter\Analyze\Summary;
 use Throwable;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\alert;
-use App\Presenter\Analyze\Filters\Filter;
+use App\Presenter\Analyze\Filters\Contracts\Transformer;
 use App\Application\Analyze\AnalyzeResponse;
 use App\Application\Analyze\AnalyzePresenter;
 use App\Presenter\Analyze\Summary\SummaryView;
@@ -18,7 +18,7 @@ class SummaryPresenter implements AnalyzePresenter
     public function __construct(
         private readonly SummaryView $view,
         private readonly SummaryMapper $mapper,
-        private readonly Filter $filter,
+        private readonly Transformer $transformer,
         private readonly SummarySettings $settings,
     ) {}
 
@@ -42,7 +42,7 @@ class SummaryPresenter implements AnalyzePresenter
     {
         $metrics = $response->metrics;
 
-        $metrics = $this->filter->apply($metrics);
+        $metrics = $this->transformer->apply($metrics);
 
         $metrics = $this->mapper->from($metrics, $this->settings->humanReadable);
 

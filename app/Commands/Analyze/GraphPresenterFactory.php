@@ -2,7 +2,7 @@
 
 namespace App\Commands\Analyze;
 
-use App\Commands\Analyze\FilterFactory;
+use App\Commands\Analyze\TransformerFactory;
 use App\Presenter\Analyze\Graph\GraphView;
 use LaravelZero\Framework\Commands\Command;
 use App\Commands\Analyze\GraphSettingsFactory;
@@ -15,7 +15,7 @@ class GraphPresenterFactory
         private readonly GraphView $view,
         private readonly GraphMapper $mapper,
         private readonly GraphSettingsFactory $settingsFactory,
-        private readonly FilterFactory $filterFactory,
+        private readonly TransformerFactory $transformerFactory,
     ) {}
 
     public function make(Command $command): GraphPresenter
@@ -23,7 +23,7 @@ class GraphPresenterFactory
         return new GraphPresenter(
             view: $this->view,
             mapper: $this->mapper,
-            filter: $this->filterFactory->make($command),
+            transformer: $this->transformerFactory->make($command),
             settings: $this->settingsFactory->make($command),
         );
     }

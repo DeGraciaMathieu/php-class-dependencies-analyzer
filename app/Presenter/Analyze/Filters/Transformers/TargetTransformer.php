@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Presenter\Analyze\Filters;
+namespace App\Presenter\Analyze\Filters\Transformers;
 
 use Exception;
-use App\Presenter\Analyze\Filters\Depth;
-use App\Presenter\Analyze\Filters\Metrics;
+use App\Presenter\Analyze\Filters\Collectors\Depth;
+use App\Presenter\Analyze\Filters\Collectors\Metrics;
+use App\Presenter\Analyze\Filters\Contracts\Transformer;
 
-class TargetFilter implements Filter
+class TargetTransformer implements Transformer
 {
     private int $deep = 0;
 

@@ -5,16 +5,16 @@ namespace App\Presenter\Analyze\Graph;
 use Throwable;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\alert;
-use App\Presenter\Analyze\Filters\Filter;
 use App\Application\Analyze\AnalyzeResponse;
 use App\Application\Analyze\AnalyzePresenter;
 use App\Presenter\Analyze\Graph\Ports\GraphMapper;
+use App\Presenter\Analyze\Filters\Contracts\Transformer;
 
 class GraphPresenter implements AnalyzePresenter
 {
     public function __construct(
         private readonly GraphView $view,
-        private readonly Filter $filter,
+        private readonly Transformer $transformer,
         private readonly GraphSettings $settings,
         private readonly GraphMapper $mapper,
     ) {}
@@ -41,7 +41,7 @@ class GraphPresenter implements AnalyzePresenter
     {
         $metrics = $response->metrics;
 
-        $metrics = $this->filter->apply($metrics);
+        $metrics = $this->transformer->apply($metrics);
 
         $graph = $this->mapper->make($metrics);
 

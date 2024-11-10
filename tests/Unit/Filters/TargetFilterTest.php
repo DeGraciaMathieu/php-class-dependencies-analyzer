@@ -1,12 +1,12 @@
 <?php
 
-use App\Presenter\Analyze\Filters\Depth;
-use App\Presenter\Analyze\Filters\Metrics;
-use App\Presenter\Analyze\Filters\TargetFilter;
+use App\Presenter\Analyze\Filters\Collectors\Depth;
+use App\Presenter\Analyze\Filters\Collectors\Metrics;
+use App\Presenter\Analyze\Filters\Transformers\TargetTransformer;
 
-it('should filter the target', function () {
+it('should transform the target', function () {
 
-    $filter = new TargetFilter(
+    $filter = new TargetTransformer(
         new Depth(),
         new Metrics(),
         'A',
@@ -41,7 +41,7 @@ it('should filter the target', function () {
 
 it('should throw an exception if the target is not found', function () {
     
-    $filter = new TargetFilter(
+    $filter = new TargetTransformer(
         new Depth(),
         new Metrics(),
         'D',
@@ -53,7 +53,7 @@ it('should throw an exception if the target is not found', function () {
 
 it('should stop if the depth limit is reached', function () {
 
-    $filter = new TargetFilter(
+    $filter = new TargetTransformer(
         new Depth(),
         new Metrics(),
         'A',

@@ -2,7 +2,7 @@
 
 namespace App\Commands\Analyze;
 
-use App\Commands\Analyze\FilterFactory;
+use App\Commands\Analyze\TransformerFactory;
 use LaravelZero\Framework\Commands\Command;
 use App\Presenter\Analyze\Summary\SummaryView;
 use App\Commands\Analyze\SummarySettingsFactory;
@@ -15,7 +15,7 @@ class SummaryPresenterFactory
         private readonly SummaryView $view,
         private readonly SummaryMapper $mapper,
         private readonly SummarySettingsFactory $settingsFactory,
-        private readonly FilterFactory $filterFactory,
+        private readonly TransformerFactory $transformerFactory,
     ) {}
 
     public function make(Command $command): SummaryPresenter
@@ -23,7 +23,7 @@ class SummaryPresenterFactory
         return new SummaryPresenter(
             view: $this->view,
             mapper: $this->mapper,
-            filter: $this->filterFactory->make($command),
+            transformer: $this->transformerFactory->make($command),
             settings: $this->settingsFactory->make($command),
         );
     }
