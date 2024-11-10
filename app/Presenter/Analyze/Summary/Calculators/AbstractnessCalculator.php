@@ -8,11 +8,13 @@ class AbstractnessCalculator implements Calculator
 {
     public static function calculate(array $metric): string
     {
-        if ($metric['abstractness'] > 0.7) {
+        $ratio = $metric['abstractness']['ratio'];
+
+        if ($ratio > 0.7) {
             return 'abstract';
         }
 
-        if ($metric['abstractness'] < 0.3) {
+        if ($ratio < 0.3) {
             return 'concrete';
         }
 
