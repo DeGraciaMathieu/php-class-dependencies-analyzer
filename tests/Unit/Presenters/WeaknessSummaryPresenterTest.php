@@ -20,7 +20,7 @@ it('can be instantiated', function () {
                 'class_instability' => 0.5,
                 'dependency' => 'ClassB',
                 'dependency_instability' => 0.8,
-                'score' => 0.3,
+                'delta' => 0.3,
             ],
         ],
     ));
