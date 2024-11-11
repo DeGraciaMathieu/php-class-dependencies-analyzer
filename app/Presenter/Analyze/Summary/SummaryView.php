@@ -17,12 +17,12 @@ class SummaryView
 
     private function displayMetrics(SummaryViewModel $viewModel): void
     {
-        count($viewModel->metrics()) === 0
-            ? warning('No classes found')
-            : $this->showTable($viewModel);
+        $viewModel->hasMetrics()
+            ? $this->showMetrics($viewModel)
+            : warning('No classes found');
     }
 
-    private function showTable(SummaryViewModel $viewModel): void
+    private function showMetrics(SummaryViewModel $viewModel): void
     {
         table(
             headers: $viewModel->headers(),
@@ -72,6 +72,7 @@ class SummaryView
         outro('Class with a low instability (I close to 0) is strongly used and probably critical for the application, its business logic must be tested.');
         outro('Class with a high instability (I close to 1) can suffer from side effects of its dependencies and must favor abstractions.');
         outro('Class with a high abstractness (A close to 1) is totally abstract and should not have any concrete code.');
+        outro('Try --human-readable to get a more human readable output.');
         outro('See the documentation for more information : https://php-quality-tools.com/class-dependencies-analyzer');
     }
 

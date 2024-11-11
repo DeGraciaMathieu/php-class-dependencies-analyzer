@@ -38,4 +38,9 @@ class SummaryViewModel
     {
         return $this->count;
     }
+
+    public function hasMetrics(): bool
+    {
+        return count($this->metrics) > 0;
+    }
 }

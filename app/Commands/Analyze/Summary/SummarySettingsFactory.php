@@ -12,7 +12,7 @@ class SummarySettingsFactory
         return new SummarySettings(
             debug: $command->option('debug'),
             info: $command->option('info'),
-            humanReadable: $command->option('h'),
+            humanReadable: $command->option('human-readable'),
         );
     }
 }

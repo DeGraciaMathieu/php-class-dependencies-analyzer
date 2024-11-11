@@ -18,7 +18,7 @@ class AnalyzeCommand extends AbstractCommand
         {--depth-limit=}
         {--debug}
         {--info}
-        {--h : Display human readable metrics}
+        {--human-readable : Display human readable metrics}
     ';
 
     protected $description = 'Analyze the given path';
