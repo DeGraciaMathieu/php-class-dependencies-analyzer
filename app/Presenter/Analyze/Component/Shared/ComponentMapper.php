@@ -49,8 +49,8 @@ class ComponentMapper
                 $component,
                 count($componentMetrics),
                 $abstract,
-                $abstract / count($componentMetrics),
-                $instability / count($componentMetrics),
+                $abstract / (count($componentMetrics) ?: 1),
+                $instability / (count($componentMetrics) ?: 1),
                 $innerDependencies,
             );
         }

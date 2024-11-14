@@ -22,6 +22,13 @@ class AnalyzeMetricBuilder
         return $this;
     }
 
+    public function isAbstract(): self
+    {
+        $this->abstract = true;
+
+        return $this;
+    }
+
     public function withDependencies(array $value): self
     {
         $this->dependencies = $value;

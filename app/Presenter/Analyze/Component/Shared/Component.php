@@ -25,7 +25,7 @@ class Component implements Networkable
         return $this->countClasses;
     }
 
-    public function countAbstractions(): float
+    public function countAbstractions(): int
     {
         return $this->countAbstractions;
     }
