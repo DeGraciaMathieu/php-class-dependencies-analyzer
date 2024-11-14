@@ -30,8 +30,8 @@ class CyclicCommand extends AbstractCommand
     {
         return new CyclicRequest(
             path: $this->argument('path'),
-            only: $this->stringToList('only'),
-            exclude: $this->stringToList('exclude'),
+            only: $this->optionToList('only'),
+            exclude: $this->optionToList('exclude'),
         );
     }
 
