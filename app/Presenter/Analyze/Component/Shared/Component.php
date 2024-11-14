@@ -9,10 +9,9 @@ class Component implements Networkable
     public function __construct(
         public readonly string $name,   
         public readonly int $countClasses,  
-        public readonly float $countAbstractions,   
-        public readonly float $averageAbstractness, 
-        public readonly float $averageInstability,  
-        public readonly array $innerDependencies,   
+        public readonly int $countAbstractions,  
+        public readonly float $totalInstability,  
+        public readonly array $dependencies,   
     ) {}
 
     public function name(): string
@@ -32,16 +31,16 @@ class Component implements Networkable
 
     public function abstractness(): float
     {
-        return number_format($this->averageAbstractness, 2);
+        return number_format($this->countAbstractions / $this->countClasses, 2);
     }
 
     public function instability(): float
     {
-        return number_format($this->averageInstability, 2);
+        return number_format($this->totalInstability / $this->countClasses, 2);
     }
 
     public function dependencies(): array
     {
-        return $this->innerDependencies;
+        return $this->dependencies;
     }
 }

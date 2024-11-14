@@ -2,11 +2,14 @@
 
 use App\Presenter\Analyze\Component\Shared\Component;
 use App\Presenter\Analyze\Component\Shared\ComponentMapper;
+use App\Presenter\Analyze\Component\Shared\ComponentFactory;
+
+beforeEach(function () {
+    $this->componentMapper = new ComponentMapper(new ComponentFactory());
+});
 
 it('should map metrics to components', function () {
     
-    $mapper = new ComponentMapper();
-
     $metrics = [
         'A' => [
             $this->oneAnalyzeMetric()->withName('A\Class1')->build(),
@@ -15,7 +18,7 @@ it('should map metrics to components', function () {
         ]
     ];
 
-    $components = $mapper->from($metrics);
+    $components = $this->componentMapper->from($metrics);
 
     expect($components)->toHaveCount(1);
     expect($components[0])->toBeInstanceOf(Component::class);
@@ -23,8 +26,6 @@ it('should map metrics to components', function () {
 });
 
 it('should map metrics to components with dependencies', function () {
-
-    $mapper = new ComponentMapper();
 
     $metrics = [
         'A' => [
@@ -35,16 +36,13 @@ it('should map metrics to components with dependencies', function () {
         ]
     ];
 
-    $components = $mapper->from($metrics);
+    $components = $this->componentMapper->from($metrics);
 
     expect($components)->toHaveCount(2);
     expect($components[0]->dependencies())->toBe(['B']);
-
 });
 
 it('should not keep dependencies from unwanted namespaces', function () {
-
-    $mapper = new ComponentMapper();
 
     $metrics = [
         'A' => [
@@ -58,15 +56,13 @@ it('should not keep dependencies from unwanted namespaces', function () {
         ]
     ];
 
-    $components = $mapper->from($metrics);
+    $components = $this->componentMapper->from($metrics);
 
     expect($components)->toHaveCount(2);
     expect($components[0]->dependencies())->toBe([]);
 });
 
 it('should calculate the average abstractness', function () {
-
-    $mapper = new ComponentMapper();
 
     $metrics = [
         'A' => [
@@ -77,7 +73,7 @@ it('should calculate the average abstractness', function () {
         ],
     ];
 
-    $components = $mapper->from($metrics);
+    $components = $this->componentMapper->from($metrics);
 
     expect($components[0]->countClasses())->toBe(4);
     expect($components[0]->countAbstractions())->toBe(3);
@@ -85,8 +81,6 @@ it('should calculate the average abstractness', function () {
 });
 
 it('should calculate the average instability', function () {
-
-    $mapper = new ComponentMapper();
 
     $metrics = [
         'A' => [
@@ -96,7 +90,7 @@ it('should calculate the average instability', function () {
         ],
     ];
 
-    $components = $mapper->from($metrics);
+    $components = $this->componentMapper->from($metrics);
 
     expect($components[0]->instability())->toBe(0.67);
 });

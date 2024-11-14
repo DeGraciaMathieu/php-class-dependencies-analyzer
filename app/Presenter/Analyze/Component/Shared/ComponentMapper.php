@@ -6,26 +6,28 @@ use Illuminate\Support\Str;
 
 class ComponentMapper
 {
+    public function __construct(
+        private readonly ComponentFactory $componentFactory,
+    ) {}
+
     /**
-     * @todo : its work but it's not efficient
+     * @var array<string, array<AnalyzeMetric>> $metrics
      */
     public function from(array $metrics): array
     {
         $components = array_keys($metrics);
 
-        $tmp = [];
+        $items = [];
 
         foreach ($metrics as $component => $componentMetrics) {
 
-            $instability = 0;
-            $abstract = 0;
+            $collector = new Collector();
 
-            $innerDependencies = [];
+            $collector->setName($component);
 
             foreach ($componentMetrics as $metric) {
 
-                $instability += $metric->instability();
-                $abstract += ($metric->abstract()) ? 1 : 0;
+                $collector->collect($metric);
 
                 foreach ($metric->dependencies() as $dependency) {
 
@@ -37,24 +39,17 @@ class ComponentMapper
                                 continue;
                             }
 
-                            if (! in_array($otherComponent, $innerDependencies)) {
-                                $innerDependencies[] = $otherComponent;
+                            if (! $collector->hasDependency($otherComponent)) {
+                                $collector->addDependency($otherComponent);
                             }
                         }
                     }
                 }
             }
 
-            $tmp[] = new Component(
-                $component,
-                count($componentMetrics),
-                $abstract,
-                $abstract / (count($componentMetrics) ?: 1),
-                $instability / (count($componentMetrics) ?: 1),
-                $innerDependencies,
-            );
+            $items[] = $this->componentFactory->make($collector);
         }
 
-        return $tmp;
+        return $items;
     }
 } 
