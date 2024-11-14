@@ -4,20 +4,13 @@ namespace App\Presenter\Analyze\Class\Shared;
 
 use App\Application\Analyze\AnalyzeMetric;
     
-/**
- * @todo : its work but it's not efficient
- */
 class MetricMapper
 {
     public function from(array $metrics): array
     {
-        $class = [];
-
-        foreach ($metrics as $metric) {
-            $class[] = $this->makeClass($metric);
-        }
-
-        return $class;
+        return array_map(function (AnalyzeMetric $metric) {
+            return $this->makeClass($metric);
+        }, $metrics);
     }
 
     private function makeClass(AnalyzeMetric $metric): Metric
