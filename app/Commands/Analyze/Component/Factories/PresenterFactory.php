@@ -9,6 +9,11 @@ use App\Commands\Analyze\Component\Summary\SummaryPresenterFactory;
 
 class PresenterFactory
 {
+    public function __construct(
+        private readonly GraphPresenterFactory $graphPresenterFactory,
+        private readonly SummaryPresenterFactory $summaryPresenterFactory,
+    ) {}
+
     public function make(Command $command): AnalyzePresenter
     {
         return $command->option('graph')
@@ -18,11 +23,11 @@ class PresenterFactory
 
     private function makeGraphPresenter(Command $command): AnalyzePresenter
     {
-        return app(GraphPresenterFactory::class)->make($command);
+        return $this->graphPresenterFactory->make($command);
     }
 
     private function makeSummaryPresenter(Command $command): AnalyzePresenter
     {
-        return app(SummaryPresenterFactory::class)->make($command);
+        return $this->summaryPresenterFactory->make($command);
     }
 }
