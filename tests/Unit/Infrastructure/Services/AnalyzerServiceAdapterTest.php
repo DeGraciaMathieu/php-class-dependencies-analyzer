@@ -23,3 +23,12 @@ it('can get dependencies', function () {
         ]
     );
 });
+
+it('exclude native PHP dependencies', function () {
+
+    $analyzerServiceAdapter = app(AnalyzerServiceAdapter::class);
+
+    $dependencies = $analyzerServiceAdapter->getDependencies(new FileStub('Native.php'));
+
+    expect($dependencies->hasNoDependencies())->toBeTrue();
+});

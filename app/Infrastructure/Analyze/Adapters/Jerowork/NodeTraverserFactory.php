@@ -5,7 +5,7 @@ namespace App\Infrastructure\Analyze\Adapters\Jerowork;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeTraverserInterface;
 use PhpParser\NodeVisitor\ParentConnectingVisitor;
-use App\Infrastructure\Analyze\Adapters\Jerowork\Visitors\DetectClassTypeVisitor;
+use App\Infrastructure\Analyze\Adapters\Jerowork\NativeDecliner;
 use Jerowork\ClassDependenciesParser\PhpParser\NodeVisitor\ParseClassFqnNodeVisitor;
 use Jerowork\ClassDependenciesParser\PhpParser\NodeVisitor\ParseInlineFqnNodeVisitor;
 use Jerowork\ClassDependenciesParser\PhpParser\NodeVisitor\ParseImportedFqnNodeVisitor;
@@ -33,6 +33,7 @@ class NodeTraverserFactory
                 new NamespaceDecliner(),
                 new ImportedFqnDecliner(),
                 new PhpNativeAccessorDecliner(),
+                new NativeDecliner(),
             ],
             [
                 new FullyQualifiedNameProcessor(),
