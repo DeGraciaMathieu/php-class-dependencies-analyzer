@@ -32,8 +32,8 @@ class WeaknessCommand extends AbstractCommand
     {
         return new WeaknessRequest(
             path: $this->argument('path'),
-            only: $this->stringToList('only'),
-            exclude: $this->stringToList('exclude'),
+            only: $this->optionToList('only'),
+            exclude: $this->optionToList('exclude'),
         );
     }
 

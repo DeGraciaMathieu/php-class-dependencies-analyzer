@@ -11,7 +11,14 @@ class AnalyzeResponseMapper
     {
         return new AnalyzeResponse(
             count: $dependencyAggregator->count(),
-            metrics: $dependencyAggregator->toArray(),
+            metrics: $this->map($dependencyAggregator),
         );
     }
-}
+
+    private function map(DependencyAggregator $dependencyAggregator): array
+    {
+        return array_map(function (array $metric) {
+            return new AnalyzeMetric($metric);
+        }, $dependencyAggregator->toArray());
+    }
+}   
