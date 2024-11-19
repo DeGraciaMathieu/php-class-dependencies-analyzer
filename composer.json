@@ -1,13 +1,13 @@
 {
-    "name": "degraciamathieu/php-dependencies-analyzer",
+    "name": "degraciamathieu/php-class-dependencies-analyzer",
     "description": "This tool allows you to monitor the dependencies and instability of your classes.",
     "keywords": ["php", "quality", "analysis", "static-analysis", "coupling", "instability"],
-    "homepage": "https://github.com/DeGraciaMathieu/php-dependencies-analyzer",
+    "homepage": "https://github.com/DeGraciaMathieu/php-class-dependencies-analyzer",
     "type": "project",
     "license": "MIT",
     "support": {
-        "issues": "https://github.com/DeGraciaMathieu/php-dependencies-analyzer/issues",
-        "source": "https://github.com/DeGraciaMathieu/php-dependencies-analyzer"
+        "issues": "https://github.com/DeGraciaMathieu/php-class-dependencies-analyzer/issues",
+        "source": "https://github.com/DeGraciaMathieu/php-class-dependencies-analyzer"
     },
     "authors": [
         {
@@ -52,27 +52,27 @@
     "scripts": {
         "test": "vendor/bin/pest -p",
         "healthcheck": [
-            "php dependency-analyzer weakness app",
-            "php dependency-analyzer weakness app --min-delta=0.1",
-            "php dependency-analyzer weakness app --limit=10",
-            "php dependency-analyzer weakness app --only='App\\Application'",
-            "php dependency-analyzer weakness app --exclude='App\\Infrastructure'",
-            "php dependency-analyzer cyclic app",
-            "php dependency-analyzer cyclic app --only='App\\Application'",
-            "php dependency-analyzer cyclic app --exclude='App\\Infrastructure'",
-            "php dependency-analyzer analyze:class app",
-            "php dependency-analyzer analyze:class app --only='App\\Application'",
-            "php dependency-analyzer analyze:class app --exclude='App\\Infrastructure'",
-            "php dependency-analyzer analyze:class app --target='App\\Application\\Analyze\\AnalyzeAction'",
-            "php dependency-analyzer analyze:class app --target='App\\Application\\Analyze\\AnalyzeAction' --depth-limit=2",
-            "php dependency-analyzer analyze:class app --graph",
-            "php dependency-analyzer analyze:component app 'App\\Application'",
-            "php dependency-analyzer analyze:component app 'App\\Application' --graph",
+            "php class-dependencies-analyzer weakness app",
+            "php class-dependencies-analyzer weakness app --min-delta=0.1",
+            "php class-dependencies-analyzer weakness app --limit=10",
+            "php class-dependencies-analyzer weakness app --only='App\\Application'",
+            "php class-dependencies-analyzer weakness app --exclude='App\\Infrastructure'",
+            "php class-dependencies-analyzer cyclic app",
+            "php class-dependencies-analyzer cyclic app --only='App\\Application'",
+            "php class-dependencies-analyzer cyclic app --exclude='App\\Infrastructure'",
+            "php class-dependencies-analyzer analyze:class app",
+            "php class-dependencies-analyzer analyze:class app --only='App\\Application'",
+            "php class-dependencies-analyzer analyze:class app --exclude='App\\Infrastructure'",
+            "php class-dependencies-analyzer analyze:class app --target='App\\Application\\Analyze\\AnalyzeAction'",
+            "php class-dependencies-analyzer analyze:class app --target='App\\Application\\Analyze\\AnalyzeAction' --depth-limit=2",
+            "php class-dependencies-analyzer analyze:class app --graph",
+            "php class-dependencies-analyzer analyze:component app 'App\\Application'",
+            "php class-dependencies-analyzer analyze:component app 'App\\Application' --graph",
             "vendor/bin/pest -p"
         ],
         "coverage": "php -d xdebug.mode=coverage vendor/bin/pest --coverage -p"
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "bin": ["dependency-analyzer"]
+    "bin": ["class-dependencies-analyzer"]
 }
