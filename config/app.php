@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => 'Class-dependencies-analyzer',
+    'name' => 'Dependency-analyzer',
 
     /*
     |--------------------------------------------------------------------------
