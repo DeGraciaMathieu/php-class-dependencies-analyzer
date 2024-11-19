@@ -5,6 +5,7 @@ namespace App\Infrastructure\Graph\Adapters\Cytoscape;
 use App\Presenter\Analyze\Shared\Network\Network;
 use App\Presenter\Analyze\Shared\Network\NetworkBuilder;
 use App\Infrastructure\Graph\Adapters\Cytoscape\CytoscapeNetwork;
+use App\Presenter\Analyze\Shared\Network\NetworkAttribute;
 
 class CytoscapeNetworkBuilder implements NetworkBuilder
 {
@@ -33,6 +34,10 @@ class CytoscapeNetworkBuilder implements NetworkBuilder
 
             foreach ($item->dependencies() as $dependency) {
 
+                if ($this->isSelfDependency($dependency, $item)) {
+                    continue;
+                }
+
                 if ($this->network->missingNode($dependency)) {
                     $this->network->addNode($dependency);
                 }
@@ -40,5 +45,13 @@ class CytoscapeNetworkBuilder implements NetworkBuilder
                 $this->network->addEdge(source: $item->name(), target: $dependency);
             }
         }
+    }
+
+    /**
+     * We remove self dependency from graph for readability reasons
+     */
+    private function isSelfDependency(string $dependency, NetworkAttribute $item): bool
+    {
+        return $dependency === $item->name();
     }
 }
