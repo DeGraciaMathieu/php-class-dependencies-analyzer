@@ -6,7 +6,7 @@
 
 # php-class-dependencies-analyzer
 
-[![testing](https://github.com/DeGraciaMathieu/php-coupling-instability-analyzer/actions/workflows/testing.yml/badge.svg)](https://github.com/DeGraciaMathieu/php-coupling-instability-analyzer/actions/workflows/testing.yml)
+[![testing](https://github.com/DeGraciaMathieu/php-class-dependencies-analyzer/actions/workflows/testing.yml/badge.svg)](https://github.com/DeGraciaMathieu/php-class-dependencies-analyzer/actions/workflows/testing.yml)
 ![GitHub Tag](https://img.shields.io/github/v/tag/DeGraciaMathieu/php-class-dependencies-analyzer)
 
 ## Phar
