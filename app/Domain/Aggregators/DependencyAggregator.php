@@ -2,6 +2,7 @@
 
 namespace App\Domain\Aggregators;
 
+use App\Domain\Services\Cycle;
 use App\Domain\Services\CyclicDependency;
 use App\Domain\Entities\ClassDependencies;
 
@@ -69,7 +70,7 @@ class DependencyAggregator
         }
     }
 
-    public function detectCycles(): array
+    public function detectCycles(): Cycle
     {
         return $this->cyclicDependency->detect($this->classes);
     }

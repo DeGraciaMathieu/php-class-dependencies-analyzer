@@ -14,7 +14,9 @@ test('it detects cyclic dependencies', function () {
 
     $cycles = app(CyclicDependency::class)->detect($dependencyAggregator->classes());
 
-    expect($cycles)->toBe([
+    $this->assertFalse($cycles->isEmpty());
+
+    expect($cycles->all())->toBe([
         ['A', 'B', 'C'],
     ]);
 });
@@ -31,7 +33,9 @@ test('it detects classes with multiple cycles', function () {
 
     $cycles = app(CyclicDependency::class)->detect($dependencyAggregator->classes());
 
-    expect($cycles)->toBe([
+    $this->assertFalse($cycles->isEmpty());
+
+    expect($cycles->all())->toBe([
         ['A', 'B'],
         ['A', 'C'],
     ]);

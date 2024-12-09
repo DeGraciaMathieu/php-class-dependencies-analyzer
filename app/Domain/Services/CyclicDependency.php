@@ -3,29 +3,30 @@
 namespace App\Domain\Services;
 
 use App\Domain\Services\Visited;
+use App\Domain\Services\Cycle;
+use App\Domain\Services\Stack;
 
 class CyclicDependency
 {
     public function __construct(
         private Visited $visited,
         private Stack $stack,
+        private Cycle $cycle,
     ) {}
 
-    public function detect(array $classes): array
+    public function detect(array $classes): Cycle
     {
-        $cycles = [];
-
         foreach ($classes as $givenClass => $_) {
 
             if ($this->visited->unknown($givenClass)) {
-                $this->deepDive($givenClass, $classes, $cycles);
+                $this->deepDive($givenClass, $classes);
             }
         }
 
-        return $cycles;
+        return $this->cycle;
     }
 
-    private function deepDive(string $class, array $classes, array &$cycles): void
+    private function deepDive(string $class, array $classes): void
     {
         /**
          * Duplicate class can exist in the array.
@@ -44,7 +45,7 @@ class CyclicDependency
 
             $cycle = $this->stack->extractCycle($class);
 
-            $cycles[] = $cycle;
+            $this->cycle->add($cycle);
 
             /**
              * Stop the recursion, we can switch to another class.
@@ -58,7 +59,7 @@ class CyclicDependency
 
         foreach ($classes[$class]->getDependencies() as $dependency) {
             if (isset($classes[$dependency])) {
-                $this->deepDive($dependency, $classes, $cycles);
+                $this->deepDive($dependency, $classes);
             }
         }
 

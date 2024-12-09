@@ -2,15 +2,16 @@
 
 namespace App\Application\Cyclic;
 
+use App\Domain\Services\Cycle;
 use App\Application\Cyclic\CyclicResponse;
 
 class CyclicResponseMapper
 {
-    public function from(array $cycles): CyclicResponse
+    public function from(Cycle $cycles): CyclicResponse
     {
         return new CyclicResponse(
-            count: count($cycles),
-            cycles: $cycles,
+            count: $cycles->count(),
+            cycles: $cycles->all(),
         );
     }
 }
