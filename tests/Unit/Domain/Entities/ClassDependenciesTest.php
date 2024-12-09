@@ -43,7 +43,7 @@ test('it correctly checks if a class is not a dependency', function () {
         ->withFqcn('C')
         ->build();
 
-    expect($classDependencies->hasDependency($c))->toBeFalse();
+    expect($classDependencies->isDependentOn($c))->toBeFalse();
 });
 
 test('it correctly checks if a class is a dependency', function () {
@@ -59,7 +59,7 @@ test('it correctly checks if a class is a dependency', function () {
         ->withFqcn('B')
         ->build();
 
-    expect($classDependencies->hasDependency($b))->toBeTrue();
+    expect($classDependencies->isDependentOn($b))->toBeTrue();
 });
 
 test('it calculates the abstractness correctly', function () {

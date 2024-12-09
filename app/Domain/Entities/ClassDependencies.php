@@ -48,7 +48,7 @@ class ClassDependencies
         $this->coupling->incrementAfferent();
     }
 
-    public function hasDependency(ClassDependencies $otherClass): bool
+    public function isDependentOn(ClassDependencies $otherClass): bool
     {
         return $this->dependencies->knows($otherClass->fqcn);
     }

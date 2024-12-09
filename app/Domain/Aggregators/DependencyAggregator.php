@@ -44,7 +44,7 @@ class DependencyAggregator
                     continue;
                 }
 
-                if ($otherClass->hasDependency($givenClass)) {
+                if ($otherClass->isDependentOn($givenClass)) {
                     $givenClass->incrementAfferent();
                 }
             }
