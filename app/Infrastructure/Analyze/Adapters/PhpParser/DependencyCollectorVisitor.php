@@ -20,9 +20,10 @@ final class DependencyCollectorVisitor extends NodeVisitorAbstract
         if ($node instanceof Class_) {
             $this->fqcn = $node->namespacedName?->toString();
             $this->isAbstract = $node->isAbstract();
+            $this->isInterface = false;
         }
 
-        if ($node instanceof Interface_) {
+        if ($node instanceof Interface_ && $this->fqcn === null) {
             $this->fqcn = $node->namespacedName?->toString();
             $this->isInterface = true;
         }
