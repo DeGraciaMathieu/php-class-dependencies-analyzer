@@ -33,7 +33,10 @@ final class DependencyCollectorVisitor extends NodeVisitorAbstract
         }
 
         if ($node instanceof Node\Name) {
-            $this->dependencies[] = $node->toString();
+            $name = $node->toString();
+            if (! $this->isBuiltinType($name)) {
+                $this->dependencies[] = $name;
+            }
         }
 
         if ($node instanceof Node\Attribute) {
@@ -49,5 +52,14 @@ final class DependencyCollectorVisitor extends NodeVisitorAbstract
             isInterface: $this->isInterface,
             isAbstract: $this->isAbstract,
         );
+    }
+
+    private function isBuiltinType(string $name): bool
+    {
+        return in_array(strtolower($name), [
+            'string', 'int', 'float', 'bool', 'array', 'callable',
+            'iterable', 'object', 'mixed', 'null', 'false', 'true',
+            'never', 'void', 'self', 'parent', 'static',
+        ], true);
     }
 }
