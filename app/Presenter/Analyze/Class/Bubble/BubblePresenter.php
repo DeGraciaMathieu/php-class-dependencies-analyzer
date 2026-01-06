@@ -12,15 +12,18 @@ class BubblePresenter implements AnalyzePresenter
 {
     public function __construct(
         private readonly BubbleMapper $mapper,
+        private readonly BubbleView $view,
     ) {}
 
     public function present(AnalyzeResponse $response): void
     {
         $metrics = $response->metrics;
 
-        $foldersData = $this->mapper->from($metrics);
+        $dependencies = $this->mapper->from($metrics);
 
-        echo json_encode($foldersData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        $viewModel = new BubbleViewModel($dependencies);
+
+        $this->view->show($viewModel);
     }
 
     public function hello(): void

@@ -57,6 +57,10 @@ class BubbleMapper
             foreach ($dependencies as $dependency) {
                 $dependencyFolderPath = $this->fqcnToFolderPath($dependency);
                 
+                if ($dependencyFolderPath === '') {
+                    continue;
+                }
+
                 // Ne pas ajouter de relation vers le même dossier
                 if ($dependencyFolderPath !== $folderPath && !in_array($dependencyFolderPath, $foldersData[$folderPath]['relations'], true)) {
                     $foldersData[$folderPath]['relations'][] = $dependencyFolderPath;
