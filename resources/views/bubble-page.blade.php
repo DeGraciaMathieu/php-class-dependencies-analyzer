@@ -115,11 +115,7 @@
 
             <div class="chart-container">
                 <div class="chart-controls" id="chartControls" style="display: none;">
-                    <button class="chart-btn" id="resetZoomBtn" title="Réinitialiser le zoom">🔍 Reset</button>
-                    <button class="chart-btn" id="resetFiltersBtn" title="Réafficher toutes les bulles supprimées">🧹 Filtres</button>
-                    <button class="chart-btn" id="downloadBtn" title="Télécharger en PNG">📥 PNG</button>
-                    <button class="chart-btn" id="downloadSvgBtn" title="Télécharger en SVG">📥 SVG</button>
-                    <label style="margin-left: 12px; display: inline-flex; align-items: center; gap: 6px; font-size: 13px;">
+                    <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px;">
                         Type dependance:
                         <select id="cycleModeSelect" style="padding: 4px 8px; font-size: 13px;">
                             <option value="all" selected>Toutes</option>
@@ -161,9 +157,6 @@
     </script>
     <script>
 {!! file_get_contents(base_path('resources/views/bubble/js/chart-generator.js')) !!}
-    </script>
-    <script>
-{!! file_get_contents(base_path('resources/views/bubble/js/download-handler.js')) !!}
     </script>
     <script>
 {!! file_get_contents(base_path('resources/views/bubble/js/main.js')) !!}

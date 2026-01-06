@@ -69,21 +69,6 @@ document.addEventListener('DOMContentLoaded', function () {
     cycleModeSelect.addEventListener('change', generateChart);
   }
 
-  // Bouton pour réinitialiser les suppressions de bulles
-  document.getElementById('resetFiltersBtn').addEventListener('click', function(){
-    if (window.hiddenNodeIds && window.hiddenNodeIds.clear) {
-      window.hiddenNodeIds.clear();
-    } else {
-      hiddenNodeIds = new Set();
-      window.hiddenNodeIds = hiddenNodeIds;
-    }
-    generateChart();
-  });
-
-  document.getElementById('resetZoomBtn').addEventListener('click', function(){ if (window.resetZoom) window.resetZoom(); });
-  document.getElementById('downloadBtn').addEventListener('click', downloadChartAsPNG);
-  document.getElementById('downloadSvgBtn').addEventListener('click', downloadChartAsSVG);
-
   // Déclencher l'analyse à la touche Entrée dans la section configuration
   const parentInput = document.getElementById('parentFolder');
   const metricSelect = document.getElementById('metricSelect');
