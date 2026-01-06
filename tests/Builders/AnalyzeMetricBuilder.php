@@ -9,6 +9,7 @@ class AnalyzeMetricBuilder
     private string $name = 'default';
     private array $dependencies = [];
     private bool $abstract = false;
+    private bool $isInterface = false;
     private float $efferent = 0;
     private float $afferent = 0;
     private float $instability = 0;
@@ -25,6 +26,13 @@ class AnalyzeMetricBuilder
     public function isAbstract(): self
     {
         $this->abstract = true;
+
+        return $this;
+    }
+
+    public function isInterface(): self
+    {
+        $this->isInterface = true;
 
         return $this;
     }
@@ -56,6 +64,7 @@ class AnalyzeMetricBuilder
             'name' => $this->name,
             'dependencies' => $this->dependencies,
             'abstract' => $this->abstract,
+            'isInterface' => $this->isInterface,
             'coupling' => [
                 'efferent' => $this->efferent,
                 'afferent' => $this->afferent,

@@ -48,11 +48,22 @@ function generateChart() {
 }
 
 // Init
- document.addEventListener('DOMContentLoaded', function () {
-  const jsonFileInput = document.getElementById('jsonFile');
+document.addEventListener('DOMContentLoaded', function () {
+  // Si les données JSON sont déjà fournies par l'outil (ex: window.bubbleData),
+  // on les utilise directement et on génère le graphique sans formulaire.
+  if (window.bubbleData) {
+    topLevelData = window.bubbleData;
+    const emptyState = document.getElementById('emptyState');
+    if (emptyState) {
+      emptyState.style.display = 'none';
+    }
+    generateChart();
+  }
+
   const analyzeBtn = document.getElementById('analyzeBtn');
-  jsonFileInput.addEventListener('change', handleFileUpload);
-  analyzeBtn.addEventListener('click', generateChart);
+  if (analyzeBtn) {
+    analyzeBtn.addEventListener('click', generateChart);
+  }
   const cycleModeSelect = document.getElementById('cycleModeSelect');
   if (cycleModeSelect) {
     cycleModeSelect.addEventListener('change', generateChart);
