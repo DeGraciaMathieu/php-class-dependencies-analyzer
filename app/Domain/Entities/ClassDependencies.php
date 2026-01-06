@@ -74,6 +74,7 @@ class ClassDependencies
             'name' => $this->getName(),
             'dependencies' => $this->getDependencies(),
             'abstract' => $this->isAbstract(),
+            'isInterface' => $this->isInterface->isTrue(),
             'coupling' => $this->coupling->toArray(),
             'abstractness' => $this->abstractness->toArray(),
         ];

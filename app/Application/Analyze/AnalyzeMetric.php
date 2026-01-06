@@ -47,4 +47,9 @@ class AnalyzeMetric
     {
         return $this->metric['abstractness']['ratio'];
     }
+
+    public function isInterface(): bool
+    {
+        return $this->metric['isInterface'] ?? false;
+    }
 }
