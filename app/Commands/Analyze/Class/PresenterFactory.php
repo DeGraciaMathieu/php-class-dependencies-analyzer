@@ -5,7 +5,7 @@ namespace App\Commands\Analyze\Class;
 use Illuminate\Console\Command;
 use App\Application\Analyze\AnalyzePresenter;
 use App\Commands\Analyze\Class\Graph\GraphPresenterFactory;
-use App\Commands\Analyze\Class\Graph\BubblePresenterFactory;
+use App\Commands\Analyze\Class\Bubble\BubblePresenterFactory;
 use App\Commands\Analyze\Class\Summary\SummaryPresenterFactory;
 
 class PresenterFactory
