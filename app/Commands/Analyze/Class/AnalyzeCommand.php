@@ -11,6 +11,7 @@ class AnalyzeCommand extends AbstractCommand
 {
     protected $signature = 'analyze:class {path} 
         {--graph} 
+        {--bubble}
         {--only=} 
         {--exclude=} 
         {--target=}
