@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartographie des dépendances par dossier</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <link rel="stylesheet" href="../bubble/styles.css">
+    <style>
+        /* Élargir la zone de contenu pour cette page uniquement */
+        .container { max-width: 1800px; }
+        /* Augmenter la hauteur visible du SVG pour aérer */
+        #chart { height: 800px; min-height: 800px; }
+        .legend { max-height: 180px; overflow: auto; }
+        .chart-title { margin-bottom: 8px; }
+        .chart-btn { font-size: 13px; }
+        .dep-link { pointer-events: none; }
+        /* Autoriser pointer-events pour liens de cycle quand actif, géré inline via style */
+        /* Styles de surbrillance */
+        .bubble.highlight circle { stroke: #111827; stroke-width: 3; opacity: 1; }
+        .bubble.adjacent circle { stroke: #2563eb; stroke-width: 2; opacity: 0.95; }
+        .bubble.dimmed { opacity: 0.25; }
+        .dep-link.highlight { stroke-width: 3 !important; opacity: 1 !important; }
+        .dep-link.dimmed { opacity: 0.15 !important; }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Cartographie des dépendances par dossier</h1>
+            <p>Vue en bulles des relations entre dossiers de premier niveau</p>
+        </div>
+
+        <div class="navigation">
+            <div class="nav-links">
+                <a href="../bubble/index.html">Bubble Chart</a>
+                <a href="../circle-packing/index.html">Circle Packing</a>
+                <a href="../heatmap/index.html">Heatmap</a>
+                <a href="../scatterplot/index.html">Scatterplot</a>
+                <a href="./index.html" class="active">Dossiers (Bulles)</a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="controls">
+                <div class="form-section">
+                    <h3>Chargement du fichier d'analyse</h3>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <label for="jsonFile">Fichier JSON :</label>
+                            <input type="file" id="jsonFile" accept=".json">
+                            <div class="file-info" id="fileInfo"></div>
+                        </div>
+                        
+                    </div>
+                    <div class="status" id="fileStatus"></div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Configuration</h3>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <label for="parentFolder">Dossier parent (optionnel) :</label>
+                            <input type="text" id="parentFolder" placeholder="Ex: app/Modules">
+                        </div>
+                        <div class="input-group">
+                            <label for="metricSelect">Taille des bulles basée sur :</label>
+                            <select id="metricSelect">
+                                <option value="total">Total (classes+interfaces+abstracts)</option>
+                                <option value="constant">Taille standard</option>
+                                <option value="classes">Nombre de classes</option>
+                                <option value="interfaces">Nombre d'interfaces</option>
+                                <option value="abstracts">Nombre d'abstraites</option>
+                                <option value="efferent_coupling">Efferent Coupling (Σ)</option>
+                                <option value="afferent_coupling">Afferent Coupling (Σ)</option>
+                                <option value="instability_avg">Instabilité (moyenne)</option>
+                                 <option value="loc_total">Lignes de code (Σ)</option>
+                                 <option value="ccn_total">Complexité cyclomatique (Σ)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="colorSelect">Couleur des bulles basée sur :</label>
+                            <select id="colorSelect">
+                                <option value="group" selected>Par dossier (palette)</option>
+                                <option value="instability_avg">Instabilité (moyenne)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Profondeur des dossiers :</label>
+                            <div id="depthRadios" style="display: inline-flex; gap: 10px; align-items: center;">
+                                <label style="display: inline-flex; align-items: center; gap: 4px;">
+                                    <input type="radio" name="depthSelect" value="1" checked>
+                                    1
+                                </label>
+                                <label style="display: inline-flex; align-items: center; gap: 4px;">
+                                    <input type="radio" name="depthSelect" value="2">
+                                    2
+                                </label>
+                                <label style="display: inline-flex; align-items: center; gap: 4px;">
+                                    <input type="radio" name="depthSelect" value="3">
+                                    3
+                                </label>
+                                <label style="display: inline-flex; align-items: center; gap: 4px;">
+                                    <input type="radio" name="depthSelect" value="4">
+                                    4
+                                </label>
+                            </div>
+                        </div>
+                        <button class="btn" id="analyzeBtn">Générer</button>
+                    </div>
+                    <div class="status" id="analysisStatus"></div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-controls" id="chartControls" style="display: none;">
+                    <button class="chart-btn" id="resetZoomBtn" title="Réinitialiser le zoom">🔍 Reset</button>
+                     <button class="chart-btn" id="resetFiltersBtn" title="Réafficher toutes les bulles supprimées">🧹 Filtres</button>
+                    <button class="chart-btn" id="downloadBtn" title="Télécharger en PNG">📥 PNG</button>
+                    <button class="chart-btn" id="downloadSvgBtn" title="Télécharger en SVG">📥 SVG</button>
+                    <label style="margin-left: 12px; display: inline-flex; align-items: center; gap: 6px; font-size: 13px;">
+                        Type dependance:
+                        <select id="cycleModeSelect" style="padding: 4px 8px; font-size: 13px;">
+                            <option value="all" selected>Toutes</option>
+                            <option value="weak">Dépendances faibles uniquement</option>
+                            <option value="direct">Cycles directs (A↔B)</option>
+                            <option value="multi">Cycles multi (A→B→C→A)</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Analyse en cours...</p>
+                </div>
+
+                <div class="empty-state" id="emptyState">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                    </svg>
+                    <h3>Aucun fichier chargé</h3>
+                    <p>Veuillez charger un fichier JSON d'analyse (dossiers → relations) pour commencer</p>
+                </div>
+
+                <div class="chart-title" id="chartTitle" style="display: none;"></div>
+                <svg id="chart" style="display: none;"></svg>
+                <div class="legend" id="legend" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script src="js/data-processor.js"></script>
+    <script src="js/chart-generator.js"></script>
+    <script src="js/file-handler.js"></script>
+    <script src="js/download-handler.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
