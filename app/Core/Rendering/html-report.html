@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dependency report</title>
+<style>
+    :root {
+        --bg: #f7f7f5;
+        --surface: #ffffff;
+        --text: #1d1d1f;
+        --muted: #6b6b70;
+        --border: #dcdcd8;
+        --accent: #2f5fd0;
+        --edge: #a9a9ae;
+        --danger: #d93036;
+        --neutral: #b4b4b8;
+        --node-lightness: 52%;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --bg: #141416;
+            --surface: #1e1e21;
+            --text: #ececee;
+            --muted: #9a9aa0;
+            --border: #333338;
+            --accent: #7a9cff;
+            --edge: #5c5c63;
+            --danger: #ff5c61;
+            --neutral: #6c6c72;
+            --node-lightness: 45%;
+        }
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { height: 100%; margin: 0; }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        background: var(--bg);
+        color: var(--text);
+        font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px 24px;
+        padding: 12px 20px;
+        border-bottom: 1px solid var(--border);
+        background: var(--surface);
+    }
+
+    h1 { margin: 0; font-size: 16px; font-weight: 600; }
+
+    #summary { color: var(--muted); font-variant-numeric: tabular-nums; }
+
+    #summary .alert { color: var(--danger); font-weight: 600; }
+
+    .toggle {
+        display: inline-flex;
+        margin-left: auto;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .toggle button {
+        padding: 6px 14px;
+        border: 0;
+        background: transparent;
+        color: var(--text);
+        font: inherit;
+        cursor: pointer;
+    }
+
+    .toggle button[aria-pressed="true"] { background: var(--accent); color: #ffffff; }
+
+    main { display: flex; flex: 1; min-height: 0; }
+
+    #graph { position: relative; flex: 1; min-width: 0; }
+
+    #cy { position: absolute; inset: 0; }
+
+    #message {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--muted);
+    }
+
+    #legend {
+        position: absolute;
+        left: 12px;
+        bottom: 12px;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--muted);
+        font-size: 12px;
+    }
+
+    #legend div { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+
+    #legend div:first-child { margin-top: 0; }
+
+    .gradient {
+        width: 72px;
+        height: 10px;
+        border-radius: 5px;
+        background: linear-gradient(to right, hsl(145, 55%, var(--node-lightness)), hsl(90, 55%, var(--node-lightness)), hsl(35, 55%, var(--node-lightness)));
+    }
+
+    .swatch { width: 12px; height: 12px; border-radius: 50%; }
+
+    .swatch.neutral { background: var(--neutral); }
+
+    .swatch.ring { border: 2px solid var(--danger); }
+
+    .line { width: 28px; border-top: 2px solid var(--danger); }
+
+    .line.dashed { border-top-style: dashed; }
+
+    aside {
+        width: 340px;
+        overflow-y: auto;
+        padding: 16px 20px;
+        border-left: 1px solid var(--border);
+        background: var(--surface);
+    }
+
+    aside h2 { margin: 0 0 2px; font-size: 15px; word-break: break-all; }
+
+    aside h3 { margin: 18px 0 6px; font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+
+    aside .subtitle { margin: 0; color: var(--muted); }
+
+    aside .hint { color: var(--muted); }
+
+    aside .alert { margin: 10px 0 0; color: var(--danger); font-weight: 600; }
+
+    aside table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+
+    aside td { padding: 3px 0; border-bottom: 1px solid var(--border); }
+
+    aside td:last-child { text-align: right; }
+
+    aside ul { margin: 0; padding: 0; list-style: none; }
+
+    aside li button {
+        width: 100%;
+        padding: 3px 0;
+        border: 0;
+        background: none;
+        color: var(--accent);
+        font: inherit;
+        text-align: left;
+        word-break: break-all;
+        cursor: pointer;
+    }
+
+    aside li button:hover { text-decoration: underline; }
+
+    aside li.danger button { color: var(--danger); }
+
+    @media (max-width: 720px) {
+        main { flex-direction: column; }
+        #graph { min-height: 60vh; }
+        aside { width: auto; border-left: 0; border-top: 1px solid var(--border); }
+    }
+</style>
+</head>
+<body>
+<header>
+    <h1>Dependency report</h1>
+    <div id="summary"></div>
+    <div class="toggle" role="group" aria-label="View">
+        <button type="button" data-view="components" aria-pressed="true">Components</button>
+        <button type="button" data-view="classes" aria-pressed="false">Classes</button>
+    </div>
+</header>
+<main>
+    <div id="graph">
+        <div id="cy"></div>
+        <div id="message" hidden></div>
+        <div id="legend">
+            <div><span class="gradient"></span> Distance D from 0 to 1</div>
+            <div><span class="swatch neutral"></span> D not measurable</div>
+            <div><span class="swatch ring"></span> Member of a cycle</div>
+            <div><span class="line"></span> Dependency in a cycle</div>
+            <div><span class="line dashed"></span> SDP violation</div>
+        </div>
+    </div>
+    <aside id="panel"></aside>
+</main>
+<script type="application/json" id="report-data">{{REPORT_DATA}}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/{{CYTOSCAPE_VERSION}}/cytoscape.min.js"></script>
+<script>
+(function () {
+    'use strict';
+
+    const report = JSON.parse(document.getElementById('report-data').textContent);
+
+    const componentsByName = new Map(report.components.map((component) => [component.name, component]));
+    const classesByFqcn = new Map(report.classes.map((klass) => [klass.fqcn, klass]));
+    const sdpEdges = new Set(report.sdp.map((violation) => violation.from + '\n' + violation.to));
+
+    // Member => index of its cycle, per level: an edge is in a cycle when both ends belong to the same one.
+    const cycleOf = { 'class': new Map(), 'component': new Map() };
+    report.cycles.forEach((cycle, index) => cycle.members.forEach((member) => cycleOf[cycle.level].set(member, index)));
+
+    const incoming = {
+        components: invert(report.componentDependencies),
+        classes: invert(report.classDependencies),
+    };
+
+    let currentView = 'components';
+    let cy = null;
+
+    renderSummary();
+    renderEmptyPanel();
+
+    if (typeof cytoscape === 'undefined') {
+        showMessage('Cytoscape could not be loaded: an internet connection is required to display the graph.');
+        return;
+    }
+
+    if (report.components.length === 0) {
+        showMessage('Nothing to display: no class was analysed.');
+        return;
+    }
+
+    cy = cytoscape({
+        container: document.getElementById('cy'),
+        style: graphStyle(),
+        minZoom: 0.1,
+        maxZoom: 4,
+    });
+
+    cy.on('tap', 'node', (event) => select(event.target));
+    cy.on('tap', (event) => {
+        if (event.target === cy) {
+            clearSelection();
+        }
+    });
+
+    document.querySelectorAll('.toggle button').forEach((button) => {
+        button.addEventListener('click', () => switchView(button.dataset.view));
+    });
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => cy.style(graphStyle()));
+
+    showView();
+
+    function invert(dependencies) {
+        const dependents = {};
+
+        Object.entries(dependencies).forEach(([source, targets]) => targets.forEach((target) => {
+            (dependents[target] = dependents[target] || []).push(source);
+        }));
+
+        Object.values(dependents).forEach((sources) => sources.sort());
+
+        return dependents;
+    }
+
+    function inSameCycle(level, from, to) {
+        return cycleOf[level].has(from) && cycleOf[level].get(from) === cycleOf[level].get(to);
+    }
+
+    function distanceColor(distance) {
+        if (distance === null) {
+            return cssVar('--neutral');
+        }
+
+        return 'hsl(' + Math.round(145 - 110 * distance) + ', 55%, ' + cssVar('--node-lightness') + ')';
+    }
+
+    function cssVar(name) {
+        return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+
+    function shortName(fqcn) {
+        return fqcn.split('\\').pop();
+    }
+
+    function componentId(name) {
+        return 'component:' + name;
+    }
+
+    function classId(fqcn) {
+        return 'class:' + fqcn;
+    }
+
+    function componentElements() {
+        const nodes = report.components.map((component) => ({
+            data: {
+                id: componentId(component.name),
+                label: component.name,
+                type: 'component',
+                key: component.name,
+                distance: component.distance,
+                size: Math.round(28 + 14 * Math.sqrt(component.classCount)),
+            },
+            classes: cycleOf.component.has(component.name) ? 'in-cycle' : '',
+        }));
+
+        const edges = [];
+
+        Object.entries(report.componentDependencies).forEach(([from, targets]) => targets.forEach((to) => {
+            const highlights = [];
+
+            if (inSameCycle('component', from, to)) {
+                highlights.push('cycle');
+            }
+
+            if (sdpEdges.has(from + '\n' + to)) {
+                highlights.push('sdp');
+            }
+
+            edges.push({
+                data: { id: 'edge:' + from + '\n' + to, source: componentId(from), target: componentId(to) },
+                classes: highlights.join(' '),
+            });
+        }));
+
+        return nodes.concat(edges);
+    }
+
+    function classElements() {
+        const parents = report.components.map((component) => ({
+            data: {
+                id: componentId(component.name),
+                label: component.name,
+                type: 'component',
+                key: component.name,
+                distance: component.distance,
+            },
+            classes: 'group' + (cycleOf.component.has(component.name) ? ' in-cycle' : ''),
+        }));
+
+        const nodes = report.classes.map((klass) => ({
+            data: {
+                id: classId(klass.fqcn),
+                parent: componentId(klass.component),
+                label: shortName(klass.fqcn),
+                type: 'class',
+                key: klass.fqcn,
+                distance: componentsByName.get(klass.component).distance,
+                size: 26,
+            },
+            classes: cycleOf['class'].has(klass.fqcn) ? 'in-cycle' : '',
+        }));
+
+        const edges = [];
+
+        Object.entries(report.classDependencies).forEach(([from, targets]) => targets.forEach((to) => {
+            edges.push({
+                data: { id: 'edge:' + from + '\n' + to, source: classId(from), target: classId(to) },
+                classes: inSameCycle('class', from, to) ? 'cycle' : '',
+            });
+        }));
+
+        return parents.concat(nodes, edges);
+    }
+
+    function graphStyle() {
+        const text = cssVar('--text');
+        const background = cssVar('--bg');
+        const edge = cssVar('--edge');
+        const danger = cssVar('--danger');
+        const accent = cssVar('--accent');
+
+        return [
+            {
+                selector: 'node',
+                style: {
+                    'label': 'data(label)',
+                    'background-color': (node) => distanceColor(node.data('distance')),
+                    'color': text,
+                    'font-size': 11,
+                    'text-valign': 'bottom',
+                    'text-margin-y': 4,
+                    'text-outline-color': background,
+                    'text-outline-width': 2,
+                    'border-width': 0,
+                },
+            },
+            {
+                selector: 'node[size]',
+                style: { 'width': 'data(size)', 'height': 'data(size)' },
+            },
+            {
+                selector: 'node[type = "class"]',
+                style: { 'shape': 'round-rectangle', 'font-size': 10 },
+            },
+            {
+                selector: 'node.group',
+                style: {
+                    'shape': 'round-rectangle',
+                    'background-color': (node) => distanceColor(node.data('distance')),
+                    'background-opacity': 0.12,
+                    'border-width': 1,
+                    'border-color': (node) => distanceColor(node.data('distance')),
+                    'text-valign': 'top',
+                    'text-halign': 'center',
+                    'text-margin-y': -4,
+                    'font-size': 12,
+                    'font-weight': 600,
+                    'padding': 14,
+                },
+            },
+            {
+                selector: 'node.in-cycle',
+                style: { 'border-width': 3, 'border-color': danger },
+            },
+            {
+                selector: 'edge',
+                style: {
+                    'width': 1.5,
+                    'line-color': edge,
+                    'target-arrow-color': edge,
+                    'target-arrow-shape': 'triangle',
+                    'arrow-scale': 0.9,
+                    'curve-style': 'bezier',
+                },
+            },
+            {
+                selector: 'edge.cycle, edge.sdp',
+                style: { 'width': 2.5, 'line-color': danger, 'target-arrow-color': danger, 'z-index': 10 },
+            },
+            {
+                selector: 'edge.sdp',
+                style: { 'line-style': 'dashed' },
+            },
+            {
+                selector: 'node:selected',
+                style: { 'border-width': 3, 'border-color': accent },
+            },
+            {
+                selector: '.faded',
+                style: { 'opacity': 0.15 },
+            },
+        ];
+    }
+
+    function switchView(view) {
+        if (view === currentView) {
+            return;
+        }
+
+        currentView = view;
+
+        document.querySelectorAll('.toggle button').forEach((button) => {
+            button.setAttribute('aria-pressed', String(button.dataset.view === view));
+        });
+
+        showView();
+    }
+
+    function showView() {
+        cy.elements().remove();
+        cy.add(currentView === 'components' ? componentElements() : classElements());
+        cy.layout({
+            name: 'cose',
+            animate: false,
+            padding: 40,
+            nodeRepulsion: () => currentView === 'components' ? 120000 : 20000,
+            idealEdgeLength: () => currentView === 'components' ? 120 : 60,
+            nestingFactor: 0.8,
+            gravity: 0.6,
+            numIter: 2000,
+            randomize: true,
+        }).run();
+
+        clearSelection();
+    }
+
+    function select(node) {
+        cy.elements().unselect();
+        node.select();
+
+        const neighbourhood = node.closedNeighborhood().union(node.ancestors()).union(node.descendants());
+        const neighbourhoodWithParents = neighbourhood.union(neighbourhood.nodes().ancestors());
+
+        cy.elements().addClass('faded');
+        neighbourhoodWithParents.removeClass('faded');
+
+        if (node.data('type') === 'component') {
+            renderComponentPanel(componentsByName.get(node.data('key')));
+        } else {
+            renderClassPanel(classesByFqcn.get(node.data('key')));
+        }
+    }
+
+    function selectByKey(type, key) {
+        const node = cy.getElementById(type === 'component' ? componentId(key) : classId(key));
+
+        if (node.empty()) {
+            return;
+        }
+
+        select(node);
+        cy.animate({ center: { eles: node }, duration: 250 });
+    }
+
+    function clearSelection() {
+        cy.elements().unselect().removeClass('faded');
+        renderEmptyPanel();
+    }
+
+    function renderSummary() {
+        const summary = report.summary;
+        const parts = [
+            [summary.files + ' files', false],
+            [summary.classes + ' classes', false],
+            [summary.components + ' components', false],
+            [summary.cycles + ' cycles', summary.cycles > 0],
+            [summary.sdpViolations + ' SDP violations', summary.sdpViolations > 0],
+        ];
+
+        if (summary.ruleViolations !== null) {
+            parts.push([summary.ruleViolations + ' rule violations', summary.ruleViolations > 0]);
+        }
+
+        if (summary.errors > 0) {
+            parts.push([summary.errors + ' parse errors', true]);
+        }
+
+        const container = document.getElementById('summary');
+
+        parts.forEach(([label, alert], index) => {
+            if (index > 0) {
+                container.append(' · ');
+            }
+
+            container.append(element('span', label, alert ? 'alert' : null));
+        });
+    }
+
+    function renderEmptyPanel() {
+        const panel = document.getElementById('panel');
+
+        panel.replaceChildren(
+            element('h2', 'Details'),
+            element('p', 'Click a node to see its metrics and its dependencies. Click the background to reset.', 'hint'),
+        );
+    }
+
+    function renderComponentPanel(component) {
+        const children = [
+            element('h2', component.name),
+            element('p', 'Component', 'subtitle'),
+            metricsTable([
+                ['Classes (Nc)', component.classCount],
+                ['Abstract (Na)', component.abstractCount],
+                ['Abstractness (A)', metric(component.abstractness)],
+                ['Afferent (Ca)', component.afferent],
+                ['Efferent (Ce)', component.efferent],
+                ['Instability (I)', metric(component.instability)],
+                ['Distance (D)', metric(component.distance)],
+            ]),
+        ];
+
+        if (cycleOf.component.has(component.name)) {
+            children.push(element('p', 'Member of a component cycle.', 'alert'));
+        }
+
+        const outgoing = report.componentDependencies[component.name] || [];
+        const dependents = incoming.components[component.name] || [];
+
+        children.push(
+            element('h3', 'Depends on (' + outgoing.length + ')'),
+            dependencyList('component', outgoing, (to) => inSameCycle('component', component.name, to) || sdpEdges.has(component.name + '\n' + to)),
+            element('h3', 'Used by (' + dependents.length + ')'),
+            dependencyList('component', dependents, (from) => inSameCycle('component', from, component.name) || sdpEdges.has(from + '\n' + component.name)),
+        );
+
+        document.getElementById('panel').replaceChildren(...children);
+    }
+
+    function renderClassPanel(klass) {
+        const children = [
+            element('h2', klass.fqcn),
+            element('p', klass.kind + ' in ' + klass.component, 'subtitle'),
+            metricsTable([
+                ['Afferent (Ca)', klass.afferent],
+                ['Efferent (Ce)', klass.efferent],
+                ['External', klass.external],
+                ['Instability (I)', metric(klass.instability)],
+            ]),
+        ];
+
+        if (cycleOf['class'].has(klass.fqcn)) {
+            children.push(element('p', 'Member of a class cycle.', 'alert'));
+        }
+
+        const outgoing = report.classDependencies[klass.fqcn] || [];
+        const dependents = incoming.classes[klass.fqcn] || [];
+
+        children.push(
+            element('h3', 'Depends on (' + outgoing.length + ')'),
+            dependencyList('class', outgoing, (to) => inSameCycle('class', klass.fqcn, to)),
+            element('h3', 'Used by (' + dependents.length + ')'),
+            dependencyList('class', dependents, (from) => inSameCycle('class', from, klass.fqcn)),
+        );
+
+        document.getElementById('panel').replaceChildren(...children);
+    }
+
+    function metricsTable(rows) {
+        const table = document.createElement('table');
+
+        rows.forEach(([label, value]) => {
+            const row = table.insertRow();
+            row.insertCell().textContent = label;
+            row.insertCell().textContent = String(value);
+        });
+
+        return table;
+    }
+
+    function dependencyList(type, keys, isHighlighted) {
+        if (keys.length === 0) {
+            return element('p', 'None', 'hint');
+        }
+
+        const list = document.createElement('ul');
+
+        keys.forEach((key) => {
+            const item = element('li', null, isHighlighted(key) ? 'danger' : null);
+            const button = element('button', key);
+            button.type = 'button';
+            button.addEventListener('click', () => selectByKey(type, key));
+            item.append(button);
+            list.append(item);
+        });
+
+        return list;
+    }
+
+    function metric(value) {
+        return value === null ? '—' : value.toFixed(2);
+    }
+
+    function element(tag, text, className) {
+        const node = document.createElement(tag);
+
+        if (text !== null && text !== undefined) {
+            node.textContent = text;
+        }
+
+        if (className) {
+            node.className = className;
+        }
+
+        return node;
+    }
+
+    function showMessage(text) {
+        const message = document.getElementById('message');
+        message.textContent = text;
+        message.hidden = false;
+    }
+})();
+</script>
+</body>
+</html>

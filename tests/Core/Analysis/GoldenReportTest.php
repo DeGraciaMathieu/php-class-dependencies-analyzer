@@ -51,6 +51,8 @@ function normalizeReport(Report $report): array
             'message' => $error->message,
         ], $report->errors),
         'duplicates' => $report->duplicates,
+        'componentDependencies' => $report->componentDependencies,
+        'classDependencies' => $report->classDependencies,
     ];
 }
 

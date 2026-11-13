@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Analysis;
 
+use App\Core\Graph\DependencyGraph;
 use App\Core\Graph\Filter;
 use App\Core\Graph\GraphBuilder;
 use App\Core\Parser\ClassParser;
@@ -44,6 +45,8 @@ final readonly class AnalysisPipeline
             errors: $errors,
             duplicates: $graph->duplicates(),
             fileCount: count($files),
+            componentDependencies: self::retainDependencies($componentAnalyzer->dependencies($graph), $componentMetrics),
+            classDependencies: self::retainDependencies(self::classDependencies($graph, $classMetrics), $classMetrics),
         );
     }
 
@@ -139,5 +142,37 @@ final readonly class AnalysisPipeline
             || isset($retainedComponents[$violation->to]);
 
         return array_values(array_filter($violations, $isRetained));
+    }
+
+    /**
+     * @param  array<string, ClassMetrics>  $retainedClasses
+     * @return array<string, list<string>>
+     */
+    private static function classDependencies(DependencyGraph $graph, array $retainedClasses): array
+    {
+        $dependencies = [];
+
+        foreach (array_keys($retainedClasses) as $fqcn) {
+            $dependencies[$fqcn] = $graph->dependenciesOf($fqcn);
+        }
+
+        return $dependencies;
+    }
+
+    /**
+     * Keeps the retained sources and, for each, only its retained targets.
+     *
+     * @param  array<string, list<string>>  $dependencies
+     * @param  array<string, mixed>  $retained
+     * @return array<string, list<string>>
+     */
+    private static function retainDependencies(array $dependencies, array $retained): array
+    {
+        $retainedDependencies = array_intersect_key($dependencies, $retained);
+
+        return array_map(
+            static fn (array $targets): array => array_values(array_filter($targets, static fn (string $target): bool => isset($retained[$target]))),
+            $retainedDependencies,
+        );
     }
 }

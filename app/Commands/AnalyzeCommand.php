@@ -9,6 +9,7 @@ use App\Core\Config\Config;
 use App\Core\Config\ConfigException;
 use App\Core\Config\ConfigLoader;
 use App\Core\Parser\ClassParser;
+use App\Core\Rendering\HtmlRenderer;
 use App\Core\Rendering\JsonRenderer;
 use App\Core\Rendering\Renderer;
 use App\Core\Rendering\ReportSection;
@@ -36,7 +37,7 @@ class AnalyzeCommand extends AbstractCommand
         {paths?* : Files or directories to analyze, replace the configured paths}
         {--config= : Configuration file, defaults to dependencies.php in the current directory}
         {--report= : Comma-separated sections: classes, components, cycles, sdp}
-        {--format=table : Output format: table, json or sarif}
+        {--format=table : Output format: table, json, sarif or html (html requires --output)}
         {--output= : Write the report to this file instead of the standard output}
         {--only= : Comma-separated FQCN globs to keep, replace the configured "only"}
         {--exclude= : Comma-separated FQCN globs to ignore, replace the configured "ignore"}
@@ -182,7 +183,10 @@ class AnalyzeCommand extends AbstractCommand
             'table' => new TableRenderer,
             'json' => new JsonRenderer,
             'sarif' => new SarifRenderer((string) config('app.version'), $this->sarifFallbackLocation($configFile, $config)),
-            default => throw new InvalidArgumentException("Unknown format \"{$format}\", expected one of: table, json, sarif."),
+            'html' => $this->option('output') === null
+                ? throw new InvalidArgumentException('The html format requires --output: write the report to a file.')
+                : new HtmlRenderer,
+            default => throw new InvalidArgumentException("Unknown format \"{$format}\", expected one of: table, json, sarif, html."),
         };
     }
 

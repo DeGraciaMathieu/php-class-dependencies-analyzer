@@ -22,6 +22,8 @@ final readonly class Report
      * @param  list<SdpViolation>  $sdpViolations
      * @param  list<ParseError>  $errors
      * @param  list<string>  $duplicates
+     * @param  array<string, list<string>>  $componentDependencies  Retained component => retained components it depends on
+     * @param  array<string, list<string>>  $classDependencies  Retained FQCN => retained FQCNs it depends on
      */
     public function __construct(
         public array $classes,
@@ -31,5 +33,7 @@ final readonly class Report
         public array $errors,
         public array $duplicates,
         public int $fileCount,
+        public array $componentDependencies = [],
+        public array $classDependencies = [],
     ) {}
 }

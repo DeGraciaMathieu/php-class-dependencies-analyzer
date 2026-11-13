@@ -60,6 +60,22 @@ it('can write the report to a file', function () {
     }
 });
 
+it('writes the html report to a file', function () {
+    $file = tempnam(sys_get_temp_dir(), 'analyze');
+
+    try {
+        $this->artisan("analyze --config=tests/Fixtures/Core/Config/rules.php --format=html --output={$file} --no-cache")
+            ->expectsOutputToContain("Report written to {$file}.")
+            ->assertExitCode(1);
+
+        expect(file_get_contents($file))->toStartWith('<!DOCTYPE html>')
+            ->toContain('cytoscape/3.21.1/cytoscape.min.js')
+            ->toContain('"Shop\\\\Billing"');
+    } finally {
+        unlink($file);
+    }
+});
+
 it('can run the analyze command with a configuration file', function () {
     $json = analyzeJson(['--config' => 'tests/Fixtures/Core/Config/project.php']);
 
@@ -312,7 +328,8 @@ it('fails with exit code 2', function (string $command, string $message) {
         ->assertExitCode(2);
 })->with([
     'missing path' => ['analyze missing', 'does not exist'],
-    'unknown format' => ['analyze app --format=xml', 'Unknown format "xml"'],
+    'unknown format' => ['analyze app --format=xml', 'Unknown format "xml", expected one of: table, json, sarif, html.'],
+    'html without output' => ['analyze app --format=html', 'The html format requires --output'],
     'unknown section' => ['analyze app --report=foo', 'Unknown report section "foo"'],
     'invalid configuration' => ['analyze --config=tests/Fixtures/Core/Config/returns-array.php', 'must return'],
 ]);

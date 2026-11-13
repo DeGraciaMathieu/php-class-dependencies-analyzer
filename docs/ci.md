@@ -64,7 +64,7 @@ The report shows the components, cycles and SDP violations, then the rule violat
 | Option | Description |
 | --- | --- |
 | `--config=FILE` | Configuration file, `dependencies.php` of the current directory by default |
-| `--format=table\|json\|sarif` | Output format, `table` by default |
+| `--format=table\|json\|sarif\|html` | Output format, `table` by default (`html` requires `--output`) |
 | `--output=FILE` | Write the report to a file instead of the standard output |
 | `--report=SECTIONS` | Comma-separated sections: `classes`, `components`, `cycles`, `sdp` |
 | `--baseline=FILE` | Baseline file, replaces the configured one |

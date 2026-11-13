@@ -167,5 +167,53 @@
             "message": "Syntax error, unexpected '}', expecting T_VARIABLE on line 8"
         }
     ],
-    "duplicates": []
+    "duplicates": [],
+    "componentDependencies": {
+        "Shop\\Billing": [
+            "Shop\\Ordering"
+        ],
+        "Shop\\Catalog": [],
+        "Shop\\Ordering": [
+            "Shop\\Billing",
+            "Shop\\Catalog"
+        ]
+    },
+    "classDependencies": {
+        "Shop\\Billing\\HasTaxes": [],
+        "Shop\\Billing\\Invoice": [
+            "Shop\\Billing\\HasTaxes",
+            "Shop\\Ordering\\Order"
+        ],
+        "Shop\\Billing\\PaymentGateway": [
+            "Shop\\Billing\\Invoice"
+        ],
+        "Shop\\Billing\\StripeGateway": [
+            "Shop\\Billing\\Invoice",
+            "Shop\\Billing\\PaymentGateway"
+        ],
+        "Shop\\Catalog\\Category": [
+            "Shop\\Catalog\\Product"
+        ],
+        "Shop\\Catalog\\Product": [
+            "Shop\\Catalog\\Category"
+        ],
+        "Shop\\Catalog\\ProductRepository": [
+            "Shop\\Catalog\\Product"
+        ],
+        "Shop\\Ordering\\Order": [
+            "Shop\\Catalog\\Product",
+            "Shop\\Ordering\\OrderStatus"
+        ],
+        "Shop\\Ordering\\OrderRepository": [
+            "Shop\\Ordering\\Order"
+        ],
+        "Shop\\Ordering\\OrderStatus": [],
+        "Shop\\Ordering\\PlaceOrder": [
+            "Shop\\Billing\\Invoice",
+            "Shop\\Billing\\PaymentGateway",
+            "Shop\\Catalog\\ProductRepository",
+            "Shop\\Ordering\\Order",
+            "Shop\\Ordering\\OrderRepository"
+        ]
+    }
 }
