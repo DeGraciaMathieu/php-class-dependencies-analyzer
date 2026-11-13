@@ -72,6 +72,21 @@ it('keeps sdp violations whose source or target is retained', function (string $
     'neither retained' => ['Shop\Catalog\*', 0],
 ]);
 
+it('keeps only the dependencies between retained entries', function () {
+    $report = runPipeline(filter: new Filter(only: ['Shop\Ordering\*', 'Shop\Catalog\Product']));
+
+    expect($report->componentDependencies)->toBe([
+        'Shop\Catalog' => [],
+        'Shop\Ordering' => ['Shop\Catalog'],
+    ])->and($report->classDependencies)->toBe([
+        'Shop\Catalog\Product' => [],
+        'Shop\Ordering\Order' => ['Shop\Catalog\Product', 'Shop\Ordering\OrderStatus'],
+        'Shop\Ordering\OrderRepository' => ['Shop\Ordering\Order'],
+        'Shop\Ordering\OrderStatus' => [],
+        'Shop\Ordering\PlaceOrder' => ['Shop\Ordering\Order', 'Shop\Ordering\OrderRepository'],
+    ]);
+});
+
 it('reports invalid files relative to the base path and still analyses the others', function () {
     $report = runPipeline(['Project', 'Parser/Invalid.php']);
 

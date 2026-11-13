@@ -45,7 +45,10 @@ return Config::make()
     ])
 
     // Optional: baseline file, relative to the project root (see below).
-    ->baseline('dependencies-baseline.json');
+    ->baseline('dependencies-baseline.json')
+
+    // Optional: parse cache, true (default, .dependencies-cache), false, or a file relative to the root.
+    ->cache(true);
 ```
 
 For a single run, the `paths` arguments of the command replace `paths()`, and the `--only` / `--exclude` options (comma-separated FQCN globs) replace `only()` / `ignore()`.
@@ -61,11 +64,19 @@ The report shows the components, cycles and SDP violations, then the rule violat
 | Option | Description |
 | --- | --- |
 | `--config=FILE` | Configuration file, `dependencies.php` of the current directory by default |
-| `--format=table\|json\|sarif` | Output format, `table` by default |
+| `--format=table\|json\|sarif\|html` | Output format, `table` by default (`html` requires `--output`) |
 | `--output=FILE` | Write the report to a file instead of the standard output |
 | `--report=SECTIONS` | Comma-separated sections: `classes`, `components`, `cycles`, `sdp` |
 | `--baseline=FILE` | Baseline file, replaces the configured one |
 | `--generate-baseline[=FILE]` | Write the current violations to a baseline, `dependencies-baseline.json` by default |
+| `--no-cache` | Neither read nor write the parse cache |
+| `--clear-cache` | Delete the parse cache before the analysis |
+
+## Parse cache
+
+Parsing dominates the run time, so the parse results are cached in `.dependencies-cache` at the root of the project (add it to your `.gitignore`). On the next run, only the files whose content changed are parsed again. The whole cache is ignored after an upgrade of the tool or of its parser, and a corrupted cache is silently rebuilt.
+
+In CI, a fresh checkout starts without cache: the analysis simply parses every file. Caching the file between jobs (for instance with `actions/cache`, keyed on the commit) is optional. Use `--no-cache` to bypass it, or `--clear-cache` to rebuild it from scratch.
 
 ## Exit codes
 

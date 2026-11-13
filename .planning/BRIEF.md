@@ -25,12 +25,12 @@
 - Baseline, cache par hash de fichier, renderer HTML Cytoscape.
 
 **Success Criteria :**
-- [ ] `php class-dependencies-analyzer analyze app` produit les 4 rapports sur le projet lui-même.
-- [ ] Exit 1 quand une règle échoue, 0 avec une baseline couvrant les violations existantes, 2 sur erreur.
-- [ ] SARIF valide (schéma 2.1.0) ; JSON versionné (`"schema": 1`).
-- [ ] Second run avec cache sans modification : aucun fichier reparsé.
-- [ ] `App\Core` n'importe ni `Illuminate\*` ni `LaravelZero\*` (test d'architecture Pest).
-- [ ] Ancien code et jerowork supprimés, php-parser en `^5`, `composer healthcheck` vert.
+- [x] `php class-dependencies-analyzer analyze app` produit les 4 rapports sur le projet lui-même.
+- [x] Exit 1 quand une règle échoue, 0 avec une baseline couvrant les violations existantes, 2 sur erreur.
+- [x] SARIF valide (schéma 2.1.0) ; JSON versionné (`"schema": 1`).
+- [x] Second run avec cache sans modification : aucun fichier reparsé.
+- [x] `App\Core` n'importe ni `Illuminate\*` ni `LaravelZero\*` (test d'architecture Pest).
+- [x] Ancien code et jerowork supprimés, php-parser en `^5`, `composer healthcheck` vert.
 
 ## Constraints
 

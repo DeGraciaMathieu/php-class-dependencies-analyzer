@@ -18,7 +18,7 @@ On construit un cœur pur (`app/Core`) à côté de l'ancien code : parser → g
 - [x] **Phase 2 : Analyseurs** — couplage classe, métriques composant, Tarjan, SDP, `Report`
 - [x] **Phase 3 : CLI & configuration** — `dependencies.php`, commande `analyze`, renderers table/json
 - [x] **Phase 4 : Intégration CI** — règles, codes de sortie, baseline, SARIF
-- [ ] **Phase 5 : Finitions & migration** — cache, HTML Cytoscape, suppression de l'ancien code, release
+- [x] **Phase 5 : Finitions & migration** — cache, HTML Cytoscape, suppression de l'ancien code, release
 
 ## Phase Details
 
@@ -63,9 +63,9 @@ On construit un cœur pur (`app/Core`) à côté de l'ancien code : parser → g
 **Depends on** : Phase 4
 **Plans** : 3
 
-- [ ] 05-01 : Cache par hash (clé : contenu + version outil + version parser), `--no-cache`, `--clear-cache`
-- [ ] 05-02 : Renderer HTML Cytoscape (classes et composants, SCC en surbrillance) — checkpoint visuel
-- [ ] 05-03 : Suppression de l'ancien code et de jerowork, php-parser `^5`, `UPGRADE.md`, README, healthcheck, build PHAR — checkpoint release
+- [x] 05-01 : Cache par hash (clé : contenu + version outil + version parser), `--no-cache`, `--clear-cache`
+- [x] 05-02 : Renderer HTML Cytoscape (classes et composants, SCC en surbrillance) — checkpoint visuel
+- [x] 05-03 : Suppression de l'ancien code et de jerowork, php-parser `^5`, `UPGRADE.md`, README, healthcheck, build PHAR — checkpoint release
 
 ## Cible de structure
 
@@ -91,4 +91,4 @@ app/Commands/AnalyzeCommand.php   (seul point d'entrée Laravel Zero du nouveau 
 | 2. Analyseurs | 3/3 | Complete | #9 | 2026-11-13 |
 | 3. CLI & configuration | 3/3 | Complete | #10 | 2026-11-13 |
 | 4. Intégration CI | 3/3 | Complete | #11 | 2026-11-13 |
-| 5. Finitions & migration | 0/3 | Not started | - | - |
+| 5. Finitions & migration | 3/3 | Complete | #12 | 2026-11-13 |

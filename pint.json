@@ -1,0 +1,6 @@
+{
+    "preset": "laravel",
+    "notPath": [
+        "Fixtures/Core/Parser/Invalid.php"
+    ]
+}

@@ -3,10 +3,6 @@
 use App\Core\Config\Config;
 use App\Core\Rules\Rules;
 
-/*
- * The v1 core is split into its modules, the legacy layers
- * (App\Application, App\Domain, ...) resolve by namespace depth.
- */
 return Config::make()
     ->paths(['app'])
     ->components([
@@ -17,6 +13,9 @@ return Config::make()
         'Core\Config' => 'App\Core\Config\*',
         'Core\Rendering' => 'App\Core\Rendering\*',
         'Core\Rules' => 'App\Core\Rules\*',
+        'Core\Cache' => 'App\Core\Cache\*',
+        'Commands' => 'App\Commands\*',
+        'Providers' => 'App\Providers\*',
     ])
     ->rules([
         Rules::noCycles(),
