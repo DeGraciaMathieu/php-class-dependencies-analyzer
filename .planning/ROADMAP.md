@@ -15,7 +15,7 @@ On construit un cœur pur (`app/Core`) à côté de l'ancien code : parser → g
 ## Phases
 
 - [x] **Phase 1 : Fondations** — parser unique, scan des sources, `DependencyGraph` immuable
-- [ ] **Phase 2 : Analyseurs** — couplage classe, métriques composant, Tarjan, SDP, `Report`
+- [x] **Phase 2 : Analyseurs** — couplage classe, métriques composant, Tarjan, SDP, `Report`
 - [ ] **Phase 3 : CLI & configuration** — `dependencies.php`, commande `analyze`, renderers table/json
 - [ ] **Phase 4 : Intégration CI** — règles, codes de sortie, baseline, SARIF
 - [ ] **Phase 5 : Finitions & migration** — cache, HTML Cytoscape, suppression de l'ancien code, release
@@ -36,9 +36,9 @@ On construit un cœur pur (`app/Core`) à côté de l'ancien code : parser → g
 **Depends on** : Phase 1
 **Plans** : 3
 
-- [ ] 02-01 : `CouplingAnalyzer` (Ca, Ce interne/externe, I) + `ComponentResolver` + `ComponentAnalyzer` (Na, Nc, A, I, D)
-- [ ] 02-02 : `CycleAnalyzer` (Tarjan itératif, SCC de taille > 1 + auto-boucles) + `SdpAnalyzer` (entre composants)
-- [ ] 02-03 : `Report` + `AnalysisPipeline` (scan → parse → graph → analyzers) + test golden sur un projet fixture
+- [x] 02-01 : `CouplingAnalyzer` (Ca, Ce interne/externe, I) + `ComponentResolver` + `ComponentAnalyzer` (Na, Nc, A, I, D)
+- [x] 02-02 : `CycleAnalyzer` (Tarjan itératif, SCC de taille > 1, classes et composants) + `SdpAnalyzer` (entre composants)
+- [x] 02-03 : `Report` + `AnalysisPipeline` (scan → parse → graph → analyzers) + test golden sur un projet fixture
 
 ### Phase 3 : CLI & configuration
 **Goal** : `php class-dependencies-analyzer analyze <path>` utilisable, avec ou sans `dependencies.php`.
@@ -87,7 +87,7 @@ app/Commands/AnalyzeCommand.php   (seul point d'entrée Laravel Zero du nouveau 
 | Phase | Plans Complete | Status | PR | Completed |
 |-------|----------------|--------|----|-----------|
 | 1. Fondations | 3/3 | Complete | #8 | 2026-11-13 |
-| 2. Analyseurs | 0/3 | Not started | - | - |
+| 2. Analyseurs | 3/3 | Complete | #9 | 2026-11-13 |
 | 3. CLI & configuration | 0/2 | Not started | - | - |
 | 4. Intégration CI | 0/3 | Not started | - | - |
 | 5. Finitions & migration | 0/3 | Not started | - | - |
