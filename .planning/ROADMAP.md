@@ -27,7 +27,7 @@ On construit un cœur pur (`app/Core`) à côté de l'ancien code : parser → g
 **Depends on** : rien
 **Plans** : 3
 
-- [ ] 01-01 : Socle — suite de tests verte, squelette `app/Core`, test d'architecture
+- [x] 01-01 : Socle — suite de tests verte, squelette `app/Core`, test d'architecture
 - [ ] 01-02 : Parser — port `ClassParser`, `ParsedClass`, adapter php-parser + `SourceScanner`
 - [ ] 01-03 : Graphe — `DependencyGraph`, `GraphBuilder`, `Filter` (globs ancrés)
 
@@ -86,7 +86,7 @@ app/Commands/AnalyzeCommand.php   (seul point d'entrée Laravel Zero du nouveau 
 
 | Phase | Plans Complete | Status | PR | Completed |
 |-------|----------------|--------|----|-----------|
-| 1. Fondations | 0/3 | Not started | - | - |
+| 1. Fondations | 1/3 | In progress | - | - |
 | 2. Analyseurs | 0/3 | Not started | - | - |
 | 3. CLI & configuration | 0/2 | Not started | - | - |
 | 4. Intégration CI | 0/3 | Not started | - | - |
