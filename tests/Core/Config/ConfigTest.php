@@ -14,7 +14,8 @@ it('has defaults', function () {
         ->and($config->ignore)->toBe([])
         ->and($config->components)->toBe([])
         ->and($config->componentDepth)->toBe(2)
-        ->and($config->rules)->toBe([]);
+        ->and($config->rules)->toBe([])
+        ->and($config->baseline)->toBeNull();
 });
 
 it('returns a new instance without changing the original', function () {
@@ -33,6 +34,10 @@ it('declares rules', function () {
     $rules = [Rules::noCycles(), Rules::stableDependencies(0.1)];
 
     expect(Config::make()->rules($rules)->rules)->toBe($rules);
+});
+
+it('declares a baseline file', function () {
+    expect(Config::make()->baseline('dependencies-baseline.json')->baseline)->toBe('dependencies-baseline.json');
 });
 
 it('builds analysis options', function () {

@@ -10,18 +10,20 @@ use App\Core\Analysis\Cycle;
 use App\Core\Analysis\SdpViolation;
 use App\Core\Parser\ParseError;
 use App\Core\Report\Report;
+use App\Core\Rules\BaselineResult;
 use App\Core\Rules\Violation;
 
 /**
  * Human-readable terminal output: a summary line, then one table per requested section (enum order),
- * then the rule violations when rules are configured, then the parsing errors if any.
+ * then the rule violations when rules are configured (followed by the baseline counts when a baseline is used),
+ * then the parsing errors if any.
  * Metrics are rounded to 2 decimals, a null metric is shown as "—".
  */
 final readonly class TableRenderer implements Renderer
 {
     private const NOT_MEASURABLE = '—';
 
-    public function render(Report $report, array $sections, ?array $violations = null): string
+    public function render(Report $report, array $sections, ?array $violations = null, ?BaselineResult $baseline = null): string
     {
         $blocks = [$this->summary($report)];
 
@@ -35,7 +37,7 @@ final readonly class TableRenderer implements Renderer
         }
 
         if ($violations !== null) {
-            $blocks[] = $this->violations($violations);
+            $blocks[] = $this->violations($violations, $baseline);
         }
 
         if ($report->errors !== []) {
@@ -114,14 +116,20 @@ final readonly class TableRenderer implements Renderer
     /**
      * @param  list<Violation>  $violations
      */
-    private function violations(array $violations): string
+    private function violations(array $violations, ?BaselineResult $baseline): string
     {
         $rows = array_map(static fn (Violation $violation): array => [
             $violation->rule,
             $violation->message,
         ], $violations);
 
-        return $this->section('Rule violations', ['Rule', 'Message'], $rows, 'No rule violation.');
+        $section = $this->section('Rule violations', ['Rule', 'Message'], $rows, 'No rule violation.');
+
+        if ($baseline === null) {
+            return $section;
+        }
+
+        return $section.PHP_EOL.sprintf('%d baselined, %d stale', $baseline->baselined, count($baseline->stale));
     }
 
     private function errors(Report $report): string

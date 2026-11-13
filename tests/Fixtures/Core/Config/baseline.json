@@ -1,0 +1,13 @@
+{
+    "schema": 1,
+    "violations": [
+        {
+            "fingerprint": "no-cycles:class:Shop\\Catalog\\Category,Shop\\Catalog\\Product",
+            "message": "Class cycle: Shop\\Catalog\\Category → Shop\\Catalog\\Product."
+        },
+        {
+            "fingerprint": "no-cycles:component:Shop\\Billing,Shop\\Ordering",
+            "message": "Component cycle: Shop\\Billing → Shop\\Ordering."
+        }
+    ]
+}

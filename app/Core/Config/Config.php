@@ -23,6 +23,7 @@ final readonly class Config
      * @param  list<string>  $ignore  FQCN globs excluded, see Filter
      * @param  array<string, string|list<string>>  $components  Component name => glob(s), see ComponentResolver
      * @param  list<Rule>  $rules  Checked on the report, none by default
+     * @param  string|null  $baseline  Baseline file relative to the project root, see BaselineFile
      */
     private function __construct(
         public array $paths = [],
@@ -32,6 +33,7 @@ final readonly class Config
         public array $components = [],
         public int $componentDepth = 2,
         public array $rules = [],
+        public ?string $baseline = null,
     ) {}
 
     public static function make(): self
@@ -90,6 +92,11 @@ final readonly class Config
     public function rules(array $rules): self
     {
         return $this->with(['rules' => $rules]);
+    }
+
+    public function baseline(string $file): self
+    {
+        return $this->with(['baseline' => $file]);
     }
 
     public function toOptions(string $basePath): AnalysisOptions

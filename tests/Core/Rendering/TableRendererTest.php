@@ -7,6 +7,7 @@ use App\Core\Parser\PhpParser\PhpParserClassParser;
 use App\Core\Rendering\ReportSection;
 use App\Core\Rendering\TableRenderer;
 use App\Core\Report\Report;
+use App\Core\Rules\BaselineResult;
 use App\Core\Rules\Violation;
 
 beforeEach(function () {
@@ -100,6 +101,14 @@ it('lists the rule violations before the parsing errors', function () {
 it('renders the rule violations section only when rules are configured', function () {
     expect((new TableRenderer)->render($this->report, []))->not->toContain('Rule violations')
         ->and((new TableRenderer)->render($this->report, [], []))->toContain("Rule violations\nNo rule violation.");
+});
+
+it('renders the baseline counts after the rule violations only when a baseline is used', function () {
+    $baseline = new BaselineResult([], 3, ['a', 'b']);
+
+    expect((new TableRenderer)->render($this->report, [], [], $baseline))
+        ->toContain("Rule violations\nNo rule violation.\n3 baselined, 2 stale")
+        ->and((new TableRenderer)->render($this->report, [], []))->not->toContain('baselined');
 });
 
 it('builds sections from a list of names', function () {

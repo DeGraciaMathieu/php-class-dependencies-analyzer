@@ -55,7 +55,7 @@ On construit un cœur pur (`app/Core`) à côté de l'ancien code : parser → g
 **Plans** : 3
 
 - [x] 04-01 : Règles (`noCycles`, `stableDependencies(tolerance)`, `maxDistanceFromMainSequence(max)->for()`), `Violation` à identifiant stable, exit 1
-- [ ] 04-02 : Baseline (`--generate-baseline`, `--baseline`, entrées obsolètes signalées)
+- [x] 04-02 : Baseline (`--generate-baseline`, `--baseline`, entrées obsolètes signalées)
 - [ ] 04-03 : Renderer SARIF 2.1.0 + exemple de workflow GitHub dans la doc
 
 ### Phase 5 : Finitions & migration
@@ -90,5 +90,5 @@ app/Commands/AnalyzeCommand.php   (seul point d'entrée Laravel Zero du nouveau 
 | 1. Fondations | 3/3 | Complete | #8 | 2026-11-13 |
 | 2. Analyseurs | 3/3 | Complete | #9 | 2026-11-13 |
 | 3. CLI & configuration | 3/3 | Complete | #10 | 2026-11-13 |
-| 4. Intégration CI | 1/3 | In progress | - | - |
+| 4. Intégration CI | 2/3 | In progress | - | - |
 | 5. Finitions & migration | 0/3 | Not started | - | - |

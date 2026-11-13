@@ -11,6 +11,9 @@ use App\Core\Rendering\Renderer;
 use App\Core\Rendering\ReportSection;
 use App\Core\Rendering\TableRenderer;
 use App\Core\Report\Report;
+use App\Core\Rules\BaselineException;
+use App\Core\Rules\BaselineFile;
+use App\Core\Rules\BaselineResult;
 use App\Core\Rules\Rule;
 use App\Core\Rules\Violation;
 use InvalidArgumentException;
@@ -19,8 +22,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 class AnalyzeCommand extends AbstractCommand
 {
     /**
-     * Exit codes: 0 (SUCCESS) no rule violated, 1 (FAILURE) at least one rule violated,
-     * 2 (ERROR) invalid configuration or option.
+     * Exit codes: 0 (SUCCESS) no new rule violation (or baseline generated), 1 (FAILURE) at least one rule
+     * violation absent from the baseline, 2 (ERROR) invalid configuration, option or baseline file.
      */
     public const ERROR = 2;
 
@@ -32,6 +35,8 @@ class AnalyzeCommand extends AbstractCommand
         {--output= : Write the report to this file instead of the standard output}
         {--only= : Comma-separated FQCN globs to keep, replace the configured "only"}
         {--exclude= : Comma-separated FQCN globs to ignore, replace the configured "ignore"}
+        {--baseline= : Baseline file, replace the configured baseline}
+        {--generate-baseline= : Write every current violation to this baseline file, defaults to dependencies-baseline.json}
     ';
 
     protected $description = 'Analyze class and component dependencies';
@@ -46,8 +51,15 @@ class AnalyzeCommand extends AbstractCommand
             $report = $pipeline->run($config->toOptions(getcwd()));
             $violations = $this->evaluateRules($config->rules, $report);
 
-            $this->write($renderer->render($report, $sections, $violations));
-        } catch (ConfigException|InvalidArgumentException $e) {
+            if ($this->input->hasParameterOption('--generate-baseline', true)) {
+                return $this->generateBaseline($violations ?? []);
+            }
+
+            $baseline = $this->applyBaseline($violations, $config);
+            $violations = $baseline?->new ?? $violations;
+
+            $this->write($renderer->render($report, $sections, $violations, $baseline));
+        } catch (ConfigException|BaselineException|InvalidArgumentException $e) {
             $this->output->getErrorStyle()->writeln("<error>{$e->getMessage()}</error>");
 
             return self::ERROR;
@@ -67,6 +79,35 @@ class AnalyzeCommand extends AbstractCommand
         }
 
         return array_merge(...array_map(static fn (Rule $rule): array => $rule->evaluate($report), $rules));
+    }
+
+    /**
+     * @param  list<Violation>  $violations
+     */
+    private function generateBaseline(array $violations): int
+    {
+        $file = $this->option('generate-baseline') ?? BaselineFile::FILENAME;
+
+        (new BaselineFile)->write($file, $violations);
+
+        $this->info(sprintf('Baseline written to %s with %d violation(s).', $file, count($violations)));
+
+        return self::SUCCESS;
+    }
+
+    /**
+     * @param  list<Violation>|null  $violations
+     * @return BaselineResult|null Null when no rule or no baseline is configured
+     */
+    private function applyBaseline(?array $violations, Config $config): ?BaselineResult
+    {
+        $file = $this->option('baseline') ?? $config->baseline;
+
+        if ($violations === null || $file === null) {
+            return null;
+        }
+
+        return (new BaselineFile)->read($file)->apply($violations);
     }
 
     private function loadConfig(ConfigLoader $loader): Config

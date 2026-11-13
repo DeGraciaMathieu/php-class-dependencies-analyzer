@@ -11,13 +11,14 @@ use App\Core\Analysis\SdpViolation;
 use App\Core\Parser\ClassKind;
 use App\Core\Parser\ParseError;
 use App\Core\Report\Report;
+use App\Core\Rules\BaselineResult;
 use App\Core\Rules\Violation;
 
 /**
  * Machine-readable output, schema version 1. Keys are camelCase, floats rounded to 4 decimals,
  * a non-measurable metric is null. "schema", "summary", "violations" and "errors" are always present
- * ("violations" is empty when no rule is configured),
- * the other keys only when their section is requested:
+ * ("violations" is empty when no rule is configured, holds only the new ones when a baseline is used),
+ * "baseline" only when a baseline is used, the other keys only when their section is requested:
  *
  * {
  *   "schema": 1,
@@ -30,6 +31,7 @@ use App\Core\Rules\Violation;
  *   "cycles": [ { "level": "class"|"component", "size": int, "members": list<string> } ],
  *   "sdp": [ { "from": string, "fromInstability": float, "to": string, "toInstability": float, "delta": float } ],
  *   "violations": [ { "rule": string, "fingerprint": string, "message": string, "file": ?string } ],
+ *   "baseline": { "baselined": int, "stale": list<string> },
  *   "errors": [ { "file": string, "message": string } ]
  * }
  */
@@ -39,7 +41,7 @@ final readonly class JsonRenderer implements Renderer
 
     private const PRECISION = 4;
 
-    public function render(Report $report, array $sections, ?array $violations = null): string
+    public function render(Report $report, array $sections, ?array $violations = null, ?BaselineResult $baseline = null): string
     {
         $data = [
             'schema' => self::SCHEMA,
@@ -65,6 +67,13 @@ final readonly class JsonRenderer implements Renderer
             'message' => $violation->message,
             'file' => $violation->file,
         ], $violations ?? []);
+
+        if ($baseline !== null) {
+            $data['baseline'] = [
+                'baselined' => $baseline->baselined,
+                'stale' => $baseline->stale,
+            ];
+        }
 
         $data['errors'] = array_map(static fn (ParseError $error): array => [
             'file' => $error->file,

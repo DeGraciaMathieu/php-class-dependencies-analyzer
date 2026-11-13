@@ -1,5 +1,6 @@
 <?php
 
+use App\Core\Rules\BaselineFile;
 use Illuminate\Support\Facades\Artisan;
 
 function analyzeJson(array $parameters): array
@@ -96,6 +97,113 @@ it('renders the violations in json with exit code 1', function () {
             'max-distance:Shop\Catalog',
         ])
         ->and($json['violations'][0]['file'])->toBe('tests/Fixtures/Core/Project/Catalog/Category.php');
+});
+
+describe('baseline', function () {
+    beforeEach(function () {
+        $this->directory = sys_get_temp_dir().'/analyze-baseline-'.uniqid();
+        $this->baseline = $this->directory.'/'.BaselineFile::FILENAME;
+        mkdir($this->directory);
+    });
+
+    afterEach(function () {
+        array_map(unlink(...), glob($this->directory.'/*'));
+        rmdir($this->directory);
+    });
+
+    it('generates a baseline with every current violation and exit code 0', function () {
+        $exitCode = Artisan::call('analyze', [
+            '--config' => 'tests/Fixtures/Core/Config/rules.php',
+            '--generate-baseline' => $this->baseline,
+        ]);
+
+        $baseline = json_decode(file_get_contents($this->baseline), true, flags: JSON_THROW_ON_ERROR);
+
+        expect($exitCode)->toBe(0)
+            ->and(Artisan::output())->toBe("Baseline written to {$this->baseline} with 4 violation(s).\n")
+            ->and($baseline['schema'])->toBe(1)
+            ->and(array_column($baseline['violations'], 'fingerprint'))->toBe([
+                'max-distance:Shop\Catalog',
+                'no-cycles:class:Shop\Catalog\Category,Shop\Catalog\Product',
+                'no-cycles:component:Shop\Billing,Shop\Ordering',
+                'stable-dependencies:Shop\Billing->Shop\Ordering',
+            ]);
+    });
+
+    it('generates the baseline in the current directory without value', function () {
+        $root = getcwd();
+        chdir($this->directory);
+
+        try {
+            $this->artisan('analyze', [
+                'paths' => [$root.'/tests/Fixtures/Core/Project'],
+                '--config' => $root.'/tests/Fixtures/Core/Config/rules.php',
+                '--generate-baseline' => null,
+            ])->assertExitCode(0);
+        } finally {
+            chdir($root);
+        }
+
+        expect($this->baseline)->toBeFile();
+    });
+
+    it('succeeds with a baseline holding every violation', function () {
+        Artisan::call('analyze', ['--config' => 'tests/Fixtures/Core/Config/rules.php', '--generate-baseline' => $this->baseline]);
+
+        $exitCode = Artisan::call('analyze', ['--config' => 'tests/Fixtures/Core/Config/rules.php', '--baseline' => $this->baseline]);
+
+        expect($exitCode)->toBe(0)
+            ->and(Artisan::output())->toContain("Rule violations\nNo rule violation.\n4 baselined, 0 stale");
+    });
+
+    it('fails only on the new violations', function () {
+        Artisan::call('analyze', ['--config' => 'tests/Fixtures/Core/Config/rules.php', '--generate-baseline' => $this->baseline]);
+
+        $exitCode = Artisan::call('analyze', [
+            '--config' => 'tests/Fixtures/Core/Config/rules-stricter.php',
+            '--baseline' => $this->baseline,
+            '--format' => 'json',
+        ]);
+        $json = json_decode(Artisan::output(), true, flags: JSON_THROW_ON_ERROR);
+
+        expect($exitCode)->toBe(1)
+            ->and(array_column($json['violations'], 'fingerprint'))->toBe(['max-distance:Shop\Billing'])
+            ->and($json['baseline'])->toBe(['baselined' => 4, 'stale' => []]);
+    });
+
+    it('reports a fixed violation as stale without failing', function () {
+        file_put_contents($this->baseline, json_encode(['schema' => 1, 'violations' => [
+            ['fingerprint' => 'no-cycles:class:Shop\Catalog\Category,Shop\Catalog\Product', 'message' => ''],
+            ['fingerprint' => 'no-cycles:component:Shop\Billing,Shop\Ordering', 'message' => ''],
+            ['fingerprint' => 'no-cycles:component:Shop\Fixed,Shop\Ordering', 'message' => ''],
+        ]]));
+
+        $exitCode = Artisan::call('analyze', [
+            '--config' => 'tests/Fixtures/Core/Config/rules-with-baseline.php',
+            '--baseline' => $this->baseline,
+            '--format' => 'json',
+        ]);
+        $json = json_decode(Artisan::output(), true, flags: JSON_THROW_ON_ERROR);
+
+        expect($exitCode)->toBe(0)
+            ->and($json['violations'])->toBe([])
+            ->and($json['baseline'])->toBe(['baselined' => 2, 'stale' => ['no-cycles:component:Shop\Fixed,Shop\Ordering']]);
+    });
+
+    it('fails with exit code 2 on a corrupted baseline', function () {
+        file_put_contents($this->baseline, '{');
+
+        $this->artisan('analyze', ['--config' => 'tests/Fixtures/Core/Config/rules.php', '--baseline' => $this->baseline])
+            ->expectsOutputToContain('is not valid JSON')
+            ->assertExitCode(2);
+    });
+});
+
+it('uses the baseline declared in the configuration', function () {
+    $exitCode = Artisan::call('analyze', ['--config' => 'tests/Fixtures/Core/Config/rules-with-baseline.php']);
+
+    expect($exitCode)->toBe(0)
+        ->and(Artisan::output())->toContain('2 baselined, 0 stale');
 });
 
 it('fails with exit code 2', function (string $command, string $message) {
