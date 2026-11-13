@@ -1,0 +1,17 @@
+name: What moved
+
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: what-moved-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  graph:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: DeGraciaMathieu/what-moved@v4

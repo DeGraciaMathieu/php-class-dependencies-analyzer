@@ -1,0 +1,18 @@
+{
+    "contexts": {
+        "Commands":       { "position": [110, 90] },
+        "Presenter":      { "position": [110, 250] },
+        "Application":    { "position": [110, 410] },
+        "Infrastructure": { "position": [290, 250] },
+        "Domain":         { "position": [270, 530] },
+        "Parser":         { "prefixes": ["Core\\Parser"], "position": [470, 90] },
+        "Cache":          { "prefixes": ["Core\\Cache"], "position": [660, 90] },
+        "Graph":          { "prefixes": ["Core\\Graph"], "position": [560, 220] },
+        "Config":         { "prefixes": ["Core\\Config"], "position": [700, 270] },
+        "Analysis":       { "prefixes": ["Core\\Analysis"], "position": [470, 360] },
+        "Rules":          { "prefixes": ["Core\\Rules"], "position": [680, 410] },
+        "Report":         { "prefixes": ["Core\\Report"], "position": [570, 530] },
+        "Rendering":      { "prefixes": ["Core\\Rendering"], "position": [420, 540] }
+    },
+    "exclude": ["Providers"]
+}
