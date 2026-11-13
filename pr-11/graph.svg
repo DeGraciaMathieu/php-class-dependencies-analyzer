@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 692" width="780" height="692" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+<style>text{fill:#1e1b16}.sub{fill:#6b6357;font-size:11px}.hot{fill:#b5121b;font-size:11px;font-weight:600}.new{fill:#2f7d4f;font-size:11px;font-weight:600}.legend{fill:#6b6357;font-size:12px}.count{fill:#6b6357;font-size:14px;font-weight:600}</style>
+<defs>
+<marker id="arrow-edge" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#a8998a"/></marker>
+<marker id="arrow-added" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2f7d4f"/></marker>
+</defs>
+<rect width="780" height="692" fill="#ffffff"/>
+<text x="20" y="28" font-size="14" font-weight="600">19 classes touched out of 174 · 38 dependencies added</text>
+<g transform="translate(-11 43)">
+<path d="M150.6 111.4 Q311.6 196.2 438.6 327.5" fill="none" stroke="#a8998a" stroke-width="2.6" stroke-linecap="round" opacity="0.8" marker-end="url(#arrow-edge)"><title>Commands → Analysis: 1 dependencies, 0 added</title></path>
+<path d="M155.8 87.7 Q437.4 73.8 674.3 250.8" fill="none" stroke="#a8998a" stroke-width="3.8" stroke-linecap="round" opacity="0.8" marker-end="url(#arrow-edge)"><title>Commands → Config: 3 dependencies, 0 added</title></path>
+<path d="M112.9 135.7 Q130.0 408.0 386.2 524.6" fill="none" stroke="#a8998a" stroke-width="4.6" stroke-linecap="round" opacity="0.8" marker-end="url(#arrow-edge)"><title>Commands → Rendering: 5 dependencies, 1 added</title></path>
+<path d="M112.9 135.7 Q130.0 408.0 386.2 524.6" fill="none" stroke="#2f7d4f" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arrow-added)"><title>Commands → Rendering: 5 dependencies, 1 added</title></path>
+<path d="M137.7 126.5 Q304.8 346.8 543.6 511.7" fill="none" stroke="#2f7d4f" stroke-width="3.3" stroke-linecap="round" marker-end="url(#arrow-added)"><title>Commands → Report: 2 dependencies, 2 added</title></path>
+<path d="M153.0 105.8 Q420.6 204.4 648.8 385.3" fill="none" stroke="#2f7d4f" stroke-width="3.8" stroke-linecap="round" marker-end="url(#arrow-added)"><title>Commands → Rules: 3 dependencies, 3 added</title></path>
+<path d="M504.3 343.1 Q557.0 317.0 559.1 248.0" fill="none" stroke="#a8998a" stroke-width="5.8" stroke-linecap="round" opacity="0.8" marker-end="url(#arrow-edge)"><title>Analysis → Graph: 9 dependencies, 0 added</title></path>
+<path d="M476.0 322.2 Q491.6 225.0 475.3 123.4" fill="none" stroke="#a8998a" stroke-width="4.9" stroke-linecap="round" opacity="0.8" marker-end="url(#arrow-edge)"><title>Analysis → Parser: 6 dependencies, 1 added</title></path>
+<path d="M476.0 322.2 Q491.6 225.0 475.3 123.4" fill="none" stroke="#2f7d4f" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arrow-added)"><title>Analysis → Parser: 6 dependencies, 1 added</title></path>
+<path d="M463.6 397.7 Q448.6 487.0 539.7 519.3" fill="none" stroke="#a8998a" stroke-width="2.6" stroke-linecap="round" opacity="0.8" marker-end="url(#arrow-edge)"><title>Analysis → Report: 1 dependencies, 0 added</title></path>
+<path d="M675.5 275.3 Q577.8 296.6 509.0 337.1" fill="none" stroke="#a8998a" stroke-width="3.3" stroke-linecap="round" opacity="0.8" marker-end="url(#arrow-edge)"><title>Config → Analysis: 2 dependencies, 0 added</title></path>
+<path d="M678.0 257.9 Q634.0 233.8 587.5 225.1" fill="none" stroke="#a8998a" stroke-width="2.6" stroke-linecap="round" opacity="0.8" marker-end="url(#arrow-edge)"><title>Config → Graph: 1 dependencies, 0 added</title></path>
+<path d="M444.9 522.9 Q520.6 471.0 488.8 401.2" fill="none" stroke="#a8998a" stroke-width="5.5" stroke-linecap="round" opacity="0.8" marker-end="url(#arrow-edge)"><title>Rendering → Analysis: 8 dependencies, 0 added</title></path>
+<path d="M407.4 512.6 Q310.0 300.0 449.5 116.9" fill="none" stroke="#a8998a" stroke-width="4.2" stroke-linecap="round" opacity="0.8" marker-end="url(#arrow-edge)"><title>Rendering → Parser: 4 dependencies, 1 added</title></path>
+<path d="M407.4 512.6 Q310.0 300.0 449.5 116.9" fill="none" stroke="#2f7d4f" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arrow-added)"><title>Rendering → Parser: 4 dependencies, 1 added</title></path>
+<path d="M450.0 542.8 Q495.8 547.0 538.7 537.2" fill="none" stroke="#a8998a" stroke-width="6.3" stroke-linecap="round" opacity="0.8" marker-end="url(#arrow-edge)"><title>Rendering → Report: 11 dependencies, 8 added</title></path>
+<path d="M450.0 542.8 Q495.8 547.0 538.7 537.2" fill="none" stroke="#2f7d4f" stroke-width="5.5" stroke-linecap="round" marker-end="url(#arrow-added)"><title>Rendering → Report: 11 dependencies, 8 added</title></path>
+<path d="M661.9 437.4 Q634.6 478.8 595.2 510.0" fill="none" stroke="#2f7d4f" stroke-width="5.8" stroke-linecap="round" marker-end="url(#arrow-added)"><title>Rules → Report: 9 dependencies, 9 added</title></path>
+<path d="M649.7 397.5 Q579.0 368.2 515.1 363.4" fill="none" stroke="#2f7d4f" stroke-width="4.2" stroke-linecap="round" marker-end="url(#arrow-added)"><title>Rules → Analysis: 4 dependencies, 4 added</title></path>
+<circle cx="110" cy="90" r="48.8" fill="none" stroke="#e6dfd2" stroke-width="5"/>
+<circle cx="110" cy="90" r="48.8" fill="none" stroke="#b5121b" stroke-width="5" stroke-dasharray="13.9 306.8" transform="rotate(-90 110 90)"/>
+<rect x="57.8" y="8.7" width="104.5" height="17" rx="3" fill="#fbe8e8" opacity="0.92"/>
+<text x="110" y="21.2" text-anchor="middle" class="hot">1 of 22 changed</text>
+<circle cx="110" cy="90" r="42.8" fill="#efe9dd" stroke="#1e1b16" stroke-width="1.2"/>
+<text x="110" y="95.0" text-anchor="middle" class="count">22</text>
+<rect x="30.8" y="144.3" width="158.4" height="17" rx="3" fill="#ffffff" opacity="0.92"/>
+<text x="110" y="156.8" text-anchor="middle" font-size="12.5" font-weight="600">Commands<tspan dx="6" class="sub">cohesion 28 %</tspan></text>
+<circle cx="470" cy="360" r="41.2" fill="none" stroke="#e6dfd2" stroke-width="5"/>
+<circle cx="470" cy="360" r="41.2" fill="none" stroke="#b5121b" stroke-width="5" stroke-dasharray="59.8 259.1" transform="rotate(-90 470 360)"/>
+<rect x="417.8" y="286.3" width="104.5" height="17" rx="3" fill="#fbe8e8" opacity="0.92"/>
+<text x="470" y="298.8" text-anchor="middle" class="hot">3 of 13 changed</text>
+<circle cx="470" cy="360" r="35.2" fill="#efe9dd" stroke="#1e1b16" stroke-width="1.2"/>
+<text x="470" y="365.0" text-anchor="middle" class="count">13</text>
+<rect x="390.8" y="406.7" width="158.4" height="17" rx="3" fill="#ffffff" opacity="0.92"/>
+<text x="470" y="419.2" text-anchor="middle" font-size="12.5" font-weight="600">Analysis<tspan dx="6" class="sub">cohesion 57 %</tspan></text>
+<circle cx="700" cy="270" r="28.1" fill="none" stroke="#e6dfd2" stroke-width="5"/>
+<circle cx="700" cy="270" r="28.1" fill="none" stroke="#b5121b" stroke-width="5" stroke-dasharray="58.9 176.7" transform="rotate(-90 700 270)"/>
+<rect x="650.9" y="209.4" width="98.2" height="17" rx="3" fill="#fbe8e8" opacity="0.92"/>
+<text x="700" y="221.9" text-anchor="middle" class="hot">1 of 3 changed</text>
+<circle cx="700" cy="270" r="22.1" fill="#efe9dd" stroke="#1e1b16" stroke-width="1.2"/>
+<text x="700" y="275.0" text-anchor="middle" class="count">3</text>
+<rect x="628.2" y="303.6" width="143.6" height="17" rx="3" fill="#ffffff" opacity="0.92"/>
+<text x="700" y="316.1" text-anchor="middle" font-size="12.5" font-weight="600">Config<tspan dx="6" class="sub">cohesion 50 %</tspan></text>
+<circle cx="560" cy="220" r="24.0" fill="#efe9dd" stroke="#1e1b16" stroke-width="1.2"/>
+<text x="560" y="225.0" text-anchor="middle" class="count">4</text>
+<rect x="491.9" y="255.5" width="136.2" height="17" rx="3" fill="#ffffff" opacity="0.92"/>
+<text x="560" y="268.0" text-anchor="middle" font-size="12.5" font-weight="600">Graph<tspan dx="6" class="sub">cohesion 80 %</tspan></text>
+<circle cx="470" cy="90" r="29.8" fill="#efe9dd" stroke="#1e1b16" stroke-width="1.2"/>
+<text x="470" y="95.0" text-anchor="middle" class="count">8</text>
+<rect x="395.0" y="131.3" width="150.0" height="17" rx="3" fill="#ffffff" opacity="0.92"/>
+<text x="470" y="143.8" text-anchor="middle" font-size="12.5" font-weight="600">Parser<tspan dx="6" class="sub">cohesion 100 %</tspan></text>
+<circle cx="420" cy="540" r="33.1" fill="none" stroke="#e6dfd2" stroke-width="5"/>
+<circle cx="420" cy="540" r="33.1" fill="none" stroke="#b5121b" stroke-width="5" stroke-dasharray="104.1 208.3" transform="rotate(-90 420 540)"/>
+<circle cx="420" cy="540" r="33.1" fill="none" stroke="#2f7d4f" stroke-width="5" stroke-dasharray="34.7 208.3" stroke-dashoffset="-104.1" transform="rotate(-90 420 540)"/>
+<rect x="339.4" y="474.4" width="161.2" height="17" rx="3" fill="#fbe8e8" opacity="0.92"/>
+<text x="420" y="486.9" text-anchor="middle" class="hot">3 changed · 1 added of 6</text>
+<circle cx="420" cy="540" r="27.1" fill="#efe9dd" stroke="#1e1b16" stroke-width="1.2"/>
+<text x="420" y="545.0" text-anchor="middle" class="count">6</text>
+<rect x="337.1" y="578.6" width="165.8" height="17" rx="3" fill="#ffffff" opacity="0.92"/>
+<text x="420" y="591.1" text-anchor="middle" font-size="12.5" font-weight="600">Rendering<tspan dx="6" class="sub">cohesion 21 %</tspan></text>
+<circle cx="570" cy="530" r="28.1" fill="none" stroke="#e6dfd2" stroke-width="5"/>
+<circle cx="570" cy="530" r="28.1" fill="none" stroke="#2f7d4f" stroke-width="5" stroke-dasharray="117.8 176.7" stroke-dashoffset="0.0" transform="rotate(-90 570 530)"/>
+<rect x="527.2" y="469.4" width="85.6" height="17" rx="3" fill="#e3f1e8" opacity="0.92"/>
+<text x="570" y="481.9" text-anchor="middle" class="new">2 of 3 added</text>
+<circle cx="570" cy="530" r="22.1" fill="#efe9dd" stroke="#1e1b16" stroke-width="1.2"/>
+<text x="570" y="535.0" text-anchor="middle" class="count">3</text>
+<rect x="495.0" y="563.6" width="150.0" height="17" rx="3" fill="#ffffff" opacity="0.92"/>
+<text x="570" y="576.1" text-anchor="middle" font-size="12.5" font-weight="600">Report<tspan dx="6" class="sub">cohesion 100 %</tspan></text>
+<circle cx="680" cy="410" r="35.8" fill="none" stroke="#e6dfd2" stroke-width="5"/>
+<circle cx="680" cy="410" r="35.8" fill="none" stroke="#2f7d4f" stroke-width="5" stroke-dasharray="224.9 224.9" stroke-dashoffset="0.0" transform="rotate(-90 680 410)"/>
+<rect x="637.2" y="341.7" width="85.6" height="17" rx="3" fill="#e3f1e8" opacity="0.92"/>
+<text x="680" y="354.2" text-anchor="middle" class="new">8 of 8 added</text>
+<circle cx="680" cy="410" r="29.8" fill="#e3f1e8" stroke="#2f7d4f" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="680" y="415.0" text-anchor="middle" class="count">8</text>
+<rect x="643.9" y="451.3" width="72.2" height="17" rx="3" fill="#ffffff" opacity="0.92"/>
+<text x="680" y="463.8" text-anchor="middle" font-size="12.5" font-weight="600">Rules<tspan dx="6" class="new">new</tspan></text>
+<path d="M150.6 111.4 Q311.6 196.2 438.6 327.5" fill="none" stroke="none" marker-end="url(#arrow-edge)"/>
+<path d="M155.8 87.7 Q437.4 73.8 674.3 250.8" fill="none" stroke="none" marker-end="url(#arrow-edge)"/>
+<path d="M112.9 135.7 Q130.0 408.0 386.2 524.6" fill="none" stroke="none" marker-end="url(#arrow-added)"/>
+<path d="M137.7 126.5 Q304.8 346.8 543.6 511.7" fill="none" stroke="none" marker-end="url(#arrow-added)"/>
+<path d="M153.0 105.8 Q420.6 204.4 648.8 385.3" fill="none" stroke="none" marker-end="url(#arrow-added)"/>
+<path d="M504.3 343.1 Q557.0 317.0 559.1 248.0" fill="none" stroke="none" marker-end="url(#arrow-edge)"/>
+<path d="M476.0 322.2 Q491.6 225.0 475.3 123.4" fill="none" stroke="none" marker-end="url(#arrow-added)"/>
+<path d="M463.6 397.7 Q448.6 487.0 539.7 519.3" fill="none" stroke="none" marker-end="url(#arrow-edge)"/>
+<path d="M675.5 275.3 Q577.8 296.6 509.0 337.1" fill="none" stroke="none" marker-end="url(#arrow-edge)"/>
+<path d="M678.0 257.9 Q634.0 233.8 587.5 225.1" fill="none" stroke="none" marker-end="url(#arrow-edge)"/>
+<path d="M444.9 522.9 Q520.6 471.0 488.8 401.2" fill="none" stroke="none" marker-end="url(#arrow-edge)"/>
+<path d="M407.4 512.6 Q310.0 300.0 449.5 116.9" fill="none" stroke="none" marker-end="url(#arrow-added)"/>
+<path d="M450.0 542.8 Q495.8 547.0 538.7 537.2" fill="none" stroke="none" marker-end="url(#arrow-added)"/>
+<path d="M661.9 437.4 Q634.6 478.8 595.2 510.0" fill="none" stroke="none" marker-end="url(#arrow-added)"/>
+<path d="M649.7 397.5 Q579.0 368.2 515.1 363.4" fill="none" stroke="none" marker-end="url(#arrow-added)"/>
+</g>
+<circle cx="25" cy="670" r="5" fill="none" stroke="#b5121b" stroke-width="3"/>
+<text x="36" y="674" class="legend">classes changed</text>
+<circle cx="153" cy="670" r="5" fill="none" stroke="#2f7d4f" stroke-width="3"/>
+<text x="164" y="674" class="legend">classes added</text>
+<line x1="263" y1="670" x2="281" y2="670" stroke="#2f7d4f" stroke-width="3"/>
+<text x="287" y="674" class="legend">dependency added</text>
+<line x1="405" y1="670" x2="423" y2="670" stroke="#a8998a" stroke-width="3"/>
+<text x="429" y="674" class="legend">existing dependency touched</text>
+</svg>
