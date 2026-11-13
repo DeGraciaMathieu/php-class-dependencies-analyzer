@@ -6,9 +6,9 @@ use App\Core\Analysis\ComponentMetrics;
 use App\Core\Parser\PhpParser\PhpParserClassParser;
 use App\Core\Rendering\ReportSection;
 use App\Core\Rendering\TableRenderer;
+use App\Core\Report\BaselineResult;
 use App\Core\Report\Report;
-use App\Core\Rules\BaselineResult;
-use App\Core\Rules\Violation;
+use App\Core\Report\Violation;
 
 beforeEach(function () {
     $this->report = (new AnalysisPipeline(new PhpParserClassParser))->run(new AnalysisOptions(

@@ -99,6 +99,21 @@ it('renders the violations in json with exit code 1', function () {
         ->and($json['violations'][0]['file'])->toBe('tests/Fixtures/Core/Project/Catalog/Category.php');
 });
 
+it('renders the violations in sarif with exit code 1', function () {
+    $exitCode = Artisan::call('analyze', ['--config' => 'tests/Fixtures/Core/Config/rules.php', '--format' => 'sarif']);
+    $run = json_decode(Artisan::output(), true, flags: JSON_THROW_ON_ERROR)['runs'][0];
+    $uris = array_map(static fn (array $result): string => $result['locations'][0]['physicalLocation']['artifactLocation']['uri'], $run['results']);
+
+    expect($exitCode)->toBe(1)
+        ->and(array_column($run['tool']['driver']['rules'], 'id'))->toBe(['no-cycles', 'stable-dependencies', 'max-distance'])
+        ->and($uris)->toBe([
+            'tests/Fixtures/Core/Project/Catalog/Category.php',
+            'tests/Fixtures/Core/Config/rules.php',
+            'tests/Fixtures/Core/Config/rules.php',
+            'tests/Fixtures/Core/Config/rules.php',
+        ]);
+});
+
 describe('baseline', function () {
     beforeEach(function () {
         $this->directory = sys_get_temp_dir().'/analyze-baseline-'.uniqid();

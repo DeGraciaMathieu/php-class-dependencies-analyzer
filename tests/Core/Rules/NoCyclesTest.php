@@ -5,8 +5,8 @@ use App\Core\Analysis\Cycle;
 use App\Core\Analysis\CycleLevel;
 use App\Core\Parser\ClassKind;
 use App\Core\Report\Report;
+use App\Core\Report\Violation;
 use App\Core\Rules\Rules;
-use App\Core\Rules\Violation;
 
 /**
  * @param  list<Cycle>  $cycles
@@ -30,8 +30,8 @@ it('reports one violation per class and component cycle', function () {
     );
 
     expect(Rules::noCycles()->evaluate($report))->toEqual([
-        new Violation('no-cycles', 'no-cycles:class:App\A,App\B', 'Class cycle: App\A → App\B.', 'src/A.php'),
-        new Violation('no-cycles', 'no-cycles:component:Billing,Ordering', 'Component cycle: Billing → Ordering.'),
+        new Violation('no-cycles', 'no-cycles:class:App\A,App\B', 'Class cycle: App\A → App\B.', 'src/A.php', 'No dependency cycle between classes or components.'),
+        new Violation('no-cycles', 'no-cycles:component:Billing,Ordering', 'Component cycle: Billing → Ordering.', ruleDescription: 'No dependency cycle between classes or components.'),
     ]);
 });
 

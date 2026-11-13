@@ -20,6 +20,5 @@ return Config::make()
     ])
     ->rules([
         Rules::noCycles(),
-        // Core\Rules (I=0.56) depends on Core\Analysis (I=0.59) since the renderers use BaselineResult.
-        Rules::stableDependencies(0.05),
+        Rules::stableDependencies(),
     ]);

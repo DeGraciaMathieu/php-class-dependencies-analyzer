@@ -2,8 +2,8 @@
 
 use App\Core\Analysis\SdpViolation;
 use App\Core\Report\Report;
+use App\Core\Report\Violation;
 use App\Core\Rules\Rules;
-use App\Core\Rules\Violation;
 
 /**
  * @param  list<SdpViolation>  $violations
@@ -21,6 +21,7 @@ it('reports every sdp violation without tolerance', function () {
             'stable-dependencies',
             'stable-dependencies:Billing->Ordering',
             'Billing (I=0.50) depends on the less stable Ordering (I=0.80), delta 0.30.',
+            ruleDescription: 'Components depend on more stable components (tolerance 0.00).',
         ),
     ]);
 });

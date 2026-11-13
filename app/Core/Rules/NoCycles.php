@@ -7,6 +7,7 @@ namespace App\Core\Rules;
 use App\Core\Analysis\Cycle;
 use App\Core\Analysis\CycleLevel;
 use App\Core\Report\Report;
+use App\Core\Report\Violation;
 
 /**
  * One violation per reported cycle, between classes or between components.
@@ -28,11 +29,12 @@ final readonly class NoCycles implements Rule
 
     public function evaluate(Report $report): array
     {
-        return array_map(static fn (Cycle $cycle): Violation => new Violation(
+        return array_map(fn (Cycle $cycle): Violation => new Violation(
             rule: self::ID,
             fingerprint: sprintf('%s:%s:%s', self::ID, $cycle->level->value, implode(',', $cycle->members)),
             message: sprintf('%s cycle: %s.', ucfirst($cycle->level->value), implode(' → ', $cycle->members)),
             file: self::file($cycle, $report),
+            ruleDescription: $this->description(),
         ), $report->cycles);
     }
 

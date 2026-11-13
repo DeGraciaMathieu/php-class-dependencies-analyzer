@@ -20,6 +20,16 @@ wget https://github.com/DeGraciaMathieu/php-class-dependencies-analyzer/raw/main
 php class-dependencies-analyzer --version
 ```
 
+## v1: `analyze` command
+
+The `analyze` command reads a `dependencies.php` configuration, checks dependency rules (`Rules::noCycles()`, `Rules::stableDependencies()`, `Rules::maxDistanceFromMainSequence()`) and exits with `1` when a rule is violated, which fails a CI job. A baseline freezes the existing violations, and the SARIF output shows them in GitHub code scanning:
+
+```
+php class-dependencies-analyzer analyze --format=sarif --output=dependencies.sarif
+```
+
+See [docs/ci.md](docs/ci.md) for the configuration, the exit codes, the baseline and ready-to-use GitHub Actions and GitLab CI jobs.
+
 ## Documentation
 
 Full documentation [here](https://php-quality-tools.com/class-dependencies-analyzer/).

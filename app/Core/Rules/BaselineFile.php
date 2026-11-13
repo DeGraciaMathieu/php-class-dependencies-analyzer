@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Rules;
 
+use App\Core\Report\Violation;
 use JsonException;
 
 /**

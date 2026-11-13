@@ -10,9 +10,9 @@ use App\Core\Analysis\Cycle;
 use App\Core\Analysis\SdpViolation;
 use App\Core\Parser\ClassKind;
 use App\Core\Parser\ParseError;
+use App\Core\Report\BaselineResult;
 use App\Core\Report\Report;
-use App\Core\Rules\BaselineResult;
-use App\Core\Rules\Violation;
+use App\Core\Report\Violation;
 
 /**
  * Machine-readable output, schema version 1. Keys are camelCase, floats rounded to 4 decimals,

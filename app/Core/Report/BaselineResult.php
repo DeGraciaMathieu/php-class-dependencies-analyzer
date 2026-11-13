@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Rules;
+namespace App\Core\Report;
 
 /**
  * Violations compared to a baseline.

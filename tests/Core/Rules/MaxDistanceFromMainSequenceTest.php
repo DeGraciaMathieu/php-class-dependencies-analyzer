@@ -2,8 +2,8 @@
 
 use App\Core\Analysis\ComponentMetrics;
 use App\Core\Report\Report;
+use App\Core\Report\Violation;
 use App\Core\Rules\Rules;
-use App\Core\Rules\Violation;
 
 /**
  * @param  array<string, ?float>  $distances  Component name => distance
@@ -23,7 +23,12 @@ it('reports components strictly further than the maximum', function () {
     $report = reportWithDistances(['A' => 0.5, 'B' => 0.6667, 'C' => 0.2]);
 
     expect(Rules::maxDistanceFromMainSequence(0.5)->evaluate($report))->toEqual([
-        new Violation('max-distance', 'max-distance:B', 'B is at distance 0.67 from the main sequence (max 0.50).'),
+        new Violation(
+            'max-distance',
+            'max-distance:B',
+            'B is at distance 0.67 from the main sequence (max 0.50).',
+            ruleDescription: 'Components stay within 0.50 of the main sequence.',
+        ),
     ]);
 });
 

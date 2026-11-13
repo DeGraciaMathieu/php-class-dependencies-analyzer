@@ -1,8 +1,8 @@
 <?php
 
+use App\Core\Report\BaselineResult;
+use App\Core\Report\Violation;
 use App\Core\Rules\Baseline;
-use App\Core\Rules\BaselineResult;
-use App\Core\Rules\Violation;
 
 function baselineViolation(string $fingerprint): Violation
 {

@@ -1,9 +1,9 @@
 <?php
 
+use App\Core\Report\BaselineResult;
+use App\Core\Report\Violation;
 use App\Core\Rules\BaselineException;
 use App\Core\Rules\BaselineFile;
-use App\Core\Rules\BaselineResult;
-use App\Core\Rules\Violation;
 
 beforeEach(function () {
     $this->file = sys_get_temp_dir().'/baseline-'.uniqid().'.json';

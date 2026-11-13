@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Core\Rendering;
 
+use App\Core\Report\BaselineResult;
 use App\Core\Report\Report;
-use App\Core\Rules\BaselineResult;
-use App\Core\Rules\Violation;
+use App\Core\Report\Violation;
 
 interface Renderer
 {

@@ -6,6 +6,7 @@ namespace App\Core\Rules;
 
 use App\Core\Analysis\ComponentMetrics;
 use App\Core\Report\Report;
+use App\Core\Report\Violation;
 
 /**
  * One violation per component whose distance from the main sequence is strictly greater than the maximum.
@@ -59,6 +60,7 @@ final readonly class MaxDistanceFromMainSequence implements Rule
                 $component->distance,
                 $this->max,
             ),
+            ruleDescription: $this->description(),
         ), $breaches));
     }
 

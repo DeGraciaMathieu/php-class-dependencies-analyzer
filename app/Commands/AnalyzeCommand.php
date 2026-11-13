@@ -9,13 +9,14 @@ use App\Core\Config\ConfigLoader;
 use App\Core\Rendering\JsonRenderer;
 use App\Core\Rendering\Renderer;
 use App\Core\Rendering\ReportSection;
+use App\Core\Rendering\SarifRenderer;
 use App\Core\Rendering\TableRenderer;
+use App\Core\Report\BaselineResult;
 use App\Core\Report\Report;
+use App\Core\Report\Violation;
 use App\Core\Rules\BaselineException;
 use App\Core\Rules\BaselineFile;
-use App\Core\Rules\BaselineResult;
 use App\Core\Rules\Rule;
-use App\Core\Rules\Violation;
 use InvalidArgumentException;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -31,7 +32,7 @@ class AnalyzeCommand extends AbstractCommand
         {paths?* : Files or directories to analyze, replace the configured paths}
         {--config= : Configuration file, defaults to dependencies.php in the current directory}
         {--report= : Comma-separated sections: classes, components, cycles, sdp}
-        {--format=table : Output format: table or json}
+        {--format=table : Output format: table, json or sarif}
         {--output= : Write the report to this file instead of the standard output}
         {--only= : Comma-separated FQCN globs to keep, replace the configured "only"}
         {--exclude= : Comma-separated FQCN globs to ignore, replace the configured "ignore"}
@@ -44,9 +45,10 @@ class AnalyzeCommand extends AbstractCommand
     public function handle(ConfigLoader $loader, AnalysisPipeline $pipeline): int
     {
         try {
-            $renderer = $this->makeRenderer();
             $sections = $this->makeSections();
-            $config = $this->mergeCliOptions($this->loadConfig($loader));
+            $configFile = $this->option('config') ?? $loader->find(getcwd());
+            $config = $this->mergeCliOptions($configFile === null ? Config::make() : $loader->load($configFile));
+            $renderer = $this->makeRenderer($configFile, $config);
 
             $report = $pipeline->run($config->toOptions(getcwd()));
             $violations = $this->evaluateRules($config->rules, $report);
@@ -110,13 +112,6 @@ class AnalyzeCommand extends AbstractCommand
         return (new BaselineFile)->read($file)->apply($violations);
     }
 
-    private function loadConfig(ConfigLoader $loader): Config
-    {
-        $file = $this->option('config') ?? $loader->find(getcwd());
-
-        return $file === null ? Config::make() : $loader->load($file);
-    }
-
     private function mergeCliOptions(Config $config): Config
     {
         $paths = $this->argument('paths');
@@ -136,15 +131,28 @@ class AnalyzeCommand extends AbstractCommand
         return $config;
     }
 
-    private function makeRenderer(): Renderer
+    private function makeRenderer(?string $configFile, Config $config): Renderer
     {
         $format = $this->option('format');
 
         return match ($format) {
             'table' => new TableRenderer,
             'json' => new JsonRenderer,
-            default => throw new InvalidArgumentException("Unknown format \"{$format}\", expected one of: table, json."),
+            'sarif' => new SarifRenderer((string) config('app.version'), $this->sarifFallbackLocation($configFile, $config)),
+            default => throw new InvalidArgumentException("Unknown format \"{$format}\", expected one of: table, json, sarif."),
         };
+    }
+
+    /**
+     * Location of the violations without file: the configuration file used, otherwise the first analyzed path,
+     * relative to the current directory (code scanning rejects a result without physical location).
+     */
+    private function sarifFallbackLocation(?string $configFile, Config $config): string
+    {
+        $location = $configFile ?? $config->paths[0] ?? '.';
+        $prefix = getcwd().'/';
+
+        return str_starts_with($location, $prefix) ? substr($location, strlen($prefix)) : $location;
     }
 
     /**

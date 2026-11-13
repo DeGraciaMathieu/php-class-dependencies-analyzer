@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Core\Rules;
 
+use App\Core\Report\BaselineResult;
+use App\Core\Report\Violation;
+
 /**
  * Set of accepted violation fingerprints.
  */
