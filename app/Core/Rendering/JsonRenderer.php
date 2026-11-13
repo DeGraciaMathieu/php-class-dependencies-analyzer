@@ -11,10 +11,12 @@ use App\Core\Analysis\SdpViolation;
 use App\Core\Parser\ClassKind;
 use App\Core\Parser\ParseError;
 use App\Core\Report\Report;
+use App\Core\Rules\Violation;
 
 /**
  * Machine-readable output, schema version 1. Keys are camelCase, floats rounded to 4 decimals,
- * a non-measurable metric is null. "schema", "summary" and "errors" are always present,
+ * a non-measurable metric is null. "schema", "summary", "violations" and "errors" are always present
+ * ("violations" is empty when no rule is configured),
  * the other keys only when their section is requested:
  *
  * {
@@ -27,6 +29,7 @@ use App\Core\Report\Report;
  *                     "instability": ?float, "distance": ?float } ],
  *   "cycles": [ { "level": "class"|"component", "size": int, "members": list<string> } ],
  *   "sdp": [ { "from": string, "fromInstability": float, "to": string, "toInstability": float, "delta": float } ],
+ *   "violations": [ { "rule": string, "fingerprint": string, "message": string, "file": ?string } ],
  *   "errors": [ { "file": string, "message": string } ]
  * }
  */
@@ -36,7 +39,7 @@ final readonly class JsonRenderer implements Renderer
 
     private const PRECISION = 4;
 
-    public function render(Report $report, array $sections): string
+    public function render(Report $report, array $sections, ?array $violations = null): string
     {
         $data = [
             'schema' => self::SCHEMA,
@@ -55,6 +58,13 @@ final readonly class JsonRenderer implements Renderer
                 ReportSection::Sdp => $this->sdp($report),
             };
         }
+
+        $data['violations'] = array_map(static fn (Violation $violation): array => [
+            'rule' => $violation->rule,
+            'fingerprint' => $violation->fingerprint,
+            'message' => $violation->message,
+            'file' => $violation->file,
+        ], $violations ?? []);
 
         $data['errors'] = array_map(static fn (ParseError $error): array => [
             'file' => $error->file,

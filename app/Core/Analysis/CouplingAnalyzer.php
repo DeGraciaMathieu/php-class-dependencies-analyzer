@@ -22,6 +22,7 @@ final readonly class CouplingAnalyzer
             $metrics[$fqcn] = new ClassMetrics(
                 $fqcn,
                 $node->kind,
+                $node->file,
                 $afferent,
                 $efferent,
                 count($graph->externalDependenciesOf($fqcn)),

@@ -10,13 +10,17 @@ use App\Core\Rendering\JsonRenderer;
 use App\Core\Rendering\Renderer;
 use App\Core\Rendering\ReportSection;
 use App\Core\Rendering\TableRenderer;
+use App\Core\Report\Report;
+use App\Core\Rules\Rule;
+use App\Core\Rules\Violation;
 use InvalidArgumentException;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class AnalyzeCommand extends AbstractCommand
 {
     /**
-     * Exit code 1 is reserved for rule violations (phase 4).
+     * Exit codes: 0 (SUCCESS) no rule violated, 1 (FAILURE) at least one rule violated,
+     * 2 (ERROR) invalid configuration or option.
      */
     public const ERROR = 2;
 
@@ -40,15 +44,29 @@ class AnalyzeCommand extends AbstractCommand
             $config = $this->mergeCliOptions($this->loadConfig($loader));
 
             $report = $pipeline->run($config->toOptions(getcwd()));
+            $violations = $this->evaluateRules($config->rules, $report);
 
-            $this->write($renderer->render($report, $sections));
+            $this->write($renderer->render($report, $sections, $violations));
         } catch (ConfigException|InvalidArgumentException $e) {
             $this->output->getErrorStyle()->writeln("<error>{$e->getMessage()}</error>");
 
             return self::ERROR;
         }
 
-        return self::SUCCESS;
+        return $violations === null || $violations === [] ? self::SUCCESS : self::FAILURE;
+    }
+
+    /**
+     * @param  list<Rule>  $rules
+     * @return list<Violation>|null Null when no rule is configured
+     */
+    private function evaluateRules(array $rules, Report $report): ?array
+    {
+        if ($rules === []) {
+            return null;
+        }
+
+        return array_merge(...array_map(static fn (Rule $rule): array => $rule->evaluate($report), $rules));
     }
 
     private function loadConfig(ConfigLoader $loader): Config

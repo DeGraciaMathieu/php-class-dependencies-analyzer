@@ -7,6 +7,7 @@ namespace App\Core\Config;
 use App\Core\Analysis\AnalysisOptions;
 use App\Core\Analysis\ComponentResolver;
 use App\Core\Graph\Filter;
+use App\Core\Rules\Rule;
 use InvalidArgumentException;
 
 /**
@@ -21,6 +22,7 @@ final readonly class Config
      * @param  list<string>  $only  FQCN globs kept, see Filter
      * @param  list<string>  $ignore  FQCN globs excluded, see Filter
      * @param  array<string, string|list<string>>  $components  Component name => glob(s), see ComponentResolver
+     * @param  list<Rule>  $rules  Checked on the report, none by default
      */
     private function __construct(
         public array $paths = [],
@@ -29,6 +31,7 @@ final readonly class Config
         public array $ignore = [],
         public array $components = [],
         public int $componentDepth = 2,
+        public array $rules = [],
     ) {}
 
     public static function make(): self
@@ -79,6 +82,14 @@ final readonly class Config
     public function componentDepth(int $depth): self
     {
         return $this->with(['componentDepth' => $depth]);
+    }
+
+    /**
+     * @param  list<Rule>  $rules
+     */
+    public function rules(array $rules): self
+    {
+        return $this->with(['rules' => $rules]);
     }
 
     public function toOptions(string $basePath): AnalysisOptions

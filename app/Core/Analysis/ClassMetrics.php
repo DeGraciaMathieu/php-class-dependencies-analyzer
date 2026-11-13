@@ -9,6 +9,7 @@ use App\Core\Parser\ClassKind;
 /**
  * Coupling metrics of a single class, computed on the full graph.
  *
+ * - file: path of the class file, relative to the analysis base path when inside it
  * - afferent (Ca): number of analysed classes depending on this class
  * - efferent (Ce): number of analysed classes this class depends on (internal only)
  * - externalCount: number of dependencies towards classes never analysed (vendor, native PHP...)
@@ -19,6 +20,7 @@ final readonly class ClassMetrics
     public function __construct(
         public string $fqcn,
         public ClassKind $kind,
+        public string $file,
         public int $afferent,
         public int $efferent,
         public int $externalCount,

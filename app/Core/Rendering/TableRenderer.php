@@ -10,16 +10,18 @@ use App\Core\Analysis\Cycle;
 use App\Core\Analysis\SdpViolation;
 use App\Core\Parser\ParseError;
 use App\Core\Report\Report;
+use App\Core\Rules\Violation;
 
 /**
  * Human-readable terminal output: a summary line, then one table per requested section (enum order),
- * then the parsing errors if any. Metrics are rounded to 2 decimals, a null metric is shown as "—".
+ * then the rule violations when rules are configured, then the parsing errors if any.
+ * Metrics are rounded to 2 decimals, a null metric is shown as "—".
  */
 final readonly class TableRenderer implements Renderer
 {
     private const NOT_MEASURABLE = '—';
 
-    public function render(Report $report, array $sections): string
+    public function render(Report $report, array $sections, ?array $violations = null): string
     {
         $blocks = [$this->summary($report)];
 
@@ -30,6 +32,10 @@ final readonly class TableRenderer implements Renderer
                 ReportSection::Cycles => $this->cycles($report),
                 ReportSection::Sdp => $this->sdp($report),
             };
+        }
+
+        if ($violations !== null) {
+            $blocks[] = $this->violations($violations);
         }
 
         if ($report->errors !== []) {
@@ -103,6 +109,19 @@ final readonly class TableRenderer implements Renderer
         ], $report->sdpViolations);
 
         return $this->section('SDP violations', ['Dependency', 'Δ'], $rows, 'No SDP violation.');
+    }
+
+    /**
+     * @param  list<Violation>  $violations
+     */
+    private function violations(array $violations): string
+    {
+        $rows = array_map(static fn (Violation $violation): array => [
+            $violation->rule,
+            $violation->message,
+        ], $violations);
+
+        return $this->section('Rule violations', ['Rule', 'Message'], $rows, 'No rule violation.');
     }
 
     private function errors(Report $report): string

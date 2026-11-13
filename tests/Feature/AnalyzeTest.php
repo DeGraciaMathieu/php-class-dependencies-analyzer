@@ -19,7 +19,7 @@ it('can run the analyze command with the json format', function () {
     $json = analyzeJson(['paths' => ['app']]);
 
     expect($json['schema'])->toBe(1)
-        ->and($json)->toHaveKeys(['summary', 'components', 'cycles', 'sdp', 'errors']);
+        ->and($json)->toHaveKeys(['summary', 'components', 'cycles', 'sdp', 'violations', 'errors']);
 });
 
 it('can run the analyze command with a report section', function () {
@@ -59,6 +59,43 @@ it('can run the analyze command with a configuration file', function () {
     $json = analyzeJson(['--config' => 'tests/Fixtures/Core/Config/project.php']);
 
     expect($json['summary']['classes'])->toBe(11);
+});
+
+it('succeeds on the project with its own rules', function () {
+    $this->artisan('analyze')
+        ->expectsOutputToContain('No rule violation.')
+        ->assertExitCode(0);
+});
+
+it('succeeds without rule even when the project has cycles', function () {
+    $exitCode = Artisan::call('analyze', ['--config' => 'tests/Fixtures/Core/Config/project.php']);
+
+    expect($exitCode)->toBe(0)
+        ->and(Artisan::output())->toContain('Cycles')->not->toContain('Rule violations');
+});
+
+it('fails with exit code 1 and lists the violations when a rule is violated', function () {
+    $exitCode = Artisan::call('analyze', ['--config' => 'tests/Fixtures/Core/Config/rules.php']);
+
+    expect($exitCode)->toBe(1)
+        ->and(Artisan::output())
+        ->toContain('Rule violations')
+        ->toContain('no-cycles            Component cycle: Shop\Billing → Shop\Ordering.')
+        ->toContain('max-distance         Shop\Catalog is at distance 0.67 from the main sequence (max 0.50).');
+});
+
+it('renders the violations in json with exit code 1', function () {
+    $exitCode = Artisan::call('analyze', ['--config' => 'tests/Fixtures/Core/Config/rules.php', '--format' => 'json']);
+    $json = json_decode(Artisan::output(), true, flags: JSON_THROW_ON_ERROR);
+
+    expect($exitCode)->toBe(1)
+        ->and(array_column($json['violations'], 'fingerprint'))->toBe([
+            'no-cycles:class:Shop\Catalog\Category,Shop\Catalog\Product',
+            'no-cycles:component:Shop\Billing,Shop\Ordering',
+            'stable-dependencies:Shop\Billing->Shop\Ordering',
+            'max-distance:Shop\Catalog',
+        ])
+        ->and($json['violations'][0]['file'])->toBe('tests/Fixtures/Core/Project/Catalog/Category.php');
 });
 
 it('fails with exit code 2', function (string $command, string $message) {

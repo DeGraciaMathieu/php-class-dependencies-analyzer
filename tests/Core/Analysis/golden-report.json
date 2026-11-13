@@ -3,6 +3,7 @@
     "classes": {
         "Shop\\Billing\\HasTaxes": {
             "kind": "Trait_",
+            "file": "Project/Billing/HasTaxes.php",
             "afferent": 1,
             "efferent": 0,
             "externalCount": 0,
@@ -10,6 +11,7 @@
         },
         "Shop\\Billing\\Invoice": {
             "kind": "Class_",
+            "file": "Project/Billing/Invoice.php",
             "afferent": 3,
             "efferent": 2,
             "externalCount": 1,
@@ -17,6 +19,7 @@
         },
         "Shop\\Billing\\PaymentGateway": {
             "kind": "Interface_",
+            "file": "Project/Billing/PaymentGateway.php",
             "afferent": 2,
             "efferent": 1,
             "externalCount": 0,
@@ -24,6 +27,7 @@
         },
         "Shop\\Billing\\StripeGateway": {
             "kind": "Class_",
+            "file": "Project/Billing/StripeGateway.php",
             "afferent": 0,
             "efferent": 2,
             "externalCount": 1,
@@ -31,6 +35,7 @@
         },
         "Shop\\Catalog\\Category": {
             "kind": "Class_",
+            "file": "Project/Catalog/Category.php",
             "afferent": 1,
             "efferent": 1,
             "externalCount": 0,
@@ -38,6 +43,7 @@
         },
         "Shop\\Catalog\\Product": {
             "kind": "Class_",
+            "file": "Project/Catalog/Product.php",
             "afferent": 3,
             "efferent": 1,
             "externalCount": 2,
@@ -45,6 +51,7 @@
         },
         "Shop\\Catalog\\ProductRepository": {
             "kind": "Interface_",
+            "file": "Project/Catalog/ProductRepository.php",
             "afferent": 1,
             "efferent": 1,
             "externalCount": 0,
@@ -52,6 +59,7 @@
         },
         "Shop\\Ordering\\Order": {
             "kind": "Class_",
+            "file": "Project/Ordering/Order.php",
             "afferent": 3,
             "efferent": 2,
             "externalCount": 1,
@@ -59,6 +67,7 @@
         },
         "Shop\\Ordering\\OrderRepository": {
             "kind": "Interface_",
+            "file": "Project/Ordering/OrderRepository.php",
             "afferent": 1,
             "efferent": 1,
             "externalCount": 0,
@@ -66,6 +75,7 @@
         },
         "Shop\\Ordering\\OrderStatus": {
             "kind": "Enum_",
+            "file": "Project/Ordering/OrderStatus.php",
             "afferent": 1,
             "efferent": 0,
             "externalCount": 0,
@@ -73,6 +83,7 @@
         },
         "Shop\\Ordering\\PlaceOrder": {
             "kind": "Class_",
+            "file": "Project/Ordering/PlaceOrder.php",
             "afferent": 0,
             "efferent": 5,
             "externalCount": 1,
