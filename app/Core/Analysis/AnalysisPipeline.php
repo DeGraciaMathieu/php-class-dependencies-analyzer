@@ -16,6 +16,7 @@ use App\Core\Report\Report;
  * Scans, parses and analyses the sources, then applies the filter to the report entries.
  *
  * Metrics are always computed on the full graph: filtering never changes a value, only what is reported.
+ * Parse error paths are reported relative to the base path.
  */
 final readonly class AnalysisPipeline
 {
@@ -27,7 +28,7 @@ final readonly class AnalysisPipeline
     {
         $files = (new SourceScanner)->scan($options->paths, $options->excludePaths, $options->basePath);
 
-        [$classes, $errors] = $this->parse($files);
+        [$classes, $errors] = $this->parse($files, $options->basePath);
 
         $graph = (new GraphBuilder)->build($classes);
         $componentAnalyzer = new ComponentAnalyzer(new ComponentResolver($options->components, $options->componentDepth));
@@ -50,7 +51,7 @@ final readonly class AnalysisPipeline
      * @param  list<string>  $files
      * @return array{list<ParsedClass>, list<ParseError>}
      */
-    private function parse(array $files): array
+    private function parse(array $files, string $basePath): array
     {
         $classes = [];
         $errors = [];
@@ -62,7 +63,18 @@ final readonly class AnalysisPipeline
             array_push($errors, ...$result->errors);
         }
 
-        return [$classes, $errors];
+        return [$classes, array_map(static fn (ParseError $error): ParseError => self::relativeError($error, $basePath), $errors)];
+    }
+
+    private static function relativeError(ParseError $error, string $basePath): ParseError
+    {
+        $prefix = rtrim(realpath($basePath) ?: $basePath, '/').'/';
+
+        if (! str_starts_with($error->file, $prefix)) {
+            return $error;
+        }
+
+        return new ParseError(substr($error->file, strlen($prefix)), $error->message);
     }
 
     /**

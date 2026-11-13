@@ -13,7 +13,7 @@ use App\Core\Report\Report;
 /**
  * Floats are rounded here only, so that the golden file stays readable and stable.
  */
-function normalizeReport(Report $report, string $basePath): array
+function normalizeReport(Report $report): array
 {
     return [
         'fileCount' => $report->fileCount,
@@ -46,7 +46,7 @@ function normalizeReport(Report $report, string $basePath): array
             'delta' => round($violation->delta, 4),
         ], $report->sdpViolations),
         'errors' => array_map(static fn (ParseError $error): array => [
-            'file' => substr($error->file, strlen($basePath) + 1),
+            'file' => $error->file,
             'message' => $error->message,
         ], $report->errors),
         'duplicates' => $report->duplicates,
@@ -62,7 +62,7 @@ it('matches the golden report of the fixture project', function () {
         basePath: $basePath,
     ));
 
-    $json = json_encode(normalizeReport($report, $basePath), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_PRESERVE_ZERO_FRACTION).PHP_EOL;
+    $json = json_encode(normalizeReport($report), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_PRESERVE_ZERO_FRACTION).PHP_EOL;
 
     if (getenv('UPDATE_GOLDEN') === '1') {
         file_put_contents($goldenFile, $json);
