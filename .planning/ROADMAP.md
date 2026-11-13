@@ -37,7 +37,7 @@ On construit un cœur pur (`app/Core`) à côté de l'ancien code : parser → g
 **Plans** : 3
 
 - [x] 02-01 : `CouplingAnalyzer` (Ca, Ce interne/externe, I) + `ComponentResolver` + `ComponentAnalyzer` (Na, Nc, A, I, D)
-- [ ] 02-02 : `CycleAnalyzer` (Tarjan itératif, SCC de taille > 1 + auto-boucles) + `SdpAnalyzer` (entre composants)
+- [x] 02-02 : `CycleAnalyzer` (Tarjan itératif, SCC de taille > 1 + auto-boucles) + `SdpAnalyzer` (entre composants)
 - [ ] 02-03 : `Report` + `AnalysisPipeline` (scan → parse → graph → analyzers) + test golden sur un projet fixture
 
 ### Phase 3 : CLI & configuration
@@ -87,7 +87,7 @@ app/Commands/AnalyzeCommand.php   (seul point d'entrée Laravel Zero du nouveau 
 | Phase | Plans Complete | Status | PR | Completed |
 |-------|----------------|--------|----|-----------|
 | 1. Fondations | 3/3 | Complete | #8 | 2026-11-13 |
-| 2. Analyseurs | 1/3 | In progress | - | - |
+| 2. Analyseurs | 2/3 | In progress | - | - |
 | 3. CLI & configuration | 0/2 | Not started | - | - |
 | 4. Intégration CI | 0/3 | Not started | - | - |
 | 5. Finitions & migration | 0/3 | Not started | - | - |
