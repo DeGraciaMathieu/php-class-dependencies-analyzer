@@ -14,7 +14,7 @@ On construit un cœur pur (`app/Core`) à côté de l'ancien code : parser → g
 
 ## Phases
 
-- [ ] **Phase 1 : Fondations** — parser unique, scan des sources, `DependencyGraph` immuable
+- [x] **Phase 1 : Fondations** — parser unique, scan des sources, `DependencyGraph` immuable
 - [ ] **Phase 2 : Analyseurs** — couplage classe, métriques composant, Tarjan, SDP, `Report`
 - [ ] **Phase 3 : CLI & configuration** — `dependencies.php`, commande `analyze`, renderers table/json
 - [ ] **Phase 4 : Intégration CI** — règles, codes de sortie, baseline, SARIF
@@ -29,7 +29,7 @@ On construit un cœur pur (`app/Core`) à côté de l'ancien code : parser → g
 
 - [x] 01-01 : Socle — suite de tests verte, squelette `app/Core`, test d'architecture
 - [x] 01-02 : Parser — port `ClassParser`, `ParsedClass`, adapter php-parser + `SourceScanner`
-- [ ] 01-03 : Graphe — `DependencyGraph`, `GraphBuilder`, `Filter` (globs ancrés)
+- [x] 01-03 : Graphe — `DependencyGraph`, `GraphBuilder`, `Filter` (globs ancrés)
 
 ### Phase 2 : Analyseurs
 **Goal** : toutes les métriques et détections calculées sur le graphe, réunies dans un `Report` immuable.
@@ -86,7 +86,7 @@ app/Commands/AnalyzeCommand.php   (seul point d'entrée Laravel Zero du nouveau 
 
 | Phase | Plans Complete | Status | PR | Completed |
 |-------|----------------|--------|----|-----------|
-| 1. Fondations | 2/3 | In progress | - | - |
+| 1. Fondations | 3/3 | Complete | - | 2026-11-13 |
 | 2. Analyseurs | 0/3 | Not started | - | - |
 | 3. CLI & configuration | 0/2 | Not started | - | - |
 | 4. Intégration CI | 0/3 | Not started | - | - |
