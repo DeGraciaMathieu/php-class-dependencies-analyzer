@@ -72,11 +72,11 @@ it('keeps sdp violations whose source or target is retained', function (string $
     'neither retained' => ['Shop\Catalog\*', 0],
 ]);
 
-it('reports invalid files and still analyses the others', function () {
+it('reports invalid files relative to the base path and still analyses the others', function () {
     $report = runPipeline(['Project', 'Parser/Invalid.php']);
 
     expect($report->fileCount)->toBe(12)
         ->and($report->errors)->toHaveCount(1)
-        ->and($report->errors[0]->file)->toEndWith('Parser/Invalid.php')
+        ->and($report->errors[0]->file)->toBe('Parser/Invalid.php')
         ->and($report->classes)->toHaveCount(11);
 });

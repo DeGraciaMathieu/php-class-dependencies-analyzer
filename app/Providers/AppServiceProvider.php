@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Core\Parser\ClassParser;
+use App\Core\Parser\PhpParser\PhpParserClassParser;
 use App\Domain\Ports\Aggregators\FileAggregator;
 use App\Domain\Ports\Repositories\FileRepository;
 use App\Infrastructure\Analyze\Adapters\Jerowork\ClassDependenciesParserAdapter;
@@ -33,6 +35,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->bind(ClassParser::class, PhpParserClassParser::class);
+
         $this->app->bind(FileRepository::class, FileRepositoryAdapter::class);
 
         $this->app->bind(FileAggregator::class, FileAggregatorAdapter::class);
