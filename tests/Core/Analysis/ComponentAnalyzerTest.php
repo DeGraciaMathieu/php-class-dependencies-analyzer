@@ -79,17 +79,30 @@ it('does not round metrics', function () {
         ->and($metrics['App\A']->distance)->toEqualWithDelta(1 / 3, 1e-12);
 });
 
-it('gives zero metrics to a component made of traits only', function () {
+it('does not measure abstractness of a component made of traits only', function () {
     $graph = (new GraphBuilder)->build([
         new ParsedClass('App\Concerns\HasName', ClassKind::Trait_, [], 'file.php'),
+        new ParsedClass('App\Models\User', ClassKind::Class_, ['App\Concerns\HasName'], 'file.php'),
     ]);
 
     $metrics = (new ComponentAnalyzer(new ComponentResolver))->analyze($graph);
 
     expect($metrics['App\Concerns']->classCount)->toBe(0)
-        ->and($metrics['App\Concerns']->abstractness)->toBe(0.0)
+        ->and($metrics['App\Concerns']->abstractness)->toBeNull()
         ->and($metrics['App\Concerns']->instability)->toBe(0.0)
-        ->and($metrics['App\Concerns']->distance)->toBe(1.0);
+        ->and($metrics['App\Concerns']->distance)->toBeNull();
+});
+
+it('does not measure instability of an isolated component', function () {
+    $graph = (new GraphBuilder)->build([
+        new ParsedClass('App\Isolated\Foo', ClassKind::Class_, [], 'file.php'),
+    ]);
+
+    $metrics = (new ComponentAnalyzer(new ComponentResolver))->analyze($graph);
+
+    expect($metrics['App\Isolated']->abstractness)->toBe(0.0)
+        ->and($metrics['App\Isolated']->instability)->toBeNull()
+        ->and($metrics['App\Isolated']->distance)->toBeNull();
 });
 
 it('uses named component definitions', function () {

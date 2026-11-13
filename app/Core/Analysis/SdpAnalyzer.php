@@ -10,6 +10,7 @@ use App\Core\Graph\DependencyGraph;
  * Detects Stable Dependencies Principle violations between components.
  *
  * Every dependency towards a strictly less stable component is reported, without tolerance.
+ * Components whose instability is not measurable are skipped.
  */
 final readonly class SdpAnalyzer
 {
@@ -30,6 +31,10 @@ final readonly class SdpAnalyzer
             foreach ($targets as $to) {
                 $fromInstability = $metrics[$from]->instability;
                 $toInstability = $metrics[$to]->instability;
+
+                if ($fromInstability === null || $toInstability === null) {
+                    continue;
+                }
 
                 if ($toInstability > $fromInstability) {
                     $violations[] = new SdpViolation($from, $fromInstability, $to, $toInstability, $toInstability - $fromInstability);

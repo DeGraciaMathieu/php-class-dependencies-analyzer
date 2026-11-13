@@ -1,0 +1,160 @@
+{
+    "fileCount": 12,
+    "classes": {
+        "Shop\\Billing\\HasTaxes": {
+            "kind": "Trait_",
+            "afferent": 1,
+            "efferent": 0,
+            "externalCount": 0,
+            "instability": 0.0
+        },
+        "Shop\\Billing\\Invoice": {
+            "kind": "Class_",
+            "afferent": 3,
+            "efferent": 2,
+            "externalCount": 1,
+            "instability": 0.4
+        },
+        "Shop\\Billing\\PaymentGateway": {
+            "kind": "Interface_",
+            "afferent": 2,
+            "efferent": 1,
+            "externalCount": 0,
+            "instability": 0.3333
+        },
+        "Shop\\Billing\\StripeGateway": {
+            "kind": "Class_",
+            "afferent": 0,
+            "efferent": 2,
+            "externalCount": 1,
+            "instability": 1.0
+        },
+        "Shop\\Catalog\\Category": {
+            "kind": "Class_",
+            "afferent": 1,
+            "efferent": 1,
+            "externalCount": 0,
+            "instability": 0.5
+        },
+        "Shop\\Catalog\\Product": {
+            "kind": "Class_",
+            "afferent": 3,
+            "efferent": 1,
+            "externalCount": 2,
+            "instability": 0.25
+        },
+        "Shop\\Catalog\\ProductRepository": {
+            "kind": "Interface_",
+            "afferent": 1,
+            "efferent": 1,
+            "externalCount": 0,
+            "instability": 0.5
+        },
+        "Shop\\Ordering\\Order": {
+            "kind": "Class_",
+            "afferent": 3,
+            "efferent": 2,
+            "externalCount": 1,
+            "instability": 0.4
+        },
+        "Shop\\Ordering\\OrderRepository": {
+            "kind": "Interface_",
+            "afferent": 1,
+            "efferent": 1,
+            "externalCount": 0,
+            "instability": 0.5
+        },
+        "Shop\\Ordering\\OrderStatus": {
+            "kind": "Enum_",
+            "afferent": 1,
+            "efferent": 0,
+            "externalCount": 0,
+            "instability": 0.0
+        },
+        "Shop\\Ordering\\PlaceOrder": {
+            "kind": "Class_",
+            "afferent": 0,
+            "efferent": 5,
+            "externalCount": 1,
+            "instability": 1.0
+        }
+    },
+    "components": {
+        "Shop\\Billing": {
+            "classes": [
+                "Shop\\Billing\\HasTaxes",
+                "Shop\\Billing\\Invoice",
+                "Shop\\Billing\\PaymentGateway",
+                "Shop\\Billing\\StripeGateway"
+            ],
+            "classCount": 3,
+            "abstractCount": 1,
+            "abstractness": 0.3333,
+            "afferent": 1,
+            "efferent": 1,
+            "instability": 0.5,
+            "distance": 0.1667
+        },
+        "Shop\\Catalog": {
+            "classes": [
+                "Shop\\Catalog\\Category",
+                "Shop\\Catalog\\Product",
+                "Shop\\Catalog\\ProductRepository"
+            ],
+            "classCount": 3,
+            "abstractCount": 1,
+            "abstractness": 0.3333,
+            "afferent": 2,
+            "efferent": 0,
+            "instability": 0.0,
+            "distance": 0.6667
+        },
+        "Shop\\Ordering": {
+            "classes": [
+                "Shop\\Ordering\\Order",
+                "Shop\\Ordering\\OrderRepository",
+                "Shop\\Ordering\\OrderStatus",
+                "Shop\\Ordering\\PlaceOrder"
+            ],
+            "classCount": 4,
+            "abstractCount": 1,
+            "abstractness": 0.25,
+            "afferent": 1,
+            "efferent": 4,
+            "instability": 0.8,
+            "distance": 0.05
+        }
+    },
+    "cycles": [
+        {
+            "level": "class",
+            "members": [
+                "Shop\\Catalog\\Category",
+                "Shop\\Catalog\\Product"
+            ]
+        },
+        {
+            "level": "component",
+            "members": [
+                "Shop\\Billing",
+                "Shop\\Ordering"
+            ]
+        }
+    ],
+    "sdpViolations": [
+        {
+            "from": "Shop\\Billing",
+            "fromInstability": 0.5,
+            "to": "Shop\\Ordering",
+            "toInstability": 0.8,
+            "delta": 0.3
+        }
+    ],
+    "errors": [
+        {
+            "file": "Parser/Invalid.php",
+            "message": "Syntax error, unexpected '}', expecting T_VARIABLE on line 8"
+        }
+    ],
+    "duplicates": []
+}

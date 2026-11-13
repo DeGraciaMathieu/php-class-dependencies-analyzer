@@ -101,9 +101,10 @@ final readonly class ComponentAnalyzer
         $afferent = count(self::outsideDependentsOf($graph, $componentOf, $component, $classes));
         $efferent = count(self::outsideDependenciesOf($graph, $componentOf, $component, $classes));
 
-        $abstractness = $classCount === 0 ? 0.0 : $abstractCount / $classCount;
+        $abstractness = $classCount === 0 ? null : $abstractCount / $classCount;
         $coupling = $afferent + $efferent;
-        $instability = $coupling === 0 ? 0.0 : $efferent / $coupling;
+        $instability = $coupling === 0 ? null : $efferent / $coupling;
+        $distance = $abstractness === null || $instability === null ? null : abs($abstractness + $instability - 1);
 
         return new ComponentMetrics(
             $component,
@@ -114,7 +115,7 @@ final readonly class ComponentAnalyzer
             $afferent,
             $efferent,
             $instability,
-            abs($abstractness + $instability - 1),
+            $distance,
         );
     }
 
