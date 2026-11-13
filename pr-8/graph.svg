@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 356" width="780" height="356" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+<style>text{fill:#1e1b16}.sub{fill:#6b6357;font-size:11px}.hot{fill:#b5121b;font-size:11px;font-weight:600}.new{fill:#2f7d4f;font-size:11px;font-weight:600}.legend{fill:#6b6357;font-size:12px}.count{fill:#6b6357;font-size:14px;font-weight:600}</style>
+<defs>
+<marker id="arrow-edge" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#a8998a"/></marker>
+<marker id="arrow-added" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2f7d4f"/></marker>
+</defs>
+<rect width="780" height="356" fill="#ffffff"/>
+<text x="20" y="28" font-size="14" font-weight="600">12 classes touched out of 140 · 13 dependencies added</text>
+<g transform="translate(-125 30)">
+<path d="M534.0 212.9 Q460.4 192.8 466.3 129.6" fill="none" stroke="#2f7d4f" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arrow-added)"><title>Graph → Parser: 1 dependencies, 1 added</title></path>
+<circle cx="560" cy="220" r="30.0" fill="none" stroke="#e6dfd2" stroke-width="5"/>
+<circle cx="560" cy="220" r="30.0" fill="none" stroke="#2f7d4f" stroke-width="5" stroke-dasharray="188.5 188.5" stroke-dashoffset="0.0" transform="rotate(-90 560 220)"/>
+<rect x="517.2" y="157.5" width="85.6" height="17" rx="3" fill="#e3f1e8" opacity="0.92"/>
+<text x="560" y="170.0" text-anchor="middle" class="new">4 of 4 added</text>
+<circle cx="560" cy="220" r="24.0" fill="#e3f1e8" stroke="#2f7d4f" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="560" y="225.0" text-anchor="middle" class="count">4</text>
+<rect x="523.9" y="255.5" width="72.2" height="17" rx="3" fill="#ffffff" opacity="0.92"/>
+<text x="560" y="268.0" text-anchor="middle" font-size="12.5" font-weight="600">Graph<tspan dx="6" class="new">new</tspan></text>
+<circle cx="470" cy="90" r="35.8" fill="none" stroke="#e6dfd2" stroke-width="5"/>
+<circle cx="470" cy="90" r="35.8" fill="none" stroke="#2f7d4f" stroke-width="5" stroke-dasharray="224.9 224.9" stroke-dashoffset="0.0" transform="rotate(-90 470 90)"/>
+<rect x="427.2" y="21.7" width="85.6" height="17" rx="3" fill="#e3f1e8" opacity="0.92"/>
+<text x="470" y="34.2" text-anchor="middle" class="new">8 of 8 added</text>
+<circle cx="470" cy="90" r="29.8" fill="#e3f1e8" stroke="#2f7d4f" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="470" y="95.0" text-anchor="middle" class="count">8</text>
+<rect x="430.2" y="131.3" width="79.6" height="17" rx="3" fill="#ffffff" opacity="0.92"/>
+<text x="470" y="143.8" text-anchor="middle" font-size="12.5" font-weight="600">Parser<tspan dx="6" class="new">new</tspan></text>
+<path d="M534.0 212.9 Q460.4 192.8 466.3 129.6" fill="none" stroke="none" marker-end="url(#arrow-added)"/>
+</g>
+<circle cx="25" cy="334" r="5" fill="none" stroke="#b5121b" stroke-width="3"/>
+<text x="36" y="338" class="legend">classes changed</text>
+<circle cx="153" cy="334" r="5" fill="none" stroke="#2f7d4f" stroke-width="3"/>
+<text x="164" y="338" class="legend">classes added</text>
+<line x1="263" y1="334" x2="281" y2="334" stroke="#2f7d4f" stroke-width="3"/>
+<text x="287" y="338" class="legend">dependency added</text>
+<line x1="405" y1="334" x2="423" y2="334" stroke="#a8998a" stroke-width="3"/>
+<text x="429" y="338" class="legend">existing dependency touched</text>
+</svg>
