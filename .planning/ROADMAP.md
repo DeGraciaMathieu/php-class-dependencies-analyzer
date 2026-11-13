@@ -43,10 +43,11 @@ On construit un cœur pur (`app/Core`) à côté de l'ancien code : parser → g
 ### Phase 3 : CLI & configuration
 **Goal** : `php class-dependencies-analyzer analyze <path>` utilisable, avec ou sans `dependencies.php`.
 **Depends on** : Phase 2
-**Plans** : 2
+**Plans** : 3
 
-- [ ] 03-01 : `Config` (builder fluide, valeurs par défaut, chargement `--config`, erreurs de validation)
-- [ ] 03-02 : Commande `analyze` (`--report`, `--format`, `--output`), renderers `table` et `json` (schema 1), exit 0/2, tests Feature
+- [x] 03-01 : `Config` (builder fluide immuable) + `ConfigLoader` (`dependencies.php`, erreurs explicites)
+- [ ] 03-02 : Renderers `table` et `json` (schema 1), sections `classes` / `components` / `cycles` / `sdp`
+- [ ] 03-03 : Commande `analyze` (`--config`, `--report`, `--format`, `--output`, `--only`, `--exclude`), exit 0/2, tests Feature, healthcheck — checkpoint
 
 ### Phase 4 : Intégration CI
 **Goal** : l'outil peut faire échouer une CI de façon fiable et progressive.
@@ -88,6 +89,6 @@ app/Commands/AnalyzeCommand.php   (seul point d'entrée Laravel Zero du nouveau 
 |-------|----------------|--------|----|-----------|
 | 1. Fondations | 3/3 | Complete | #8 | 2026-11-13 |
 | 2. Analyseurs | 3/3 | Complete | #9 | 2026-11-13 |
-| 3. CLI & configuration | 0/2 | Not started | - | - |
+| 3. CLI & configuration | 1/3 | In progress | - | - |
 | 4. Intégration CI | 0/3 | Not started | - | - |
 | 5. Finitions & migration | 0/3 | Not started | - | - |
