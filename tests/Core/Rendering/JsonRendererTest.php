@@ -8,7 +8,9 @@ use App\Core\Parser\ClassKind;
 use App\Core\Parser\PhpParser\PhpParserClassParser;
 use App\Core\Rendering\JsonRenderer;
 use App\Core\Rendering\ReportSection;
+use App\Core\Report\BaselineResult;
 use App\Core\Report\Report;
+use App\Core\Report\Violation;
 
 beforeEach(function () {
     $this->report = (new AnalysisPipeline(new PhpParserClassParser))->run(new AnalysisOptions(
@@ -29,7 +31,30 @@ it('renders valid json with the schema version and the summary', function () {
 it('contains only the requested sections', function () {
     $data = json_decode((new JsonRenderer)->render($this->report, [ReportSection::Sdp, ReportSection::Cycles]), true);
 
-    expect(array_keys($data))->toBe(['schema', 'summary', 'cycles', 'sdp', 'errors']);
+    expect(array_keys($data))->toBe(['schema', 'summary', 'cycles', 'sdp', 'violations', 'errors']);
+});
+
+it('always renders the violations, empty when no rule is configured', function () {
+    $violations = [new Violation('max-distance', 'max-distance:Shop\Catalog', 'Too far.')];
+
+    expect(json_decode((new JsonRenderer)->render($this->report, []), true)['violations'])->toBe([])
+        ->and(json_decode((new JsonRenderer)->render($this->report, [], $violations), true)['violations'])->toBe([[
+            'rule' => 'max-distance',
+            'fingerprint' => 'max-distance:Shop\Catalog',
+            'message' => 'Too far.',
+            'file' => null,
+        ]]);
+});
+
+it('renders the baseline counts only when a baseline is used', function () {
+    $violations = [new Violation('max-distance', 'max-distance:Shop\Catalog', 'Too far.')];
+    $baseline = new BaselineResult($violations, 2, ['no-cycles:component:A,B']);
+
+    $data = json_decode((new JsonRenderer)->render($this->report, [], $violations, $baseline), true);
+
+    expect(array_keys($data))->toBe(['schema', 'summary', 'violations', 'baseline', 'errors'])
+        ->and($data['baseline'])->toBe(['baselined' => 2, 'stale' => ['no-cycles:component:A,B']])
+        ->and(json_decode((new JsonRenderer)->render($this->report, [], $violations), true))->not->toHaveKey('baseline');
 });
 
 it('renders components rounded to 4 decimals', function () {
@@ -74,7 +99,7 @@ it('renders classes with a stable kebab-case kind', function () {
 
 it('renders an abstract class kind as abstract-class', function () {
     $report = new Report(
-        classes: ['App\\Base' => new ClassMetrics('App\\Base', ClassKind::AbstractClass, 0, 0, 0, 0.0)],
+        classes: ['App\\Base' => new ClassMetrics('App\\Base', ClassKind::AbstractClass, 'Base.php', 0, 0, 0, 0.0)],
         components: [],
         cycles: [],
         sdpViolations: [],

@@ -1,6 +1,7 @@
 <?php
 
 use App\Core\Config\Config;
+use App\Core\Rules\Rules;
 
 /*
  * The v1 core is split into its modules, the legacy layers
@@ -15,4 +16,9 @@ return Config::make()
         'Core\Report' => 'App\Core\Report\*',
         'Core\Config' => 'App\Core\Config\*',
         'Core\Rendering' => 'App\Core\Rendering\*',
+        'Core\Rules' => 'App\Core\Rules\*',
+    ])
+    ->rules([
+        Rules::noCycles(),
+        Rules::stableDependencies(),
     ]);

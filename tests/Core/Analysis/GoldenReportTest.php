@@ -19,6 +19,7 @@ function normalizeReport(Report $report): array
         'fileCount' => $report->fileCount,
         'classes' => array_map(static fn (ClassMetrics $class): array => [
             'kind' => $class->kind->name,
+            'file' => $class->file,
             'afferent' => $class->afferent,
             'efferent' => $class->efferent,
             'externalCount' => $class->externalCount,

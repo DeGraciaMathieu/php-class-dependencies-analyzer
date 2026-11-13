@@ -6,7 +6,9 @@ use App\Core\Analysis\ComponentMetrics;
 use App\Core\Parser\PhpParser\PhpParserClassParser;
 use App\Core\Rendering\ReportSection;
 use App\Core\Rendering\TableRenderer;
+use App\Core\Report\BaselineResult;
 use App\Core\Report\Report;
+use App\Core\Report\Violation;
 
 beforeEach(function () {
     $this->report = (new AnalysisPipeline(new PhpParserClassParser))->run(new AnalysisOptions(
@@ -81,6 +83,32 @@ it('shows a dash for a non-measurable metric and short messages for empty sectio
         ->toContain("Cycles\nNo cycle.")
         ->toContain("SDP violations\nNo SDP violation.")
         ->not->toContain('Errors');
+});
+
+it('lists the rule violations before the parsing errors', function () {
+    $violations = [new Violation('no-cycles', 'no-cycles:class:A,B', 'Class cycle: A → B.', 'A.php')];
+
+    $output = (new TableRenderer)->render($this->report, [], $violations);
+
+    expect($output)->toContain(implode(PHP_EOL, [
+        'Rule violations',
+        'Rule       Message',
+        '---------  -------------------',
+        'no-cycles  Class cycle: A → B.',
+    ]))->and(strpos($output, 'Rule violations'))->toBeLessThan(strpos($output, 'Errors'));
+});
+
+it('renders the rule violations section only when rules are configured', function () {
+    expect((new TableRenderer)->render($this->report, []))->not->toContain('Rule violations')
+        ->and((new TableRenderer)->render($this->report, [], []))->toContain("Rule violations\nNo rule violation.");
+});
+
+it('renders the baseline counts after the rule violations only when a baseline is used', function () {
+    $baseline = new BaselineResult([], 3, ['a', 'b']);
+
+    expect((new TableRenderer)->render($this->report, [], [], $baseline))
+        ->toContain("Rule violations\nNo rule violation.\n3 baselined, 2 stale")
+        ->and((new TableRenderer)->render($this->report, [], []))->not->toContain('baselined');
 });
 
 it('builds sections from a list of names', function () {

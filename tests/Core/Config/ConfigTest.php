@@ -3,6 +3,7 @@
 use App\Core\Config\Config;
 use App\Core\Config\ConfigException;
 use App\Core\Graph\Filter;
+use App\Core\Rules\Rules;
 
 it('has defaults', function () {
     $config = Config::make();
@@ -12,7 +13,9 @@ it('has defaults', function () {
         ->and($config->only)->toBe([])
         ->and($config->ignore)->toBe([])
         ->and($config->components)->toBe([])
-        ->and($config->componentDepth)->toBe(2);
+        ->and($config->componentDepth)->toBe(2)
+        ->and($config->rules)->toBe([])
+        ->and($config->baseline)->toBeNull();
 });
 
 it('returns a new instance without changing the original', function () {
@@ -25,6 +28,16 @@ it('returns a new instance without changing the original', function () {
         ->and($original->componentDepth)->toBe(2)
         ->and($changed->paths)->toBe(['app'])
         ->and($changed->componentDepth)->toBe(3);
+});
+
+it('declares rules', function () {
+    $rules = [Rules::noCycles(), Rules::stableDependencies(0.1)];
+
+    expect(Config::make()->rules($rules)->rules)->toBe($rules);
+});
+
+it('declares a baseline file', function () {
+    expect(Config::make()->baseline('dependencies-baseline.json')->baseline)->toBe('dependencies-baseline.json');
 });
 
 it('builds analysis options', function () {
