@@ -24,6 +24,7 @@ final readonly class Config
      * @param  array<string, string|list<string>>  $components  Component name => glob(s), see ComponentResolver
      * @param  list<Rule>  $rules  Checked on the report, none by default
      * @param  string|null  $baseline  Baseline file relative to the project root, see BaselineFile
+     * @param  bool|string  $cache  Parse cache: enabled in the default file, disabled, or enabled in this file relative to the project root, see ParseCache
      */
     private function __construct(
         public array $paths = [],
@@ -34,6 +35,7 @@ final readonly class Config
         public int $componentDepth = 2,
         public array $rules = [],
         public ?string $baseline = null,
+        public bool|string $cache = true,
     ) {}
 
     public static function make(): self
@@ -97,6 +99,11 @@ final readonly class Config
     public function baseline(string $file): self
     {
         return $this->with(['baseline' => $file]);
+    }
+
+    public function cache(bool|string $cache): self
+    {
+        return $this->with(['cache' => $cache]);
     }
 
     public function toOptions(string $basePath): AnalysisOptions

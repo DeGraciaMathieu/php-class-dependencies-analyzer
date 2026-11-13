@@ -17,6 +17,7 @@ return Config::make()
         'Core\Config' => 'App\Core\Config\*',
         'Core\Rendering' => 'App\Core\Rendering\*',
         'Core\Rules' => 'App\Core\Rules\*',
+        'Core\Cache' => 'App\Core\Cache\*',
     ])
     ->rules([
         Rules::noCycles(),

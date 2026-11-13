@@ -15,7 +15,8 @@ it('has defaults', function () {
         ->and($config->components)->toBe([])
         ->and($config->componentDepth)->toBe(2)
         ->and($config->rules)->toBe([])
-        ->and($config->baseline)->toBeNull();
+        ->and($config->baseline)->toBeNull()
+        ->and($config->cache)->toBeTrue();
 });
 
 it('returns a new instance without changing the original', function () {
@@ -39,6 +40,10 @@ it('declares rules', function () {
 it('declares a baseline file', function () {
     expect(Config::make()->baseline('dependencies-baseline.json')->baseline)->toBe('dependencies-baseline.json');
 });
+
+it('enables, disables or relocates the parse cache', function (bool|string $cache) {
+    expect(Config::make()->cache($cache)->cache)->toBe($cache);
+})->with([true, false, 'build/.dependencies-cache']);
 
 it('builds analysis options', function () {
     $options = Config::make()
