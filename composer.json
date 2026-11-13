@@ -17,12 +17,8 @@
     ],
     "require": {
         "php": "^8.2.0",
-        "degraciamathieu/php-file-explorer": "^0.4.1",
-        "illuminate/view": "^11.5",
-        "jerowork/class-dependencies-parser": "^0.5.1",
         "laravel-zero/framework": "^11.0.0",
-        "laravel/prompts": "^0.1.25",
-        "nikic/php-parser": "4.19.*"
+        "nikic/php-parser": "^5.0"
     },
     "require-dev": {
         "laravel/pint": "^1.15.2",
@@ -52,25 +48,12 @@
     "scripts": {
         "test": "vendor/bin/pest -p",
         "healthcheck": [
-            "php class-dependencies-analyzer weakness app",
-            "php class-dependencies-analyzer weakness app --min-delta=0.1",
-            "php class-dependencies-analyzer weakness app --limit=10",
-            "php class-dependencies-analyzer weakness app --only='App\\Application'",
-            "php class-dependencies-analyzer weakness app --exclude='App\\Infrastructure'",
-            "php class-dependencies-analyzer cyclic app",
-            "php class-dependencies-analyzer cyclic app --only='App\\Application'",
-            "php class-dependencies-analyzer cyclic app --exclude='App\\Infrastructure'",
-            "php class-dependencies-analyzer analyze:class app",
-            "php class-dependencies-analyzer analyze:class app --only='App\\Application'",
-            "php class-dependencies-analyzer analyze:class app --exclude='App\\Infrastructure'",
-            "php class-dependencies-analyzer analyze:class app --target='App\\Application\\Analyze\\AnalyzeAction'",
-            "php class-dependencies-analyzer analyze:class app --target='App\\Application\\Analyze\\AnalyzeAction' --depth-limit=2",
-            "php class-dependencies-analyzer analyze:class app --graph",
-            "php class-dependencies-analyzer analyze:component app 'App\\Application'",
-            "php class-dependencies-analyzer analyze:component app 'App\\Application' --graph",
-            "php class-dependencies-analyzer analyze app",
-            "php class-dependencies-analyzer analyze app --format=json",
-            "php class-dependencies-analyzer analyze app --report=classes,components,cycles,sdp",
+            "php -r \"is_dir('.healthcheck') || mkdir('.healthcheck');\"",
+            "php class-dependencies-analyzer analyze --no-cache",
+            "php class-dependencies-analyzer analyze --no-cache --format=json",
+            "php class-dependencies-analyzer analyze --no-cache --format=sarif --output=.healthcheck/report.sarif",
+            "php class-dependencies-analyzer analyze --no-cache --format=html --output=.healthcheck/report.html",
+            "php class-dependencies-analyzer analyze --no-cache --report=classes,components,cycles,sdp",
             "vendor/bin/pest -p"
         ],
         "coverage": "php -d xdebug.mode=coverage vendor/bin/pest --coverage -p"

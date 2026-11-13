@@ -4,5 +4,5 @@
 /.vagrant
 .phpunit.result.cache
 
-graph.html
 .dependencies-cache
+/.healthcheck

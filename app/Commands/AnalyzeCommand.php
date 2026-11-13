@@ -23,9 +23,10 @@ use App\Core\Rules\BaselineFile;
 use App\Core\Rules\Rule;
 use Composer\InstalledVersions;
 use InvalidArgumentException;
+use LaravelZero\Framework\Commands\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class AnalyzeCommand extends AbstractCommand
+class AnalyzeCommand extends Command
 {
     /**
      * Exit codes: 0 (SUCCESS) no new rule violation (or baseline generated), 1 (FAILURE) at least one rule
@@ -212,6 +213,16 @@ class AnalyzeCommand extends AbstractCommand
         }
 
         return ReportSection::fromList($this->optionToList('report'));
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function optionToList(string $key): array
+    {
+        $value = $this->option($key);
+
+        return $value === null ? [] : explode(',', $value);
     }
 
     private function write(string $rendered): void

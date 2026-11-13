@@ -13,7 +13,8 @@ interface Contract {}
 
 abstract class AbstractBase {}
 
-enum Status: string {
+enum Status: string
+{
     case Active = 'active';
 }
 
