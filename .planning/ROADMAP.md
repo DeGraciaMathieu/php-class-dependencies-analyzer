@@ -89,6 +89,6 @@ app/Commands/AnalyzeCommand.php   (seul point d'entrée Laravel Zero du nouveau 
 |-------|----------------|--------|----|-----------|
 | 1. Fondations | 3/3 | Complete | #8 | 2026-11-13 |
 | 2. Analyseurs | 3/3 | Complete | #9 | 2026-11-13 |
-| 3. CLI & configuration | 3/3 | Complete | - | 2026-11-13 |
+| 3. CLI & configuration | 3/3 | Complete | #10 | 2026-11-13 |
 | 4. Intégration CI | 0/3 | Not started | - | - |
 | 5. Finitions & migration | 0/3 | Not started | - | - |
