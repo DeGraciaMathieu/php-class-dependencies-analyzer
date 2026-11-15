@@ -181,7 +181,7 @@ class AnalyzeCommand extends Command
         $format = $this->option('format');
 
         return match ($format) {
-            'table' => new TableRenderer,
+            'table' => new TableRenderer($this->option('output') === null && $this->output->isDecorated()),
             'json' => new JsonRenderer,
             'sarif' => new SarifRenderer((string) config('app.version'), $this->sarifFallbackLocation($configFile, $config)),
             'html' => $this->option('output') === null
