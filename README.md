@@ -145,7 +145,17 @@ The classes view groups each class in its component. Clicking a class highlights
 <img src="arts/html-classes.png" alt="HTML report, classes view with a class cycle highlighted and the details panel open" width="800">
 </p>
 
-The main sequence view plots each component by its instability (I) and its abstractness (A) around the main sequence `A + I = 1`, with the zone of pain (stable and concrete) and the zone of uselessness (unstable and abstract) in red. The same chart is drawn in the terminal with `--report=main-sequence`.
+The main sequence view plots each component by its instability (I) and its abstractness (A) around the main sequence `A + I = 1`. A component further than 0.5 from it lies in the zone of pain (stable and concrete) or the zone of uselessness (unstable and abstract), both drawn in red. Clicking a point shows the component details:
+
+<p align="center">
+<img src="arts/html-main-sequence.png" alt="HTML report, main sequence view of the analyzer itself with a component of the zone of pain selected" width="800">
+</p>
+
+The same chart is drawn in the terminal with `--report=main-sequence`, each component numbered and detailed in a legend:
+
+<p align="center">
+<img src="arts/main-sequence-terminal.png" alt="Main sequence section in the terminal: text chart of the components and its legend, the component in the zone of pain in red" width="600">
+</p>
 
 ## Continuous integration
 
