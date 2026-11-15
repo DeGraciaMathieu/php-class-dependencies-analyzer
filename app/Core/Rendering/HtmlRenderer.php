@@ -7,6 +7,7 @@ namespace App\Core\Rendering;
 use App\Core\Analysis\ClassMetrics;
 use App\Core\Analysis\ComponentMetrics;
 use App\Core\Analysis\Cycle;
+use App\Core\Analysis\MainSequenceZone;
 use App\Core\Analysis\SdpViolation;
 use App\Core\Parser\ClassKind;
 use App\Core\Report\BaselineResult;
@@ -15,6 +16,7 @@ use App\Core\Report\Report;
 /**
  * Standalone HTML page exploring the graph with Cytoscape: a component view and a class view (grouped by component),
  * cycles and SDP violations in red, a side panel with the metrics and dependencies of the clicked node.
+ * A third view plots the components on the A/I chart with the main sequence and its zones.
  * Every section is always rendered, the requested sections are ignored.
  *
  * The report data is injected as JSON in a non-executable script element: every character able to close the element
@@ -79,6 +81,7 @@ final readonly class HtmlRenderer implements Renderer
             'efferent' => $component->efferent,
             'instability' => self::metric($component->instability),
             'distance' => self::metric($component->distance),
+            'zone' => MainSequenceZone::of($component)?->value,
         ], array_values($report->components));
     }
 

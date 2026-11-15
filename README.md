@@ -112,7 +112,7 @@ php class-dependencies-analyzer analyze [paths...] [options]
 | --- | --- |
 | `paths` | Files or directories to analyze, replace the configured paths |
 | `--config=FILE` | Configuration file, `dependencies.php` of the current directory by default |
-| `--report=LIST` | Sections to show: `classes`, `components`, `cycles`, `sdp` (all but `classes` by default) |
+| `--report=LIST` | Sections to show: `classes`, `components`, `cycles`, `sdp`, `main-sequence` (`components`, `cycles` and `sdp` by default) |
 | `--format=FORMAT` | `table` (default), `json`, `sarif` or `html` |
 | `--output=FILE` | Write the report to a file; required by `html` |
 | `--only=GLOBS` / `--exclude=GLOBS` | Comma-separated FQCN globs to keep or ignore |
@@ -144,6 +144,8 @@ The classes view groups each class in its component. Clicking a class highlights
 <p align="center">
 <img src="arts/html-classes.png" alt="HTML report, classes view with a class cycle highlighted and the details panel open" width="800">
 </p>
+
+The main sequence view plots each component by its instability (I) and its abstractness (A) around the main sequence `A + I = 1`, with the zone of pain (stable and concrete) and the zone of uselessness (unstable and abstract) in red. The same chart is drawn in the terminal with `--report=main-sequence`.
 
 ## Continuous integration
 

@@ -50,6 +50,7 @@ it('injects the summary, components, classes and their dependencies', function (
         'errors' => 0,
     ])
         ->and(array_column($data['components'], 'name'))->toBe(['Shop\Billing', 'Shop\Catalog', 'Shop\Ordering'])
+        ->and(array_column($data['components'], 'zone'))->toBe([null, 'pain', null])
         ->and($data['classes'][0])->toBe([
             'fqcn' => 'Shop\Billing\HasTaxes',
             'kind' => 'trait',

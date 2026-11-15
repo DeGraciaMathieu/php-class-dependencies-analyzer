@@ -111,6 +111,52 @@ it('colors the section titles and the rule names when decorated, keeping the col
     ]))->and($output)->toContain("\e[1;33mErrors\e[0m");
 });
 
+it('plots the components around the main sequence with a legend', function () {
+    $output = (new TableRenderer)->render($this->report, [ReportSection::MainSequence]);
+
+    expect($output)->toContain(implode(PHP_EOL, [
+        'Main sequence',
+        'A',
+        '1.0 │· ·',
+    ]))->toContain(implode(PHP_EOL, [
+        '    │2                   1       · · 3',
+        '    │                                · ·',
+        '    │                                    · ·',
+        '0.0 │                                        ·',
+        '    └──────────────────────────────────────────',
+        '     0.0                 0.5                 1.0  I',
+        '',
+        '#  Component      I     A     D     Zone',
+        '-  -------------  ----  ----  ----  ----',
+        '1  Shop\Billing   0.50  0.33  0.17',
+        '2  Shop\Catalog   0.00  0.33  0.67  pain',
+        '3  Shop\Ordering  0.80  0.25  0.05',
+    ]));
+});
+
+it('colors the components in a zone of the main sequence chart when decorated', function () {
+    $output = (new TableRenderer(decorated: true))->render($this->report, [ReportSection::MainSequence]);
+
+    expect($output)->toContain("    │\e[31m2 \e[0m                  1       · · 3")
+        ->toContain("2  \e[31mShop\\Catalog\e[0m   0.00  0.33  0.67  pain");
+});
+
+it('lists a non-measurable component in the legend without plotting it', function () {
+    $report = new Report(
+        classes: [],
+        components: ['App\Isolated' => new ComponentMetrics('App\Isolated', [], 0, 0, null, 0, 0, null, null)],
+        cycles: [],
+        sdpViolations: [],
+        errors: [],
+        duplicates: [],
+        fileCount: 0,
+    );
+
+    expect((new TableRenderer)->render($report, [ReportSection::MainSequence]))
+        ->toContain('—  App\Isolated  —  —  —')
+        ->not->toMatch('/│.*\d/');
+});
+
 it('renders no escape sequence when not decorated', function () {
     $violations = [new Violation('no-cycles', 'no-cycles:class:A,B', 'Class cycle: A → B.', 'A.php')];
 
@@ -137,4 +183,4 @@ it('builds sections from a list of names', function () {
 
 it('rejects an unknown section', function () {
     ReportSection::fromList(['components', 'graph']);
-})->throws(InvalidArgumentException::class, 'Unknown report section "graph", expected one of: classes, components, cycles, sdp.');
+})->throws(InvalidArgumentException::class, 'Unknown report section "graph", expected one of: classes, components, cycles, sdp, main-sequence.');

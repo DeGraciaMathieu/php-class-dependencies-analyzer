@@ -18,7 +18,8 @@ use App\Core\Report\Violation;
  * Machine-readable output, schema version 1. Keys are camelCase, floats rounded to 4 decimals,
  * a non-measurable metric is null. "schema", "summary", "violations" and "errors" are always present
  * ("violations" is empty when no rule is configured, holds only the new ones when a baseline is used),
- * "baseline" only when a baseline is used, the other keys only when their section is requested:
+ * "baseline" only when a baseline is used, the other keys only when their section is requested
+ * (the main-sequence section is a terminal chart only: its data is already in "components"):
  *
  * {
  *   "schema": 1,
@@ -53,6 +54,10 @@ final readonly class JsonRenderer implements Renderer
         ];
 
         foreach (ReportSection::ordered($sections) as $section) {
+            if ($section === ReportSection::MainSequence) {
+                continue;
+            }
+
             $data[$section->value] = match ($section) {
                 ReportSection::Classes => $this->classes($report),
                 ReportSection::Components => $this->components($report),
