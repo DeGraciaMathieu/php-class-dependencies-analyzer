@@ -18,10 +18,21 @@ use App\Core\Report\Violation;
  * then the rule violations when rules are configured (followed by the baseline counts when a baseline is used),
  * then the parsing errors if any.
  * Metrics are rounded to 2 decimals, a null metric is shown as "—".
+ * When decorated, section titles and violated rule names are colored with ANSI escape sequences.
  */
 final readonly class TableRenderer implements Renderer
 {
     private const NOT_MEASURABLE = '—';
+
+    private const TITLE_STYLE = "\e[1;33m";
+
+    private const RULE_STYLE = "\e[31m";
+
+    private const RESET_STYLE = "\e[0m";
+
+    public function __construct(
+        private bool $decorated = false,
+    ) {}
 
     public function render(Report $report, array $sections, ?array $violations = null, ?BaselineResult $baseline = null): string
     {
@@ -118,8 +129,8 @@ final readonly class TableRenderer implements Renderer
      */
     private function violations(array $violations, ?BaselineResult $baseline): string
     {
-        $rows = array_map(static fn (Violation $violation): array => [
-            $violation->rule,
+        $rows = array_map(fn (Violation $violation): array => [
+            $this->style($violation->rule, self::RULE_STYLE),
             $violation->message,
         ], $violations);
 
@@ -139,7 +150,7 @@ final readonly class TableRenderer implements Renderer
             $report->errors,
         );
 
-        return implode(PHP_EOL, ['Errors', ...$lines]);
+        return implode(PHP_EOL, [$this->style('Errors', self::TITLE_STYLE), ...$lines]);
     }
 
     /**
@@ -150,7 +161,12 @@ final readonly class TableRenderer implements Renderer
     {
         $body = $rows === [] ? $emptyMessage : (new TextTable($headers, $rows))->render();
 
-        return $title.PHP_EOL.$body;
+        return $this->style($title, self::TITLE_STYLE).PHP_EOL.$body;
+    }
+
+    private function style(string $text, string $style): string
+    {
+        return $this->decorated ? $style.$text.self::RESET_STYLE : $text;
     }
 
     private static function metric(?float $value): string

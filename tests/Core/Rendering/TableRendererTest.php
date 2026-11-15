@@ -98,6 +98,25 @@ it('lists the rule violations before the parsing errors', function () {
     ]))->and(strpos($output, 'Rule violations'))->toBeLessThan(strpos($output, 'Errors'));
 });
 
+it('colors the section titles and the rule names when decorated, keeping the columns aligned', function () {
+    $violations = [new Violation('no-cycles', 'no-cycles:class:A,B', 'Class cycle: A → B.', 'A.php')];
+
+    $output = (new TableRenderer(decorated: true))->render($this->report, [], $violations);
+
+    expect($output)->toContain(implode(PHP_EOL, [
+        "\e[1;33mRule violations\e[0m",
+        'Rule       Message',
+        '---------  -------------------',
+        "\e[31mno-cycles\e[0m  Class cycle: A → B.",
+    ]))->and($output)->toContain("\e[1;33mErrors\e[0m");
+});
+
+it('renders no escape sequence when not decorated', function () {
+    $violations = [new Violation('no-cycles', 'no-cycles:class:A,B', 'Class cycle: A → B.', 'A.php')];
+
+    expect((new TableRenderer)->render($this->report, ReportSection::cases(), $violations))->not->toContain("\e[");
+});
+
 it('renders the rule violations section only when rules are configured', function () {
     expect((new TableRenderer)->render($this->report, []))->not->toContain('Rule violations')
         ->and((new TableRenderer)->render($this->report, [], []))->toContain("Rule violations\nNo rule violation.");
