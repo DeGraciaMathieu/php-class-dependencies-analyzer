@@ -129,6 +129,13 @@ it('renders cycles and sdp violations', function () {
     ]]);
 });
 
+it('ignores the main sequence section, drawn from the components metrics', function () {
+    $data = json_decode((new JsonRenderer)->render($this->report, [ReportSection::MainSequence]), true);
+
+    expect($data)->not->toHaveKey('main-sequence')
+        ->and(array_keys($data))->toBe(['schema', 'summary', 'violations', 'errors']);
+});
+
 it('keeps null for a non-measurable metric and zero fractions', function () {
     $report = new Report(
         classes: [],

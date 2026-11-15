@@ -95,6 +95,32 @@
         color: var(--muted);
     }
 
+    #chart { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+    #chart .zone { fill: var(--danger); fill-opacity: .12; }
+
+    #chart .zone-label { fill: var(--danger); font-size: 12px; font-weight: 600; }
+
+    #chart .axis { stroke: var(--muted); stroke-width: 1; }
+
+    #chart .tick, #chart .axis-title, #chart .note { fill: var(--muted); font-size: 12px; }
+
+    #chart .sequence { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 6 4; }
+
+    #chart .sequence-label { fill: var(--accent); font-size: 12px; }
+
+    #chart .point { cursor: pointer; }
+
+    #chart .point circle { stroke: var(--surface); stroke-width: 2; }
+
+    #chart .point.in-zone circle { stroke: var(--danger); }
+
+    #chart .point.selected circle { stroke: var(--accent); stroke-width: 3; }
+
+    #chart .leader { stroke: var(--muted); stroke-width: 1; }
+
+    #chart .point text { fill: var(--text); font-size: 11px; paint-order: stroke; stroke: var(--bg); stroke-width: 3; }
+
     #legend {
         position: absolute;
         left: 12px;
@@ -184,11 +210,13 @@
     <div class="toggle" role="group" aria-label="View">
         <button type="button" data-view="components" aria-pressed="true">Components</button>
         <button type="button" data-view="classes" aria-pressed="false">Classes</button>
+        <button type="button" data-view="main-sequence" aria-pressed="false">Main sequence</button>
     </div>
 </header>
 <main>
     <div id="graph">
         <div id="cy"></div>
+        <svg id="chart" viewBox="0 0 640 560" role="img" aria-label="Components on the abstractness / instability chart" hidden></svg>
         <div id="message" hidden></div>
         <div id="legend">
             <div><span class="gradient"></span> Distance D from 0 to 1</div>
@@ -215,6 +243,11 @@
     // Member => index of its cycle, per level: an edge is in a cycle when both ends belong to the same one.
     const cycleOf = { 'class': new Map(), 'component': new Map() };
     report.cycles.forEach((cycle, index) => cycle.members.forEach((member) => cycleOf[cycle.level].set(member, index)));
+
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+
+    // Plot area of the main sequence chart, in viewBox units.
+    const plot = { left: 72, top: 24, size: 480 };
 
     const incoming = {
         components: invert(report.componentDependencies),
@@ -255,7 +288,23 @@
         button.addEventListener('click', () => switchView(button.dataset.view));
     });
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => cy.style(graphStyle()));
+    document.getElementById('chart').addEventListener('click', (event) => {
+        const point = event.target.closest('.point');
+
+        if (point) {
+            selectPoint(point.dataset.key);
+        } else {
+            clearSelection();
+        }
+    });
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        cy.style(graphStyle());
+
+        if (currentView === 'main-sequence') {
+            showView();
+        }
+    });
 
     showView();
 
@@ -466,6 +515,20 @@
     }
 
     function showView() {
+        const chartView = currentView === 'main-sequence';
+
+        document.getElementById('cy').hidden = chartView;
+        document.getElementById('legend').hidden = chartView;
+        document.getElementById('chart').hidden = !chartView;
+
+        if (chartView) {
+            renderChart();
+            clearSelection();
+
+            return;
+        }
+
+        cy.resize();
         cy.elements().remove();
         cy.add(currentView === 'components' ? componentElements() : classElements());
         cy.layout({
@@ -501,6 +564,12 @@
     }
 
     function selectByKey(type, key) {
+        if (currentView === 'main-sequence') {
+            selectPoint(key);
+
+            return;
+        }
+
         const node = cy.getElementById(type === 'component' ? componentId(key) : classId(key));
 
         if (node.empty()) {
@@ -513,7 +582,147 @@
 
     function clearSelection() {
         cy.elements().unselect().removeClass('faded');
+        document.querySelectorAll('#chart .point').forEach((point) => point.classList.remove('selected'));
         renderEmptyPanel();
+    }
+
+    function renderChart() {
+        const measurable = report.components.filter((component) => component.abstractness !== null && component.instability !== null);
+        const children = [
+            svgElement('polygon', { 'class': 'zone', points: chartPoints([[0, 0], [0.5, 0], [0, 0.5]]) }),
+            svgElement('polygon', { 'class': 'zone', points: chartPoints([[1, 1], [0.5, 1], [1, 0.5]]) }),
+            chartText('Zone of pain', 0.02, 0.3, 'zone-label'),
+            chartText('Zone of uselessness', 0.98, 0.95, 'zone-label', 'end'),
+            svgElement('line', { 'class': 'axis', x1: chartX(0), y1: chartY(0), x2: chartX(1), y2: chartY(0) }),
+            svgElement('line', { 'class': 'axis', x1: chartX(0), y1: chartY(0), x2: chartX(0), y2: chartY(1) }),
+            svgElement('line', { 'class': 'sequence', x1: chartX(0), y1: chartY(1), x2: chartX(1), y2: chartY(0) }),
+            chartText('Main sequence (A + I = 1)', 0.5, 0.52, 'sequence-label', 'middle', 45),
+        ];
+
+        [0, 0.5, 1].forEach((value) => {
+            const tick = value.toFixed(1);
+            const xTick = svgElement('text', { 'class': 'tick', x: chartX(value), y: chartY(0) + 20, 'text-anchor': 'middle' });
+            const yTick = svgElement('text', { 'class': 'tick', x: chartX(0) - 10, y: chartY(value) + 4, 'text-anchor': 'end' });
+            xTick.textContent = tick;
+            yTick.textContent = tick;
+            children.push(xTick, yTick);
+        });
+
+        const xTitle = svgElement('text', { 'class': 'axis-title', x: chartX(0.5), y: chartY(0) + 44, 'text-anchor': 'middle' });
+        xTitle.textContent = 'Instability (I)';
+        const yTitle = svgElement('text', { 'class': 'axis-title', 'text-anchor': 'middle', transform: 'translate(' + (plot.left - 48) + ' ' + chartY(0.5) + ') rotate(-90)' });
+        yTitle.textContent = 'Abstractness (A)';
+        children.push(xTitle, yTitle);
+
+        // Components at the same coordinates share one label, drawn by the first of them.
+        const labels = new Map();
+        measurable.forEach((component) => {
+            const position = component.instability + ':' + component.abstractness;
+            labels.set(position, (labels.has(position) ? labels.get(position) + ', ' : '') + component.name);
+        });
+
+        // Every circle is an obstacle for the labels, as are the labels already placed.
+        const obstacles = measurable.map((component) => ({
+            left: chartX(component.instability) - 8,
+            top: chartY(component.abstractness) - 8,
+            width: 16,
+            height: 16,
+        }));
+
+        measurable
+            .slice()
+            .sort((a, b) => a.instability - b.instability || a.abstractness - b.abstractness)
+            .forEach((component) => {
+                const x = chartX(component.instability);
+                const y = chartY(component.abstractness);
+                const position = component.instability + ':' + component.abstractness;
+                const point = svgElement('g', { 'class': 'point' + (component.zone ? ' in-zone' : ''), 'data-key': component.name });
+                const title = svgElement('title');
+                title.textContent = component.name + ': I ' + metric(component.instability) + ', A ' + metric(component.abstractness) + ', D ' + metric(component.distance);
+
+                if (labels.has(position)) {
+                    point.append(...chartLabel(labels.get(position), x, y, component.instability > 0.7, obstacles));
+                    labels.delete(position);
+                }
+
+                point.prepend(title, svgElement('circle', { cx: x, cy: y, r: 7, fill: distanceColor(component.distance) }));
+                children.push(point);
+            });
+
+        const notPlotted = report.components.length - measurable.length;
+
+        if (notPlotted > 0) {
+            const note = svgElement('text', { 'class': 'note', x: chartX(0), y: chartY(0) + 70 });
+            note.textContent = notPlotted + ' component(s) not plotted: A or I not measurable.';
+            children.push(note);
+        }
+
+        document.getElementById('chart').replaceChildren(...children);
+    }
+
+    // Label next to a point, moved up or down until it overlaps no obstacle, linked to its point when moved.
+    function chartLabel(text, x, y, onLeft, obstacles) {
+        const width = text.length * 6.2;
+        const height = 13;
+        const left = onLeft ? x - 12 - width : x + 12;
+        const shifts = [0];
+
+        for (let step = 1; step <= 12; step++) {
+            shifts.push(-step * height, step * height);
+        }
+
+        const overlaps = (box) => obstacles.some((obstacle) => box.left < obstacle.left + obstacle.width && obstacle.left < box.left + width && box.top < obstacle.top + obstacle.height && obstacle.top < box.top + height);
+        const shift = shifts.find((candidate) => !overlaps({ left: left, top: y - 9 + candidate })) || 0;
+
+        obstacles.push({ left: left, top: y - 9 + shift, width: width, height: height });
+
+        const label = svgElement('text', { x: onLeft ? x - 12 : x + 12, y: y + 4 + shift, 'text-anchor': onLeft ? 'end' : 'start' });
+        label.textContent = text;
+
+        if (shift === 0) {
+            return [label];
+        }
+
+        return [svgElement('line', { 'class': 'leader', x1: x, y1: y, x2: onLeft ? x - 10 : x + 10, y2: y + shift }), label];
+    }
+
+    function selectPoint(name) {
+        document.querySelectorAll('#chart .point').forEach((point) => point.classList.toggle('selected', point.dataset.key === name));
+        renderComponentPanel(componentsByName.get(name));
+    }
+
+    function chartX(instability) {
+        return plot.left + instability * plot.size;
+    }
+
+    function chartY(abstractness) {
+        return plot.top + (1 - abstractness) * plot.size;
+    }
+
+    function chartPoints(points) {
+        return points.map(([instability, abstractness]) => chartX(instability) + ',' + chartY(abstractness)).join(' ');
+    }
+
+    function chartText(text, instability, abstractness, className, anchor, angle) {
+        const x = chartX(instability);
+        const y = chartY(abstractness);
+        const attributes = { 'class': className, x: x, y: y, 'text-anchor': anchor || 'start' };
+
+        if (angle) {
+            attributes.transform = 'rotate(' + angle + ' ' + x + ' ' + y + ')';
+        }
+
+        const node = svgElement('text', attributes);
+        node.textContent = text;
+
+        return node;
+    }
+
+    function svgElement(tag, attributes) {
+        const node = document.createElementNS(SVG_NS, tag);
+        Object.entries(attributes || {}).forEach(([name, value]) => node.setAttribute(name, String(value)));
+
+        return node;
     }
 
     function renderSummary() {
@@ -550,7 +759,7 @@
 
         panel.replaceChildren(
             element('h2', 'Details'),
-            element('p', 'Click a node to see its metrics and its dependencies. Click the background to reset.', 'hint'),
+            element('p', 'Click a node or a point to see its metrics and its dependencies. Click the background to reset.', 'hint'),
         );
     }
 
@@ -568,6 +777,10 @@
                 ['Distance (D)', metric(component.distance)],
             ]),
         ];
+
+        if (component.zone) {
+            children.push(element('p', component.zone === 'pain' ? 'In the zone of pain: stable and concrete.' : 'In the zone of uselessness: unstable and abstract.', 'alert'));
+        }
 
         if (cycleOf.component.has(component.name)) {
             children.push(element('p', 'Member of a component cycle.', 'alert'));

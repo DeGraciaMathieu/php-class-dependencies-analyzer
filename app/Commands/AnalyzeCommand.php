@@ -37,7 +37,7 @@ class AnalyzeCommand extends Command
     protected $signature = 'analyze
         {paths?* : Files or directories to analyze, replace the configured paths}
         {--config= : Configuration file, defaults to dependencies.php in the current directory}
-        {--report= : Comma-separated sections: classes, components, cycles, sdp}
+        {--report= : Comma-separated sections: classes, components, cycles, sdp, main-sequence}
         {--format=table : Output format: table, json, sarif or html (html requires --output)}
         {--output= : Write the report to this file instead of the standard output}
         {--only= : Comma-separated FQCN globs to keep, replace the configured "only"}

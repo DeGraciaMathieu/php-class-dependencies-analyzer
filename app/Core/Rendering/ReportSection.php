@@ -12,6 +12,7 @@ enum ReportSection: string
     case Components = 'components';
     case Cycles = 'cycles';
     case Sdp = 'sdp';
+    case MainSequence = 'main-sequence';
 
     /**
      * @return list<self>

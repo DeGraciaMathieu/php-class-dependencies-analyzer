@@ -18,7 +18,8 @@ use App\Core\Report\Violation;
  * then the rule violations when rules are configured (followed by the baseline counts when a baseline is used),
  * then the parsing errors if any.
  * Metrics are rounded to 2 decimals, a null metric is shown as "—".
- * When decorated, section titles and violated rule names are colored with ANSI escape sequences.
+ * When decorated, section titles, violated rule names and components in a main sequence zone are colored
+ * with ANSI escape sequences.
  */
 final readonly class TableRenderer implements Renderer
 {
@@ -44,6 +45,7 @@ final readonly class TableRenderer implements Renderer
                 ReportSection::Components => $this->components($report),
                 ReportSection::Cycles => $this->cycles($report),
                 ReportSection::Sdp => $this->sdp($report),
+                ReportSection::MainSequence => $this->mainSequence($report),
             };
         }
 
@@ -122,6 +124,22 @@ final readonly class TableRenderer implements Renderer
         ], $report->sdpViolations);
 
         return $this->section('SDP violations', ['Dependency', 'Δ'], $rows, 'No SDP violation.');
+    }
+
+    private function mainSequence(Report $report): string
+    {
+        $title = $this->style('Main sequence', self::TITLE_STYLE);
+
+        if ($report->components === []) {
+            return $title.PHP_EOL.'No component.';
+        }
+
+        $chart = new MainSequenceChart(
+            array_values($report->components),
+            fn (string $text): string => $this->style($text, self::RULE_STYLE),
+        );
+
+        return $title.PHP_EOL.$chart->render();
     }
 
     /**
